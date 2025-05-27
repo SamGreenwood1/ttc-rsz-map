@@ -1,0 +1,113 @@
+{
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "type": "Feature",
+      "properties": {
+        "line": "Line 1 Yonge-University",
+        "direction": "Both",
+        "start_station": "Sheppard West",
+        "end_station": "Wilson",
+        "speed_kph": 15,
+        "reason": "Reduced speed zone indicated on map"
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [-79.4625, 43.7345],
+          [-79.4636, 43.7275]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "line": "Line 1 Yonge-University",
+        "direction": "Both",
+        "start_station": "Lawrence West",
+        "end_station": "Glencairn",
+        "speed_kph": 15,
+        "reason": "Reduced speed zone indicated on map"
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [-79.4516, 43.7164],
+          [-79.4453, 43.7094]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "line": "Line 1 Yonge-University",
+        "direction": "Both",
+        "start_station": "Davisville",
+        "end_station": "St Clair",
+        "speed_kph": 15,
+        "reason": "Reduced speed zone indicated on map"
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [-79.3981, 43.6974],
+          [-79.3938, 43.6880]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "line": "Line 1 Yonge-University",
+        "direction": "Both",
+        "start_station": "Rosedale",
+        "end_station": "Bloor-Yonge",
+        "speed_kph": 15,
+        "reason": "Reduced speed zone indicated on map"
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [-79.3860, 43.6746],
+          [-79.3859, 43.6708]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "line": "Line 2 Bloor-Danforth",
+        "direction": "Both",
+        "start_station": "Keele",
+        "end_station": "Dundas West",
+        "speed_kph": 15,
+        "reason": "Reduced speed zone indicated on map"
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [-79.4633, 43.6548],
+          [-79.4537, 43.6555]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "line": "Line 2 Bloor-Danforth",
+        "direction": "Both",
+        "start_station": "Coxwell",
+        "end_station": "Woodbine",
+        "speed_kph": 15,
+        "reason": "Reduced speed zone indicated on map"
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [-79.3122, 43.6822],
+          [-79.3021, 43.6845]
+        ]
+      }
+    }
+  ]
+}

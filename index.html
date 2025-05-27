@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>TTC Reduced Speed Zone Tracker</title>
+    <link rel="stylesheet" href="style.css" />
+    <link
+      rel="stylesheet"
+      href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+      integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="
+      crossorigin=""
+    />
+    <script
+      src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+      integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
+      crossorigin=""
+    ></script>
+  </head>
+  <body>
+    <header>
+      <h1>TTC Reduced Speed Zone Tracker</h1>
+      <!-- Future nav links can go here -->
+    </header>
+
+    <main>
+      <aside>
+        <h2>Information & Filters</h2>
+
+        <div class="filter-group">
+          <h3>Filter by Line (Placeholder)</h3>
+          <label><input type="checkbox" name="line1" checked /> Line 1</label>
+          <label><input type="checkbox" name="line2" checked /> Line 2</label>
+          <label><input type="checkbox" name="line4" checked /> Line 4</label>
+        </div>
+
+        <h3>Active Reduced Speed Zones</h3>
+        <ul id="active-zones-list">
+          <!-- Zones will be populated by JavaScript -->
+          <li>Loading zones...</li>
+        </ul>
+
+        <h3>Legend (Placeholder)</h3>
+        <p>Yellow: Line 1 Track</p>
+        <p>Green: Line 2 Track</p>
+        <p>Purple: Line 4 Track</p>
+        <p><strong>Thick Red/Orange: Reduced Speed Zone</strong></p>
+      </aside>
+
+      <div id="map-container">
+        <div id="map"></div>
+      </div>
+    </main>
+
+    <footer>
+      <p>
+        Data based on publicly available information and subject to change.
+      </p>
+      <p>
+        This is an unofficial tool. Always refer to official
+        <a href="https://www.ttc.ca" target="_blank" rel="noopener noreferrer"
+          >TTC sources</a
+        >
+        for the latest updates.
+      </p>
+      <p>&copy; 2025 Your Name/Project Name</p>
+    </footer>
+
+    <script>
+      let map; // Make map globally accessible for functions
+      const geoJsonLayers = {}; // To store references to GeoJSON layers for filtering
+
+      // Initialize the map
+      function initMap() {
+        map = L.map("map").setView([43.665, -79.385], 12); // Centered on Toronto
+
+        L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
+          maxZoom: 19,
+          attribution:
+            '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+        }).addTo(map);
+
+        loadSpeedZones();
+      }
+
+      // Style for speed zones
+      function styleSpeedZone(feature) {
+        let color = "red"; // Default for unknown lines or general slowdown
+        if (feature.properties.line.includes("Line 1")) {
+          color = "orange"; // Or a distinct slowdown color like 'darkorange'
+        } else if (feature.properties.line.includes("Line 2")) {
+          color = "darkred"; // Or a distinct slowdown color like 'firebrick'
+        }
+        // Add more conditions for Line 4 if data becomes available
+        return {
+          color: color,
+          weight: 7, // Make them thicker
+          opacity: 0.8,
+        };
+      }
+
+      // Popup content for speed zones
+      function onEachFeature(feature, layer) {
+        if (feature.properties) {
+          let popupContent = `<h3>Reduced Speed Zone</h3>
+            <strong>Line:</strong> ${feature.properties.line}<br>
+            <strong>Direction:</strong> ${feature.properties.direction || "N/A"}<br>
+            <strong>Between:</strong> ${feature.properties.start_station} and ${feature.properties.end_station}<br>
+            <strong>Reduced Speed:</strong> ${feature.properties.speed_kph} km/h<br>
+            <strong>Reason:</strong> ${feature.properties.reason}`;
+          layer.bindPopup(popupContent);
+
+          // Add to active zones list
+          addZoneToList(feature, layer);
+        }
+      }
+
+      // Add a zone to the sidebar list
+      function addZoneToList(feature, layer) {
+        const list = document.getElementById("active-zones-list");
+        const listItem = document.createElement("li");
+        listItem.innerHTML = `<strong>${feature.properties.line}</strong>
+                                <span>${feature.properties.start_station} &harr; ${feature.properties.end_station}</span>`;
+        listItem.onclick = () => {
+          map.fitBounds(layer.getBounds().pad(0.2)); // Zoom to the zone
+          layer.openPopup();
+        };
+        list.appendChild(listItem);
+      }
+
+      // Load speed zones from GeoJSON
+      function loadSpeedZones() {
+        const list = document.getElementById("active-zones-list");
+        list.innerHTML = ""; // Clear "Loading..." or previous items
+
+        fetch("speed_zones.geojson")
+          .then((response) => {
+            if (!response.ok) {
+              throw new Error(
+                "Network response was not ok " + response.statusText
+              );
+            }
+            return response.json();
+          })
+          .then((data) => {
+            if (data.features && data.features.length > 0) {
+              const speedZoneLayer = L.geoJSON(data, {
+                style: styleSpeedZone,
+                onEachFeature: onEachFeature,
+              }).addTo(map);
+              // Store layer for potential filtering later
+              geoJsonLayers["speedZones"] = speedZoneLayer;
+            } else {
+              list.innerHTML = "<li>No active reduced speed zones found.</li>";
+            }
+          })
+          .catch((error) => {
+            console.error(
+              "Error loading or parsing speed zone data:",
+              error
+            );
+            list.innerHTML =
+              "<li>Error loading speed zone data.</li>";
+            alert(
+              "Could not load speed zone data. Check the console for errors."
+            );
+          });
+      }
+
+      // Initialize the map when the DOM is ready
+      document.addEventListener("DOMContentLoaded", initMap);
+
+      // Basic Filter Logic (Placeholder - needs more work for actual filtering)
+      // This is a very simplified example. Real filtering would involve
+      // removing/adding layers or changing their styles.
+      document
+        .querySelectorAll('.filter-group input[type="checkbox"]')
+        .forEach((checkbox) => {
+          checkbox.addEventListener("change", () => {
+            // For now, just log. Actual filtering is more complex.
+            console.log(
+              `Filter for ${checkbox.name} changed to ${checkbox.checked}`
+            );
+            // To implement actual filtering, you'd need to:
+            // 1. Iterate through your geoJsonLayers.speedZones.getLayers()
+            // 2. Check feature.properties.line against the checkbox states
+            // 3. Either remove/add the layer from the map, or change its style to hide/show it.
+            // This can get complex if you have many layers or complex filter criteria.
+            // A simpler approach for this prototype might be to re-fetch/re-render
+            // based on filter criteria if your dataset is small.
+            alert(
+              "Filter functionality is a placeholder in this prototype."
+            );
+          });
+        });
+    </script>
+  </body>
+</html>

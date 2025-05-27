@@ -1,0 +1,145 @@
+/* Basic Reset & Body Styles */
+body,
+html {
+  margin: 0;
+  padding: 0;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  background-color: #f4f4f4;
+  color: #333;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Header */
+header {
+  background-color: #da251d; /* TTC Red */
+  color: white;
+  padding: 1rem;
+  text-align: center;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+header h1 {
+  margin: 0;
+  font-size: 1.8rem;
+}
+
+/* Main Content Area - Flexbox for Sidebar and Map */
+main {
+  display: flex;
+  flex: 1; /* Allows main to fill remaining vertical space */
+  overflow: hidden; /* Prevent scrollbars on main if children are too big */
+}
+
+/* Sidebar */
+aside {
+  width: 300px;
+  background-color: #fff;
+  padding: 1rem;
+  overflow-y: auto; /* Scroll if content exceeds height */
+  border-right: 1px solid #ddd;
+  box-shadow: 2px 0 5px rgba(0, 0, 0, 0.05);
+}
+
+aside h2 {
+  margin-top: 0;
+  font-size: 1.4rem;
+  color: #333;
+  border-bottom: 2px solid #da251d;
+  padding-bottom: 0.5rem;
+  margin-bottom: 1rem;
+}
+
+aside h3 {
+  font-size: 1.1rem;
+  margin-top: 1.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.filter-group label {
+  display: block;
+  margin-bottom: 0.5rem;
+}
+
+#active-zones-list {
+  list-style: none;
+  padding: 0;
+}
+
+#active-zones-list li {
+  padding: 0.75rem;
+  border-bottom: 1px solid #eee;
+  cursor: pointer;
+  transition: background-color 0.2s ease-in-out;
+}
+
+#active-zones-list li:hover {
+  background-color: #f0f0f0;
+}
+
+#active-zones-list li strong {
+  display: block;
+  font-size: 0.95rem;
+  color: #2c3e50;
+}
+
+#active-zones-list li span {
+  font-size: 0.85rem;
+  color: #7f8c8d;
+}
+
+/* Map Container */
+#map-container {
+  flex: 1; /* Map takes remaining space */
+  position: relative; /* For Leaflet controls */
+}
+
+#map {
+  height: 100%;
+  width: 100%;
+}
+
+/* Footer */
+footer {
+  background-color: #333;
+  color: white;
+  text-align: center;
+  padding: 0.8rem;
+  font-size: 0.9rem;
+}
+
+footer p {
+  margin: 0.3rem 0;
+}
+
+footer a {
+  color: #efefef;
+  text-decoration: none;
+}
+
+footer a:hover {
+  text-decoration: underline;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  main {
+    flex-direction: column;
+  }
+
+  aside {
+    width: 100%;
+    max-height: 40vh; /* Limit sidebar height on mobile */
+    border-right: none;
+    border-bottom: 1px solid #ddd;
+  }
+
+  #map-container {
+    height: 60vh; /* Adjust map height on mobile */
+  }
+
+  header h1 {
+    font-size: 1.5rem;
+  }
+}

@@ -166,6 +166,12 @@
 
       // Draw regular TTC lines from GeoJSON
       function drawLineGeoJson(geojson, lineKey) {
+        // Official TTC line colors
+        const lineColors = {
+          "Line 1": "#F8C300",
+          "Line 2": "#00923F",
+          "Line 4": "#A21A68"
+        };
         // Lighter/transparent version for regular service
         const lineColorsRegular = {
           "Line 1": "rgba(248,195,0,0.4)",
@@ -174,10 +180,44 @@
         };
         L.geoJSON(geojson, {
           filter: f => f.properties.type === "tracks",
-          style: {
-            color: lineColorsRegular[lineKey] || "#888",
-            weight: 5,
-            opacity: 0.7
+          style: f => {
+            if (f.properties.rsz) {
+              return {
+                color: lineColors[lineKey] || "#888",
+                weight: 7,
+                opacity: 0.9
+              };
+            } else {
+              return {
+                color: lineColorsRegular[lineKey] || "#888",
+                weight: 5,
+                opacity: 0.7
+              };
+            }
+          },
+          onEachFeature: (feature, layer) => {
+            if (feature.properties.rsz) {
+              // Add popup for RSZ
+              const rsz = feature.properties.rsz;
+              let popupContent = `<h3>Reduced Speed Zone</h3>
+                <strong>Line:</strong> ${lineKey}<br>
+                <strong>Direction:</strong> ${rsz.direction || "N/A"}<br>
+                <strong>Between:</strong> ${rsz.start_station} and ${rsz.end_station}<br>
+                <strong>Reduced Speed:</strong> ${rsz.speed_kph} km/h<br>
+                <strong>Reason:</strong> ${rsz.reason}`;
+              layer.bindPopup(popupContent);
+              // Add to active zones list
+              addZoneToList({
+                properties: {
+                  line: lineKey,
+                  direction: rsz.direction,
+                  start_station: rsz.start_station,
+                  end_station: rsz.end_station,
+                  speed_kph: rsz.speed_kph,
+                  reason: rsz.reason
+                }
+              }, layer);
+            }
           }
         }).addTo(map);
       }

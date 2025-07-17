@@ -40,20 +40,11 @@ function initMap() {
   // Clear the active zones list before drawing
   document.getElementById("active-zones-list").innerHTML = "";
 
-  // Load regular lines and render RSZs from line JSONs only
+  // Load regular lines and render RSZs from static files only
   Promise.all([
-    fetch("lines/line1.json").then(r => {
-      if (!r.ok) throw new Error("Failed to load Line 1 data");
-      return r.json();
-    }),
-    fetch("lines/line2.json").then(r => {
-      if (!r.ok) throw new Error("Failed to load Line 2 data");
-      return r.json();
-    }),
-    fetch("lines/line4.json").then(r => {
-      if (!r.ok) throw new Error("Failed to load Line 4 data");
-      return r.json();
-    })
+    fetch("lines/line1.json").then(r => r.json()),
+    fetch("lines/line2.json").then(r => r.json()),
+    fetch("lines/line4.json").then(r => r.json())
   ]).then(([line1, line2, line4]) => {
     drawLineGeoJson(line1, "Line 1");
     drawLineGeoJson(line2, "Line 2");

@@ -5,12 +5,44 @@ const geoJsonLayers = {}; // To store references to GeoJSON layers for filtering
 document.addEventListener("DOMContentLoaded", function () {
   const aside = document.querySelector("aside");
   const toggleBtn = document.getElementById("sidebarToggle");
-  let collapsed = false;
-  toggleBtn.addEventListener("click", function () {
-    collapsed = !collapsed;
+  let collapsed = localStorage.getItem("sidebarCollapsed") === "true";
+
+  // Create a floating reopen button
+  let reopenBtn = document.createElement("button");
+  reopenBtn.innerText = "☰";
+  reopenBtn.title = "Show sidebar";
+  reopenBtn.id = "sidebarReopenBtn";
+  reopenBtn.style.display = "none";
+  document.body.appendChild(reopenBtn);
+
+  function updateSidebarState() {
     aside.classList.toggle("aside-collapsed", collapsed);
     toggleBtn.innerText = collapsed ? "»" : "«";
+    localStorage.setItem("sidebarCollapsed", collapsed);
+    // Show reopen button if collapsed and toggle is not visible
+    const toggleRect = toggleBtn.getBoundingClientRect();
+    if (collapsed && (toggleRect.left < 0 || toggleRect.right < 0 || toggleRect.width === 0 || toggleBtn.offsetParent === null)) {
+      reopenBtn.style.display = "block";
+    } else {
+      reopenBtn.style.display = "none";
+    }
+  }
+
+  toggleBtn.addEventListener("click", function () {
+    collapsed = !collapsed;
+    updateSidebarState();
   });
+
+  reopenBtn.addEventListener("click", function () {
+    collapsed = false;
+    updateSidebarState();
+  });
+
+  // On resize, check if the toggle is visible and update reopen button
+  window.addEventListener("resize", updateSidebarState);
+
+  // Initial state
+  updateSidebarState();
 });
 
 function showError(message) {

@@ -41,11 +41,33 @@
           <li>Loading zones...</li>
         </ul>
 
-        <h3>Legend (Placeholder)</h3>
-        <p>Yellow: Line 1 Track</p>
-        <p>Green: Line 2 Track</p>
-        <p>Purple: Line 4 Track</p>
-        <p><strong>Thick Red/Orange: Reduced Speed Zone</strong></p>
+        <h3>Legend</h3>
+        <div style="margin-bottom: 1rem;">
+          <div style="display: flex; align-items: center; margin-bottom: 0.3rem;">
+            <span style="display:inline-block;width:24px;height:6px;background:#F8C300;opacity:0.4;margin-right:8px;"></span>
+            <span>Line 1 (Regular)</span>
+          </div>
+          <div style="display: flex; align-items: center; margin-bottom: 0.3rem;">
+            <span style="display:inline-block;width:24px;height:6px;background:#F8C300;margin-right:8px;"></span>
+            <span>Line 1 (Reduced Speed Zone)</span>
+          </div>
+          <div style="display: flex; align-items: center; margin-bottom: 0.3rem;">
+            <span style="display:inline-block;width:24px;height:6px;background:#00923F;opacity:0.4;margin-right:8px;"></span>
+            <span>Line 2 (Regular)</span>
+          </div>
+          <div style="display: flex; align-items: center; margin-bottom: 0.3rem;">
+            <span style="display:inline-block;width:24px;height:6px;background:#00923F;margin-right:8px;"></span>
+            <span>Line 2 (Reduced Speed Zone)</span>
+          </div>
+          <div style="display: flex; align-items: center; margin-bottom: 0.3rem;">
+            <span style="display:inline-block;width:24px;height:6px;background:#A21A68;opacity:0.4;margin-right:8px;"></span>
+            <span>Line 4 (Regular)</span>
+          </div>
+          <div style="display: flex; align-items: center; margin-bottom: 0.3rem;">
+            <span style="display:inline-block;width:24px;height:6px;background:#A21A68;margin-right:8px;"></span>
+            <span>Line 4 (Reduced Speed Zone)</span>
+          </div>
+        </div>
       </aside>
 
       <div id="map-container">
@@ -98,17 +120,29 @@
 
       // Style for speed zones
       function styleSpeedZone(feature) {
-        let color = "red"; // Default for unknown lines or general slowdown
-        if (feature.properties.line.includes("Line 1")) {
-          color = "orange"; // Or a distinct slowdown color like 'darkorange'
-        } else if (feature.properties.line.includes("Line 2")) {
-          color = "darkred"; // Or a distinct slowdown color like 'firebrick'
-        }
-        // Add more conditions for Line 4 if data becomes available
+        // Official TTC line colors
+        const lineColors = {
+          "Line 1": "#F8C300",
+          "Line 2": "#00923F",
+          "Line 4": "#A21A68"
+        };
+        // Lighter/transparent version for regular service
+        const lineColorsRegular = {
+          "Line 1": "rgba(248,195,0,0.4)",
+          "Line 2": "rgba(0,146,63,0.4)",
+          "Line 4": "rgba(162,26,104,0.4)"
+        };
+        // Determine line key
+        let lineKey = "";
+        if (feature.properties.line.includes("Line 1")) lineKey = "Line 1";
+        else if (feature.properties.line.includes("Line 2")) lineKey = "Line 2";
+        else if (feature.properties.line.includes("Line 4")) lineKey = "Line 4";
+        // Reduced speed zone if speed_kph < 30 (arbitrary threshold)
+        const isReduced = feature.properties.speed_kph && feature.properties.speed_kph < 30;
         return {
-          color: color,
-          weight: 7, // Make them thicker
-          opacity: 0.8,
+          color: isReduced ? lineColors[lineKey] : lineColorsRegular[lineKey] || "#888",
+          weight: isReduced ? 7 : 5,
+          opacity: isReduced ? 0.9 : 0.7,
         };
       }
 

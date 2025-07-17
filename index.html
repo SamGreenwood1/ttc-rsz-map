@@ -120,7 +120,10 @@
             '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
         }).addTo(map);
 
-        // Load regular lines first
+        // Clear the active zones list before drawing
+        document.getElementById("active-zones-list").innerHTML = "";
+
+        // Load regular lines and render RSZs from line JSONs only
         Promise.all([
           fetch("lines/line1.json").then(r => {
             if (!r.ok) throw new Error("Failed to load Line 1 data");
@@ -135,30 +138,13 @@
             return r.json();
           })
         ]).then(([line1, line2, line4]) => {
-          // Draw regular lines
           drawLineGeoJson(line1, "Line 1");
           drawLineGeoJson(line2, "Line 2");
           drawLineGeoJson(line4, "Line 4");
-          // Now load speed zones
-          fetch("speed_zones.geojson").then(r => {
-            if (!r.ok) throw new Error("Failed to load reduced speed zones");
-            return r.json();
-          }).then(speedZones => {
-            if (speedZones.features && speedZones.features.length > 0) {
-              const speedZoneLayer = L.geoJSON(speedZones, {
-                style: styleSpeedZone,
-                onEachFeature: onEachFeature,
-              }).addTo(map);
-              // Store layer for potential filtering later
-              geoJsonLayers["speedZones"] = speedZoneLayer;
-            } else {
-              // This case should ideally be handled by the loadSpeedZones function,
-              // but as a fallback, we can clear the list if no zones are found.
-              document.getElementById("active-zones-list").innerHTML = "<li>No active reduced speed zones found.</li>";
-            }
-          }).catch(err => {
-            showError("There was a problem loading reduced speed zones. Please check the TTC's list for the latest information.");
-          });
+          // If no RSZs found, show a message
+          if (!document.getElementById("active-zones-list").hasChildNodes()) {
+            document.getElementById("active-zones-list").innerHTML = "<li>No active reduced speed zones found.</li>";
+          }
         }).catch(err => {
           showError("There was a problem loading subway line data. Please check the TTC's list for the latest information.");
         });

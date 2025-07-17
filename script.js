@@ -22,15 +22,12 @@ function showError(message) {
 function initMap() {
   map = L.map("map").setView([43.665, -79.385], 12); // Centered on Toronto
 
-  // Lock map to Toronto bounds
-  var torontoBounds = L.latLngBounds(
-    [43.581, -79.639], // Southwest corner (approximate)
-    [43.855, -79.115]  // Northeast corner (approximate)
+  // Lock map to Toronto city bounds (tight bounding box)
+  var torontoCityBounds = L.latLngBounds(
+    [43.581, -79.639], // Southwest (approximate city limit)
+    [43.855, -79.115]  // Northeast (approximate city limit)
   );
-  map.setMaxBounds(torontoBounds);
-  map.on('drag', function() {
-    map.panInsideBounds(torontoBounds, { animate: false });
-  });
+  map.setMaxBounds(torontoCityBounds);
   map.options.minZoom = 11;
   map.options.maxZoom = 19;
 

@@ -53,33 +53,26 @@ body {
 }
 
 header {
-  background-color: var(--ttc-red);
-  color: var(--footer-color);
-  padding: 0.6em 2vw;
-  text-align: center;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  font-size: clamp(1rem, 2vw, 1.5rem);
+  position: relative;
   display: flex;
   align-items: center;
-  gap: 1rem;
-  position: relative;
-  height: 100px;
-}
-
-header::after {
-  content: '';
-  display: block;
-  width: 56px;
-  height: 56px;
-  margin-left: 2rem;
+  justify-content: center;
+  min-height: 64px;
+  padding: 0.5em 2vw;
+  background-color: var(--ttc-red);
+  color: var(--footer-color);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  font-size: clamp(1rem, 2vw, 1.5rem);
 }
 
 header h1 {
+  flex: 1 1 auto;
   text-align: center;
-  margin: 0 auto;
-  font-size: clamp(1.2rem, 3vw, 2.8rem);
+  margin: 0;
+  font-size: clamp(1.2rem, 4vw, 2.5rem);
   font-weight: bold;
   color: var(--footer-color);
+  word-break: break-word;
 }
 
 main {
@@ -122,11 +115,11 @@ aside::-webkit-scrollbar-track {
 
 .sidebar-toggle {
   position: absolute;
-  left: 2rem;
+  left: 2vw;
   top: 50%;
   transform: translateY(-50%);
-  width: 56px;
-  height: 56px;
+  width: 3em;
+  height: 3em;
   background: var(--ttc-red);
   color: var(--footer-color);
   border: none;
@@ -391,13 +384,17 @@ footer a:focus-visible {
 
 @media (max-width: 600px) {
   header {
-    gap: 0.5rem;
+    min-height: 48px;
+    padding: 0.3em 1vw;
   }
   .sidebar-toggle {
-    margin-right: 0.5rem;
-    width: 40px;
-    height: 40px;
+    width: 2.5em;
+    height: 2.5em;
     font-size: 1.5rem;
+    left: 1vw;
+  }
+  header h1 {
+    font-size: clamp(1rem, 6vw, 1.5rem);
   }
   header, footer {
     padding-left: 1vw;

@@ -1,74 +1,103 @@
-/* Basic Reset & Body Styles */
+/* Modern CSS: Custom Properties & @property */
+@property --sidebar-width {
+  syntax: '<length>';
+  inherits: true;
+  initial-value: 300px;
+}
+:root {
+  --sidebar-width: 300px;
+  --sidebar-width-collapsed: 60px;
+  --sidebar-width-collapsed-mobile: 40px;
+  --sidebar-padding: 1rem;
+  --sidebar-padding-collapsed: 0.5rem 0.3rem;
+  --sidebar-padding-collapsed-mobile: 0.3rem 0.1rem;
+  --ttc-red: light-dark(#da251d, #ff4a4a);
+  --ttc-red-dark: #b71c1c;
+  --header-bg: var(--ttc-red);
+  --header-color: white;
+  --body-bg: light-dark(#f4f4f4, #181818);
+  --body-color: light-dark(#333, #eee);
+  --aside-bg: light-dark(#fff, #232323);
+  --aside-border: light-dark(#ddd, #444);
+  --aside-shadow: 2px 0 5px rgba(0,0,0,0.05);
+  --footer-bg: #333;
+  --footer-color: white;
+  --footer-link: #efefef;
+  --footer-link-hover: #fff;
+  --zone-hover: light-dark(#f0f0f0, #222);
+  --zone-border: light-dark(#eee, #444);
+  --zone-strong: #2c3e50;
+  --zone-span: #7f8c8d;
+}
+
 body,
 html {
   margin: 0;
   padding: 0;
   font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
-  background-color: #f4f4f4;
-  color: #333;
+  background-color: var(--body-bg);
+  color: var(--body-color);
   height: 100%;
   display: flex;
   flex-direction: column;
 }
 
-/* Header */
 header {
-  background-color: #da251d; /* TTC Red */
-  color: white;
-  padding: 0.4rem 1rem; /* Reduced padding */
+  background-color: var(--header-bg);
+  color: var(--header-color);
+  padding: 0.4rem 1rem;
   text-align: center;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 header h1 {
   margin: 0;
-  font-size: 1.3rem; /* Smaller font size */
+  font-size: 1.3rem;
 }
 
-/* Main Content Area - Flexbox for Sidebar and Map */
 main {
   display: flex;
-  flex: 1; /* Allows main to fill remaining vertical space */
-  overflow: hidden; /* Prevent scrollbars on main if children are too big */
+  flex: 1;
+  overflow: hidden;
+  container-type: inline-size;
 }
 
-/* Sidebar */
 aside {
-  width: 300px;
-  background-color: #fff;
-  padding: 1rem;
-  overflow-y: auto; /* Scroll if content exceeds height */
-  border-right: 1px solid #ddd;
-  box-shadow: 2px 0 5px rgba(0, 0, 0, 0.05);
-  transition: width 0.3s cubic-bezier(0.4,0,0.2,1), min-width 0.3s cubic-bezier(0.4,0,0.2,1);
-  min-width: 60px;
+  width: var(--sidebar-width);
+  background-color: var(--aside-bg);
+  padding: var(--sidebar-padding);
+  overflow-y: auto;
+  border-right: 1px solid var(--aside-border);
+  box-shadow: var(--aside-shadow);
+  transition: width 0.3s cubic-bezier(0.4,0,0.2,1), min-width 0.3s cubic-bezier(0.4,0,0.2,1), padding 0.3s cubic-bezier(0.4,0,0.2,1);
+  min-width: var(--sidebar-width-collapsed);
   position: relative;
 }
 
-/* Collapsed sidebar */
 .aside-collapsed {
-  width: 60px !important;
-  min-width: 60px !important;
-  padding: 0.5rem 0.3rem !important;
+  width: 0 !important;
+  min-width: 0 !important;
+  padding: 0 !important;
+  overflow: visible !important;
 }
-
-.aside-collapsed h2,
-.aside-collapsed h3,
-.aside-collapsed .filter-group,
-.aside-collapsed #active-zones-list,
-.aside-collapsed p,
-.aside-collapsed label {
+.aside-collapsed > .sidebar-toggle {
+  position: absolute;
+  left: 0;
+  top: 10px;
+  z-index: 20;
+  margin-left: 0;
+}
+.aside-collapsed > :not(.sidebar-toggle) {
   display: none !important;
 }
 
-/* Sidebar toggle button */
 .sidebar-toggle {
   position: absolute;
   top: 10px;
   right: -18px;
   width: 32px;
   height: 32px;
-  background: #da251d;
+  background: var(--ttc-red);
   color: #fff;
   border: none;
   border-radius: 50%;
@@ -80,15 +109,16 @@ aside {
   z-index: 10;
   transition: background 0.2s;
 }
-.sidebar-toggle:hover {
-  background: #b71c1c;
+.sidebar-toggle:hover,
+.sidebar-toggle:focus-visible {
+  background: var(--ttc-red-dark);
 }
 
 aside h2 {
   margin-top: 0;
   font-size: 1.4rem;
-  color: #333;
-  border-bottom: 2px solid #da251d;
+  color: var(--zone-strong);
+  border-bottom: 2px solid var(--ttc-red);
   padding-bottom: 0.5rem;
   margin-bottom: 1rem;
 }
@@ -111,30 +141,30 @@ aside h3 {
 
 #active-zones-list li {
   padding: 0.75rem;
-  border-bottom: 1px solid #eee;
+  border-bottom: 1px solid var(--zone-border);
   cursor: pointer;
   transition: background-color 0.2s ease-in-out;
 }
 
-#active-zones-list li:hover {
-  background-color: #f0f0f0;
+#active-zones-list li:hover,
+#active-zones-list li:focus-visible {
+  background-color: var(--zone-hover);
 }
 
 #active-zones-list li strong {
   display: block;
   font-size: 0.95rem;
-  color: #2c3e50;
+  color: var(--zone-strong);
 }
 
 #active-zones-list li span {
   font-size: 0.85rem;
-  color: #7f8c8d;
+  color: var(--zone-span);
 }
 
-/* Map Container */
 #map-container {
-  flex: 1; /* Map takes remaining space */
-  position: relative; /* For Leaflet controls */
+  flex: 1;
+  position: relative;
 }
 
 #map {
@@ -142,13 +172,12 @@ aside h3 {
   width: 100%;
 }
 
-/* Footer */
 footer {
-  background-color: #333;
-  color: white;
+  background-color: var(--footer-bg);
+  color: var(--footer-color);
   text-align: center;
-  padding: 0.4rem 1rem; /* Reduced padding */
-  font-size: 0.85rem; /* Slightly smaller font */
+  padding: 0.4rem 1rem;
+  font-size: 0.85rem;
 }
 
 footer p {
@@ -156,39 +185,38 @@ footer p {
 }
 
 footer a {
-  color: #efefef;
+  color: var(--footer-link);
   text-decoration: none;
 }
 
-footer a:hover {
+footer a:hover,
+footer a:focus-visible {
   text-decoration: underline;
+  color: var(--footer-link-hover);
 }
 
-/* Responsive Design */
+/* Responsive Design: fallback for browsers without container queries */
 @media (max-width: 768px) {
   main {
     flex-direction: column;
   }
-
   aside {
-    width: 100%;
-    max-height: 40vh; /* Limit sidebar height on mobile */
+    width: 100% !important;
+    max-height: 40vh;
     border-right: none;
-    border-bottom: 1px solid #ddd;
+    border-bottom: 1px solid var(--aside-border);
     min-width: 0;
+    padding: var(--sidebar-padding) !important;
   }
-
   .aside-collapsed {
-    width: 40px !important;
-    min-width: 40px !important;
-    padding: 0.3rem 0.1rem !important;
+    width: var(--sidebar-width-collapsed-mobile) !important;
+    min-width: var(--sidebar-width-collapsed-mobile) !important;
+    padding: var(--sidebar-padding-collapsed-mobile) !important;
   }
-
-  #map-container {
-    height: 60vh; /* Adjust map height on mobile */
-  }
-
   header h1 {
     font-size: 1.1rem;
+  }
+  #map-container {
+    height: 60vh;
   }
 }

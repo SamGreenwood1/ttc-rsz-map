@@ -57,19 +57,19 @@ header {
   display: flex;
   align-items: center;
   justify-content: center;
-  min-height: 64px;
-  padding: 0.5em 2vw;
+  min-height: 44px;
+  padding: 0.2em 1vw;
   background-color: var(--ttc-red);
   color: var(--footer-color);
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  font-size: clamp(1rem, 2vw, 1.5rem);
+  font-size: clamp(0.9rem, 1.5vw, 1.2rem);
 }
 
 header h1 {
   flex: 1 1 auto;
   text-align: center;
   margin: 0;
-  font-size: clamp(1.2rem, 4vw, 2.5rem);
+  font-size: clamp(1rem, 3vw, 1.5rem);
   font-weight: bold;
   color: var(--footer-color);
   word-break: break-word;
@@ -118,8 +118,8 @@ aside::-webkit-scrollbar-track {
   left: 2vw;
   top: 50%;
   transform: translateY(-50%);
-  width: 3em;
-  height: 3em;
+  width: 2.2em;
+  height: 2.2em;
   background: var(--ttc-red);
   color: var(--footer-color);
   border: none;
@@ -130,7 +130,7 @@ aside::-webkit-scrollbar-track {
   align-items: center;
   justify-content: center;
   z-index: 1002;
-  font-size: 2rem;
+  font-size: 1.3rem;
   transition: background 0.2s, box-shadow 0.2s;
 }
 
@@ -354,8 +354,8 @@ footer {
   background-color: var(--footer-bg);
   color: var(--footer-color);
   text-align: center;
-  padding: 0.6em 2vw;
-  font-size: clamp(0.85rem, 1.5vw, 1.1rem);
+  padding: 0.2em 1vw;
+  font-size: clamp(0.7rem, 1vw, 0.95rem);
   width: 100%;
   box-sizing: border-box;
 }

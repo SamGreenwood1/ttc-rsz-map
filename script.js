@@ -22,6 +22,18 @@ function showError(message) {
 function initMap() {
   map = L.map("map").setView([43.665, -79.385], 12); // Centered on Toronto
 
+  // Lock map to Toronto bounds
+  var torontoBounds = L.latLngBounds(
+    [43.581, -79.639], // Southwest corner (approximate)
+    [43.855, -79.115]  // Northeast corner (approximate)
+  );
+  map.setMaxBounds(torontoBounds);
+  map.on('drag', function() {
+    map.panInsideBounds(torontoBounds, { animate: false });
+  });
+  map.options.minZoom = 11;
+  map.options.maxZoom = 19;
+
   L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
     maxZoom: 19,
     attribution:

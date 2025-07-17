@@ -16,6 +16,10 @@
       integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
       crossorigin=""
     ></script>
+    <style>
+      /* Fallback: Add .no-css-if to <body> if CSS if() is not supported. */
+      /* You can use this class in your CSS for fallback styles if needed. */
+    </style>
   </head>
   <body>
     <header>
@@ -90,5 +94,19 @@
     </footer>
 
     <script src="script.js"></script>
+    <script>
+      // Feature detection for CSS if() support
+      (function() {
+        try {
+          const test = document.createElement('div');
+          test.style.width = "if(media(max-width: 600px): 100vw; else: 300px);";
+          if (test.style.width.includes('if(')) {
+            document.body.classList.add('no-css-if');
+          }
+        } catch (e) {
+          document.body.classList.add('no-css-if');
+        }
+      })();
+    </script>
   </body>
 </html>

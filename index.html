@@ -165,9 +165,9 @@
           "Line 4": "rgba(162,26,104,0.4)"
         };
         L.geoJSON(geojson, {
-          filter: f => f.properties.type === "tracks",
+          filter: f => f.properties.type === "tracks" || f.properties.type === "rsz",
           style: f => {
-            if (f.properties.rsz) {
+            if (f.properties.type === "rsz") {
               return {
                 color: lineColors[lineKey] || "#888",
                 weight: 7,
@@ -182,74 +182,29 @@
             }
           },
           onEachFeature: (feature, layer) => {
-            if (feature.properties.rsz) {
+            if (feature.properties.type === "rsz") {
               // Add popup for RSZ
-              const rsz = feature.properties.rsz;
               let popupContent = `<h3>Reduced Speed Zone</h3>
                 <strong>Line:</strong> ${lineKey}<br>
-                <strong>Direction:</strong> ${rsz.direction || "N/A"}<br>
-                <strong>Between:</strong> ${rsz.start_station} and ${rsz.end_station}<br>
-                <strong>Reduced Speed:</strong> ${rsz.speed_kph} km/h<br>
-                <strong>Reason:</strong> ${rsz.reason}`;
+                <strong>Direction:</strong> ${feature.properties.direction || "N/A"}<br>
+                <strong>Between:</strong> ${feature.properties.start_station} and ${feature.properties.end_station}<br>
+                <strong>Reduced Speed:</strong> ${feature.properties.speed_kph} km/h<br>
+                <strong>Reason:</strong> ${feature.properties.reason}`;
               layer.bindPopup(popupContent);
               // Add to active zones list
               addZoneToList({
                 properties: {
                   line: lineKey,
-                  direction: rsz.direction,
-                  start_station: rsz.start_station,
-                  end_station: rsz.end_station,
-                  speed_kph: rsz.speed_kph,
-                  reason: rsz.reason
+                  direction: feature.properties.direction,
+                  start_station: feature.properties.start_station,
+                  end_station: feature.properties.end_station,
+                  speed_kph: feature.properties.speed_kph,
+                  reason: feature.properties.reason
                 }
               }, layer);
             }
           }
         }).addTo(map);
-      }
-
-      // Style for speed zones
-      function styleSpeedZone(feature) {
-        // Official TTC line colors
-        const lineColors = {
-          "Line 1": "#F8C300",
-          "Line 2": "#00923F",
-          "Line 4": "#A21A68"
-        };
-        // Lighter/transparent version for regular service
-        const lineColorsRegular = {
-          "Line 1": "rgba(248,195,0,0.4)",
-          "Line 2": "rgba(0,146,63,0.4)",
-          "Line 4": "rgba(162,26,104,0.4)"
-        };
-        // Determine line key
-        let lineKey = "";
-        if (feature.properties.line.includes("Line 1")) lineKey = "Line 1";
-        else if (feature.properties.line.includes("Line 2")) lineKey = "Line 2";
-        else if (feature.properties.line.includes("Line 4")) lineKey = "Line 4";
-        // Reduced speed zone if speed_kph < 30 (arbitrary threshold)
-        const isReduced = feature.properties.speed_kph && feature.properties.speed_kph < 30;
-        return {
-          color: isReduced ? lineColors[lineKey] : lineColorsRegular[lineKey] || "#888",
-          weight: isReduced ? 7 : 5,
-          opacity: isReduced ? 0.9 : 0.7,
-        };
-      }
-
-      // Popup content for speed zones
-      function onEachFeature(feature, layer) {
-        if (feature.properties) {
-          let popupContent = `<h3>Reduced Speed Zone</h3>
-            <strong>Line:</strong> ${feature.properties.line}<br>
-            <strong>Direction:</strong> ${feature.properties.direction || "N/A"}<br>
-            <strong>Between:</strong> ${feature.properties.start_station} and ${feature.properties.end_station}<br>
-            <strong>Reduced Speed:</strong> ${feature.properties.speed_kph} km/h<br>
-            <strong>Reason:</strong> ${feature.properties.reason}`;
-          layer.bindPopup(popupContent);
-
-          // Add to active zones list
-          addZoneToList(feature, layer);
-        }
       }
 
       // Add a zone to the sidebar list
@@ -263,45 +218,6 @@
           layer.openPopup();
         };
         list.appendChild(listItem);
-      }
-
-      // Load speed zones from GeoJSON
-      function loadSpeedZones() {
-        const list = document.getElementById("active-zones-list");
-        list.innerHTML = ""; // Clear "Loading..." or previous items
-
-        fetch("speed_zones.geojson")
-          .then((response) => {
-            if (!response.ok) {
-              throw new Error(
-                "Network response was not ok " + response.statusText
-              );
-            }
-            return response.json();
-          })
-          .then((data) => {
-            if (data.features && data.features.length > 0) {
-              const speedZoneLayer = L.geoJSON(data, {
-                style: styleSpeedZone,
-                onEachFeature: onEachFeature,
-              }).addTo(map);
-              // Store layer for potential filtering later
-              geoJsonLayers["speedZones"] = speedZoneLayer;
-            } else {
-              list.innerHTML = "<li>No active reduced speed zones found.</li>";
-            }
-          })
-          .catch((error) => {
-            console.error(
-              "Error loading or parsing speed zone data:",
-              error
-            );
-            list.innerHTML =
-              "<li>Error loading speed zone data.</li>";
-            alert(
-              "Could not load speed zone data. Check the console for errors."
-            );
-          });
       }
 
       // Initialize the map when the DOM is ready

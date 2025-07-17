@@ -9,7 +9,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
   function updateSidebarState() {
     aside.classList.toggle("aside-collapsed", collapsed);
-    toggleBtn.innerText = collapsed ? "»" : "☰";
+    toggleBtn.innerText = "☰";
     localStorage.setItem("sidebarCollapsed", collapsed);
   }
 

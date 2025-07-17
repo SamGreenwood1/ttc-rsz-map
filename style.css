@@ -103,9 +103,8 @@ aside::-webkit-scrollbar-track {
   width: var(--sidebar-collapsed) !important;
   min-width: var(--sidebar-collapsed) !important;
   padding: 0 !important;
-  overflow: visible !important;
   border-radius: 0 12px 12px 0;
-  /* Only hide aside content, not main or map */
+  /* Only affect aside, do not set overflow here */
 }
 
 .aside-collapsed > :not(.sidebar-toggle) { display: none !important; }

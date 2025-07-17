@@ -78,7 +78,7 @@ aside {
   min-width: var(--sidebar-collapsed);
   background: var(--aside-bg, #fff);
   padding: var(--sidebar-padding);
-  padding-top: 2.5em; /* Ensure space for toggle button */
+  padding-top: 1.2em; /* Reduce top padding for better alignment */
   border-right: 1px solid var(--aside-border);
   box-shadow: 0 4px 24px rgba(0,0,0,0.10), var(--aside-shadow);
   border-radius: 0 18px 18px 0;
@@ -105,7 +105,7 @@ aside::-webkit-scrollbar-track {
 
 .sidebar-toggle, #sidebarReopenBtn {
   position: absolute;
-  top: 10px;
+  top: 12px;
   right: -18px;
   width: 32px;
   height: 32px;
@@ -193,6 +193,7 @@ aside h3 {
   box-shadow: 0 1px 4px rgba(0,0,0,0.03);
   max-width: 100%;
   box-sizing: border-box;
+  margin-top: 1.2em; /* Add space below toggle button */
 }
 
 .filter-group label {

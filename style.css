@@ -190,6 +190,7 @@ aside h2 {
   border-radius: 8px 8px 0 0;
   padding-left: 0.5em;
   word-break: break-word;
+  text-align: center;
 }
 
 aside h3 {
@@ -201,6 +202,7 @@ aside h3 {
   padding: 0.2em 0.5em; /* Reduce vertical padding */
   border-radius: 6px;
   word-break: break-word;
+  text-align: center;
 }
 
 .filter-group {

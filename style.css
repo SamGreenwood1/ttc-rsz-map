@@ -34,6 +34,7 @@ body, html {
   min-height: 100%;
   display: flex;
   flex-direction: column;
+  overflow-x: hidden;
 }
 
 header {
@@ -54,6 +55,7 @@ main {
   flex: 1;
   overflow: hidden;
   container-type: inline-size;
+  min-width: 0;
 }
 
 aside {
@@ -68,6 +70,9 @@ aside {
   position: relative;
   overflow-y: auto;
   backdrop-filter: blur(2px);
+  max-width: 100vw;
+  box-sizing: border-box;
+  overflow-x: hidden;
 }
 
 /* Custom scrollbar for sidebar */
@@ -233,6 +238,36 @@ aside h3 {
 }
 .legend-group span:last-child {
   font-size: 0.97rem;
+}
+
+.line-filter-group {
+  display: flex;
+  gap: 0.5rem;
+  margin-bottom: 0.5rem;
+}
+.line-filter-btn {
+  flex: 1 1 0;
+  padding: 0.5rem 1rem;
+  border: 1.5px solid var(--ttc-red);
+  background: #fff;
+  color: var(--ttc-red);
+  border-radius: 6px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s, border 0.2s;
+  outline: none;
+  font-size: 1rem;
+}
+.line-filter-btn:hover,
+.line-filter-btn:focus-visible {
+  background: rgba(218,37,29,0.08);
+  color: var(--ttc-red-dark);
+  border-color: var(--ttc-red-dark);
+}
+.line-filter-btn.active {
+  background: var(--ttc-red);
+  color: #fff;
+  border-color: var(--ttc-red-dark);
 }
 
 #map-container {

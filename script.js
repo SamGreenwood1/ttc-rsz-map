@@ -169,26 +169,34 @@ function addZoneToList(feature, layer) {
 // Initialize the map when the DOM is ready
 document.addEventListener("DOMContentLoaded", initMap);
 
-// Basic Filter Logic (Placeholder - needs more work for actual filtering)
-// This is a very simplified example. Real filtering would involve
-// removing/adding layers or changing their styles.
-document
-  .querySelectorAll('.filter-group input[type="checkbox"]')
-  .forEach((checkbox) => {
-    checkbox.addEventListener("change", () => {
-      // For now, just log. Actual filtering is more complex.
-      console.log(
-        `Filter for ${checkbox.name} changed to ${checkbox.checked}`
-      );
-      // To implement actual filtering, you'd need to:
-      // 1. Iterate through your geoJsonLayers.speedZones.getLayers()
-      // 2. Check feature.properties.line against the checkbox states
-      // 3. Either remove/add the layer from the map, or change its style to hide/show it.
-      // This can get complex if you have many layers or complex filter criteria.
-      // A simpler approach for this prototype might be to re-fetch/re-render
-      // based on filter criteria if your dataset is small.
-      alert(
-        "Filter functionality is a placeholder in this prototype."
-      );
+// Line filter button logic
+function setupLineFilterButtons() {
+  const btns = document.querySelectorAll('.line-filter-btn');
+  let activeLine = 'line1'; // Default active
+
+  function setActive(line) {
+    btns.forEach(btn => {
+      if (btn.dataset.line === line) {
+        btn.classList.add('active');
+      } else {
+        btn.classList.remove('active');
+      }
     });
-  }); 
+    activeLine = line;
+    // TODO: Implement actual filtering of map layers by line
+    console.log('Active line:', line);
+  }
+
+  btns.forEach(btn => {
+    btn.addEventListener('click', () => {
+      setActive(btn.dataset.line);
+    });
+  });
+
+  // Set initial active
+  setActive(activeLine);
+}
+
+document.addEventListener('DOMContentLoaded', function() {
+  setupLineFilterButtons();
+}); 

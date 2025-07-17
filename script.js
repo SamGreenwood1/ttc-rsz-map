@@ -13,7 +13,13 @@ document.addEventListener("DOMContentLoaded", function () {
   reopenBtn.title = "Show sidebar";
   reopenBtn.id = "sidebarReopenBtn";
   reopenBtn.style.display = "none";
-  document.body.appendChild(reopenBtn);
+  // Append to #map-container so it floats over the map
+  const mapContainer = document.getElementById("map-container");
+  if (mapContainer) {
+    mapContainer.appendChild(reopenBtn);
+  } else {
+    document.body.appendChild(reopenBtn); // fallback
+  }
 
   function updateSidebarState() {
     aside.classList.toggle("aside-collapsed", collapsed);

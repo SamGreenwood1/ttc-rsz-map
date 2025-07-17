@@ -15,14 +15,14 @@ html {
 header {
   background-color: #da251d; /* TTC Red */
   color: white;
-  padding: 1rem;
+  padding: 0.4rem 1rem; /* Reduced padding */
   text-align: center;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 header h1 {
   margin: 0;
-  font-size: 1.8rem;
+  font-size: 1.3rem; /* Smaller font size */
 }
 
 /* Main Content Area - Flexbox for Sidebar and Map */
@@ -40,6 +40,48 @@ aside {
   overflow-y: auto; /* Scroll if content exceeds height */
   border-right: 1px solid #ddd;
   box-shadow: 2px 0 5px rgba(0, 0, 0, 0.05);
+  transition: width 0.3s cubic-bezier(0.4,0,0.2,1), min-width 0.3s cubic-bezier(0.4,0,0.2,1);
+  min-width: 60px;
+  position: relative;
+}
+
+/* Collapsed sidebar */
+.aside-collapsed {
+  width: 60px !important;
+  min-width: 60px !important;
+  padding: 0.5rem 0.3rem !important;
+}
+
+.aside-collapsed h2,
+.aside-collapsed h3,
+.aside-collapsed .filter-group,
+.aside-collapsed #active-zones-list,
+.aside-collapsed p,
+.aside-collapsed label {
+  display: none !important;
+}
+
+/* Sidebar toggle button */
+.sidebar-toggle {
+  position: absolute;
+  top: 10px;
+  right: -18px;
+  width: 32px;
+  height: 32px;
+  background: #da251d;
+  color: #fff;
+  border: none;
+  border-radius: 50%;
+  cursor: pointer;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.12);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 10;
+  transition: background 0.2s;
+}
+.sidebar-toggle:hover {
+  background: #b71c1c;
 }
 
 aside h2 {
@@ -105,12 +147,12 @@ footer {
   background-color: #333;
   color: white;
   text-align: center;
-  padding: 0.8rem;
-  font-size: 0.9rem;
+  padding: 0.4rem 1rem; /* Reduced padding */
+  font-size: 0.85rem; /* Slightly smaller font */
 }
 
 footer p {
-  margin: 0.3rem 0;
+  margin: 0.2rem 0;
 }
 
 footer a {
@@ -133,6 +175,13 @@ footer a:hover {
     max-height: 40vh; /* Limit sidebar height on mobile */
     border-right: none;
     border-bottom: 1px solid #ddd;
+    min-width: 0;
+  }
+
+  .aside-collapsed {
+    width: 40px !important;
+    min-width: 40px !important;
+    padding: 0.3rem 0.1rem !important;
   }
 
   #map-container {
@@ -140,6 +189,6 @@ footer a:hover {
   }
 
   header h1 {
-    font-size: 1.5rem;
+    font-size: 1.1rem;
   }
 }

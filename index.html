@@ -25,6 +25,7 @@
 
     <main>
       <aside>
+        <button class="sidebar-toggle" id="sidebarToggle" title="Toggle sidebar">«</button>
         <h2>Information & Filters</h2>
 
         <div class="filter-group">
@@ -63,12 +64,24 @@
         >
         for the latest updates.
       </p>
-      <p>&copy; 2025 Your Name/Project Name</p>
+      <p>&copy; 2025 Sam Greenwood</p>
     </footer>
 
     <script>
       let map; // Make map globally accessible for functions
       const geoJsonLayers = {}; // To store references to GeoJSON layers for filtering
+
+      // Sidebar toggle logic
+      document.addEventListener("DOMContentLoaded", function () {
+        const aside = document.querySelector("aside");
+        const toggleBtn = document.getElementById("sidebarToggle");
+        let collapsed = false;
+        toggleBtn.addEventListener("click", function () {
+          collapsed = !collapsed;
+          aside.classList.toggle("aside-collapsed", collapsed);
+          toggleBtn.innerText = collapsed ? "»" : "«";
+        });
+      });
 
       // Initialize the map
       function initMap() {

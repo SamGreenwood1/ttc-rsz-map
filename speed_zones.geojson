@@ -3,110 +3,674 @@
   "features": [
     {
       "type": "Feature",
-      "properties": {
-        "line": "Line 1 Yonge-University",
-        "direction": "Both",
-        "start_station": "Sheppard West",
-        "end_station": "Wilson",
-        "speed_kph": 15,
-        "reason": "Reduced speed zone indicated on map"
-      },
       "geometry": {
         "type": "LineString",
         "coordinates": [
-          [-79.4625, 43.7345],
-          [-79.4636, 43.7275]
+          [
+            -79.0,
+            43.0
+          ],
+          [
+            -79.1,
+            43.1
+          ],
+          [
+            -79.2,
+            43.2
+          ]
         ]
+      },
+      "properties": {
+        "line": "Line 1",
+        "from_station": "York Mills",
+        "to_station": "Sheppard-Yonge",
+        "direction": "Northbound",
+        "zone_type": "Reduced Speed Zone",
+        "name": "Line 1 RSZ: York Mills to Sheppard-Yonge (Northbound)"
       }
     },
     {
       "type": "Feature",
-      "properties": {
-        "line": "Line 1 Yonge-University",
-        "direction": "Both",
-        "start_station": "Lawrence West",
-        "end_station": "Glencairn",
-        "speed_kph": 15,
-        "reason": "Reduced speed zone indicated on map"
-      },
       "geometry": {
         "type": "LineString",
         "coordinates": [
-          [-79.4516, 43.7164],
-          [-79.4453, 43.7094]
+          [
+            -79.0,
+            43.0
+          ],
+          [
+            -79.1,
+            43.1
+          ],
+          [
+            -79.2,
+            43.2
+          ]
         ]
+      },
+      "properties": {
+        "line": "Line 1",
+        "from_station": "Lawrence",
+        "to_station": "Eglinton",
+        "direction": "Southbound",
+        "zone_type": "Reduced Speed Zone",
+        "name": "Line 1 RSZ: Lawrence to Eglinton (Southbound)"
       }
     },
     {
       "type": "Feature",
-      "properties": {
-        "line": "Line 1 Yonge-University",
-        "direction": "Both",
-        "start_station": "Davisville",
-        "end_station": "St Clair",
-        "speed_kph": 15,
-        "reason": "Reduced speed zone indicated on map"
-      },
       "geometry": {
         "type": "LineString",
         "coordinates": [
-          [-79.3981, 43.6974],
-          [-79.3938, 43.6880]
+          [
+            -79.0,
+            43.0
+          ],
+          [
+            -79.1,
+            43.1
+          ],
+          [
+            -79.2,
+            43.2
+          ]
         ]
+      },
+      "properties": {
+        "line": "Line 1",
+        "from_station": "Eglinton",
+        "to_station": "Davisville",
+        "direction": "Southbound",
+        "zone_type": "Reduced Speed Zone",
+        "name": "Line 1 RSZ: Eglinton to Davisville (Southbound)"
       }
     },
     {
       "type": "Feature",
-      "properties": {
-        "line": "Line 1 Yonge-University",
-        "direction": "Both",
-        "start_station": "Rosedale",
-        "end_station": "Bloor-Yonge",
-        "speed_kph": 15,
-        "reason": "Reduced speed zone indicated on map"
-      },
       "geometry": {
         "type": "LineString",
         "coordinates": [
-          [-79.3860, 43.6746],
-          [-79.3859, 43.6708]
+          [
+            -79.0,
+            43.0
+          ],
+          [
+            -79.1,
+            43.1
+          ],
+          [
+            -79.2,
+            43.2
+          ]
         ]
+      },
+      "properties": {
+        "line": "Line 1",
+        "from_station": "Davisville",
+        "to_station": "St Clair",
+        "direction": "Southbound",
+        "zone_type": "Reduced Speed Zone",
+        "name": "Line 1 RSZ: Davisville to St Clair (Southbound)"
       }
     },
     {
       "type": "Feature",
-      "properties": {
-        "line": "Line 2 Bloor-Danforth",
-        "direction": "Both",
-        "start_station": "Keele",
-        "end_station": "Dundas West",
-        "speed_kph": 15,
-        "reason": "Reduced speed zone indicated on map"
-      },
       "geometry": {
         "type": "LineString",
         "coordinates": [
-          [-79.4633, 43.6548],
-          [-79.4537, 43.6555]
+          [
+            -79.0,
+            43.0
+          ],
+          [
+            -79.1,
+            43.1
+          ],
+          [
+            -79.2,
+            43.2
+          ]
         ]
+      },
+      "properties": {
+        "line": "Line 1",
+        "from_station": "St Clair",
+        "to_station": "Summerhill",
+        "direction": "Southbound",
+        "zone_type": "Reduced Speed Zone",
+        "name": "Line 1 RSZ: St Clair to Summerhill (Southbound)"
       }
     },
     {
       "type": "Feature",
-      "properties": {
-        "line": "Line 2 Bloor-Danforth",
-        "direction": "Both",
-        "start_station": "Coxwell",
-        "end_station": "Woodbine",
-        "speed_kph": 15,
-        "reason": "Reduced speed zone indicated on map"
-      },
       "geometry": {
         "type": "LineString",
         "coordinates": [
-          [-79.3122, 43.6822],
-          [-79.3021, 43.6845]
+          [
+            -79.0,
+            43.0
+          ],
+          [
+            -79.1,
+            43.1
+          ],
+          [
+            -79.2,
+            43.2
+          ]
         ]
+      },
+      "properties": {
+        "line": "Line 1",
+        "from_station": "Bloor-Yonge",
+        "to_station": "Rosedale",
+        "direction": "Northbound",
+        "zone_type": "Reduced Speed Zone",
+        "name": "Line 1 RSZ: Bloor-Yonge to Rosedale (Northbound)"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            -79.0,
+            43.0
+          ],
+          [
+            -79.1,
+            43.1
+          ],
+          [
+            -79.2,
+            43.2
+          ]
+        ]
+      },
+      "properties": {
+        "line": "Line 1",
+        "from_station": "Museum",
+        "to_station": "St George",
+        "direction": "Northbound",
+        "zone_type": "Reduced Speed Zone",
+        "name": "Line 1 RSZ: Museum to St George (Northbound)"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            -79.0,
+            43.0
+          ],
+          [
+            -79.1,
+            43.1
+          ],
+          [
+            -79.2,
+            43.2
+          ]
+        ]
+      },
+      "properties": {
+        "line": "Line 1",
+        "from_station": "Spadina",
+        "to_station": "St George",
+        "direction": "Both ways",
+        "zone_type": "Reduced Speed Zone",
+        "name": "Line 1 RSZ: Spadina to St George (Both ways)"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            -79.0,
+            43.0
+          ],
+          [
+            -79.1,
+            43.1
+          ],
+          [
+            -79.2,
+            43.2
+          ]
+        ]
+      },
+      "properties": {
+        "line": "Line 1",
+        "from_station": "Dupont",
+        "to_station": "Spadina",
+        "direction": "Southbound",
+        "zone_type": "Reduced Speed Zone",
+        "name": "Line 1 RSZ: Dupont to Spadina (Southbound)"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            -79.0,
+            43.0
+          ],
+          [
+            -79.1,
+            43.1
+          ],
+          [
+            -79.2,
+            43.2
+          ]
+        ]
+      },
+      "properties": {
+        "line": "Line 1",
+        "from_station": "St Clair West",
+        "to_station": "Dupont",
+        "direction": "Southbound",
+        "zone_type": "Reduced Speed Zone",
+        "name": "Line 1 RSZ: St Clair West to Dupont (Southbound)"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            -79.0,
+            43.0
+          ],
+          [
+            -79.1,
+            43.1
+          ],
+          [
+            -79.2,
+            43.2
+          ]
+        ]
+      },
+      "properties": {
+        "line": "Line 1",
+        "from_station": "Eglinton West",
+        "to_station": "St Clair West",
+        "direction": "Northbound",
+        "zone_type": "Reduced Speed Zone",
+        "name": "Line 1 RSZ: Eglinton West to St Clair West (Northbound)"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            -79.0,
+            43.0
+          ],
+          [
+            -79.1,
+            43.1
+          ],
+          [
+            -79.2,
+            43.2
+          ]
+        ]
+      },
+      "properties": {
+        "line": "Line 1",
+        "from_station": "Glencairn",
+        "to_station": "Eglinton West",
+        "direction": "Southbound",
+        "zone_type": "Reduced Speed Zone",
+        "name": "Line 1 RSZ: Glencairn to Eglinton West (Southbound)"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            -79.0,
+            43.0
+          ],
+          [
+            -79.1,
+            43.1
+          ],
+          [
+            -79.2,
+            43.2
+          ]
+        ]
+      },
+      "properties": {
+        "line": "Line 1",
+        "from_station": "Glencairn",
+        "to_station": "Lawrence West",
+        "direction": "Both ways",
+        "zone_type": "Reduced Speed Zone",
+        "name": "Line 1 RSZ: Glencairn to Lawrence West (Both ways)"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            -79.0,
+            43.0
+          ],
+          [
+            -79.1,
+            43.1
+          ],
+          [
+            -79.2,
+            43.2
+          ]
+        ]
+      },
+      "properties": {
+        "line": "Line 1",
+        "from_station": "Yorkdale",
+        "to_station": "Lawrence West",
+        "direction": "Southbound",
+        "zone_type": "Reduced Speed Zone",
+        "name": "Line 1 RSZ: Yorkdale to Lawrence West (Southbound)"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            -79.0,
+            43.0
+          ],
+          [
+            -79.1,
+            43.1
+          ],
+          [
+            -79.2,
+            43.2
+          ]
+        ]
+      },
+      "properties": {
+        "line": "Line 1",
+        "from_station": "Wilson",
+        "to_station": "Yorkdale",
+        "direction": "Southbound",
+        "zone_type": "Reduced Speed Zone",
+        "name": "Line 1 RSZ: Wilson to Yorkdale (Southbound)"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            -79.0,
+            43.0
+          ],
+          [
+            -79.1,
+            43.1
+          ],
+          [
+            -79.2,
+            43.2
+          ]
+        ]
+      },
+      "properties": {
+        "line": "Line 2",
+        "from_station": "Warden",
+        "to_station": "Victoria Park",
+        "direction": "Westbound",
+        "zone_type": "Reduced Speed Zone",
+        "name": "Line 2 RSZ: Warden to Victoria Park (Westbound)"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            -79.0,
+            43.0
+          ],
+          [
+            -79.1,
+            43.1
+          ],
+          [
+            -79.2,
+            43.2
+          ]
+        ]
+      },
+      "properties": {
+        "line": "Line 2",
+        "from_station": "Coxwell",
+        "to_station": "Main Street",
+        "direction": "Eastbound",
+        "zone_type": "Reduced Speed Zone",
+        "name": "Line 2 RSZ: Coxwell to Main Street (Eastbound)"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            -79.0,
+            43.0
+          ],
+          [
+            -79.1,
+            43.1
+          ],
+          [
+            -79.2,
+            43.2
+          ]
+        ]
+      },
+      "properties": {
+        "line": "Line 2",
+        "from_station": "Donlands",
+        "to_station": "Greenwood",
+        "direction": "Eastbound",
+        "zone_type": "Reduced Speed Zone",
+        "name": "Line 2 RSZ: Donlands to Greenwood (Eastbound)"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            -79.0,
+            43.0
+          ],
+          [
+            -79.1,
+            43.1
+          ],
+          [
+            -79.2,
+            43.2
+          ]
+        ]
+      },
+      "properties": {
+        "line": "Line 2",
+        "from_station": "Broadview",
+        "to_station": "Castle Frank",
+        "direction": "Westbound",
+        "zone_type": "Reduced Speed Zone",
+        "name": "Line 2 RSZ: Broadview to Castle Frank (Westbound)"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            -79.0,
+            43.0
+          ],
+          [
+            -79.1,
+            43.1
+          ],
+          [
+            -79.2,
+            43.2
+          ]
+        ]
+      },
+      "properties": {
+        "line": "Line 2",
+        "from_station": "Spadina",
+        "to_station": "St George",
+        "direction": "Eastbound",
+        "zone_type": "Reduced Speed Zone",
+        "name": "Line 2 RSZ: Spadina to St George (Eastbound)"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            -79.0,
+            43.0
+          ],
+          [
+            -79.1,
+            43.1
+          ],
+          [
+            -79.2,
+            43.2
+          ]
+        ]
+      },
+      "properties": {
+        "line": "Line 2",
+        "from_station": "Spadina",
+        "to_station": "Bathurst",
+        "direction": "Westbound",
+        "zone_type": "Reduced Speed Zone",
+        "name": "Line 2 RSZ: Spadina to Bathurst (Westbound)"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            -79.0,
+            43.0
+          ],
+          [
+            -79.1,
+            43.1
+          ],
+          [
+            -79.2,
+            43.2
+          ]
+        ]
+      },
+      "properties": {
+        "line": "Line 2",
+        "from_station": "Dundas West",
+        "to_station": "Lansdowne",
+        "direction": "Eastbound",
+        "zone_type": "Reduced Speed Zone",
+        "name": "Line 2 RSZ: Dundas West to Lansdowne (Eastbound)"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            -79.0,
+            43.0
+          ],
+          [
+            -79.1,
+            43.1
+          ],
+          [
+            -79.2,
+            43.2
+          ]
+        ]
+      },
+      "properties": {
+        "line": "Line 2",
+        "from_station": "Keele",
+        "to_station": "Dundas West",
+        "direction": "Eastbound",
+        "zone_type": "Reduced Speed Zone",
+        "name": "Line 2 RSZ: Keele to Dundas West (Eastbound)"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            -79.0,
+            43.0
+          ],
+          [
+            -79.1,
+            43.1
+          ],
+          [
+            -79.2,
+            43.2
+          ]
+        ]
+      },
+      "properties": {
+        "line": "Line 2",
+        "from_station": "Jane",
+        "to_station": "Old Mill",
+        "direction": "Westbound",
+        "zone_type": "Reduced Speed Zone",
+        "name": "Line 2 RSZ: Jane to Old Mill (Westbound)"
       }
     }
   ]

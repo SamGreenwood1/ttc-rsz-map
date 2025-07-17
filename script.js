@@ -36,6 +36,8 @@ document.addEventListener("DOMContentLoaded", function () {
   reopenBtn.addEventListener("click", function () {
     collapsed = false;
     updateSidebarState();
+    // Also focus the sidebar toggle for accessibility
+    toggleBtn.focus();
   });
 
   // Initial state

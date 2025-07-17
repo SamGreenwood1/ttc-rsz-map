@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TTCmap.ca</title>
+    <link rel="stylesheet" href="style.css"/>
+    <script>
+        window.va = window.va || function () { (window.vaq = window.vaq || []).push(arguments); };
+    </script>
+    <script defer src="/_vercel/insights/script.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <link rel="canonical" href="https://www.ttcmap.ca/">
+</head>
+<body>
+    <script src="icons.js"></script>
+    <script src="script.js"></script>
+
+    <h1>TTCMAP.CA</h1>
+
+    <h2 id="subheading">Last updated: Loading... <button class="small-button refresh-button" onClick="window.location.reload()"><i class="fas fa-rotate-right"></i></button><br>If map does not load, check <a href="https://www.ttc.ca/service-alerts">TTC Alerts</a></h2>
+    
+    <div id="map"></div>
+
+    <div id="about-modal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <p>TTCmap.ca is an independently-run real-time network status map for the TTC subway system. It combines long-term service changes and short-term disruptions in one place, making it easier to see if anything affects your trip. The alerts shown include the TTC's <a href="https://www.ttc.ca/service-alerts"> live service alerts</a> and <a href="https://www.ttc.ca/riding-the-ttc/Updates/Reduced-Speed-Zones">reduced speed zones.</a> Refer to those links if TTCmap is not working properly.<br><br>We are not affiliated with the TTC or the City of Toronto.<br><br>If you have any suggestions or notice any issues, feel free to <a href="mailto:info@ttcmap.ca">contact us!</a></p>
+        </div>
+    </div>
+
+    <div class="button-container">
+        <button id="about-button" class="button">
+            About
+        </button>
+        <a href="mailto:info@ttcmap.ca">
+            <button id="contact-button" class="button">
+                Contact
+            </button>
+        </a>
+        <a href="https://ko-fi.com/ttcmap">
+            <button id="donate-button" class="button">
+                <img src="kofi_symbol.png" style="max-height: 1em;"> Support
+            </button>
+        </a>
+    </div>
+
+    <script>
+        // Get the modal
+        var modal = document.getElementById("about-modal");
+
+        // Get the button that opens the modal
+        var btn = document.getElementById("about-button");
+
+        // Get the <span> element that closes the modal
+        var span = document.getElementsByClassName("close")[0];
+
+        // When the user clicks on the button, open the modal
+        btn.onclick = function() {
+            modal.style.display = "flex";
+        }
+
+        // When the user clicks on <span> (x), close the modal
+        span.onclick = function() {
+            modal.style.display = "none";
+        }
+
+        // When the user clicks anywhere outside of the modal, close it
+        window.onclick = function(event) {
+            if (event.target == modal) {
+                modal.style.display = "none";
+            }
+        } 
+    </script>
+
+    <script>
+        (g=>{var h,a,k,p="The Google Maps JavaScript API",c="google",l="importLibrary",q="__ib__",m=document,b=window;b=b[c]||(b[c]={});var d=b.maps||(b.maps={}),r=new Set,e=new URLSearchParams,u=()=>h||(h=new Promise(async(f,n)=>{await (a=m.createElement("script"));e.set("libraries",[...r]+"");for(k in g)e.set(k.replace(/[A-Z]/g,t=>"_"+t[0].toLowerCase()),g[k]);e.set("callback",c+".maps."+q);a.src=`https://maps.${c}apis.com/maps/api/js?`+e;d[q]=f;a.onerror=()=>h=n(Error(p+" could not load."));a.nonce=m.querySelector("script[nonce]")?.nonce||"";m.head.append(a)}));d[l]?console.warn(p+" only loads once. Ignoring:",g):d[l]=(f,...n)=>r.add(f)&&u().then(()=>d[l](f,...n))})({
+            key: "AIzaSyAb5I1R7e5z5bwjG_TLXKsaKd_jf6HaNf4",
+            v: "weekly",
+            libraries: "geometry",
+            // Use the 'v' parameter to indicate the version to use (weekly, beta, alpha, etc.).
+            // Add other bootstrap parameters as needed, using camel case.
+        });
+
+        let map;
+
+        async function initMap() {
+            const { Map } = await google.maps.importLibrary("maps");
+
+            map = new Map(document.getElementById("map"), {
+                center: { lat: 43.715, lng: -79.408 },
+                zoom: 12,
+                mapId: "42",
+            });
+
+            // Create legend with service reduction types
+            const legend = document.createElement("div");
+            legend.id = "legend";
+            
+            const header = document.createElement("div");
+            header.id = "legend-header";
+            header.innerHTML = `<h3>LEGEND<span>+</span></h3>`;
+            legend.appendChild(header);
+
+            const content = document.createElement("div");
+            content.id = "legend-content";
+            content.style.display = "none"; // Initially hidden
+
+            for (const serviceReductionType of serviceReductionTypes) {
+                const icon = serviceReductionType.icon;
+                const name = serviceReductionType.name;
+
+                size = 48;
+                svg = `<svg width="${size}" height="${size}" viewBox="${-size/2} ${-size/2} ${size} ${size}" xmlns="http://www.w3.org/2000/svg">
+                    <g transform="scale(${icon.scale})">
+                    <path d="${icon.path}" 
+                    stroke="${icon.strokeColor}" 
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="${icon.strokeWeight / icon.scale}" 
+                    fill="${icon.fillColor}"/>
+                    </g>
+                    </svg>`;
+
+                const typeDiv = document.createElement("div");
+                //typeDiv.innerHTML = `${svg} <span style="font-size:1.5em; ">${name}</span>`;
+                typeDiv.innerHTML = `<div style="display: flex; align-items: center; gap: 8px; margin: 5px 0;">
+                    <div style="flex-shrink: 0;">${svg}</div>
+                    <div style="flex: 1; font-size: 1.5em; word-wrap: break-word;">${name}</div>
+                </div>`
+                content.appendChild(typeDiv);
+            }
+
+            legend.appendChild(content);
+            legend.addEventListener("click", () => {
+                if (content.style.display === "none") {
+                    content.style.display = "block";
+                    header.innerHTML = `<h3>LEGEND<span>−</span></h3>`;
+                } else {
+                    content.style.display = "none";
+                    header.innerHTML = `<h3>LEGEND<span>+</span></h3>`;
+                }
+            });
+
+            map.controls[google.maps.ControlPosition.LEFT_BOTTOM].push(legend);
+
+            const response = await fetch('/api/fetch');
+            const alertsjson = await response.json();
+
+            // Reduced speed zones
+            lines[0].addServiceReduction("Wilson", "Glencairn", "Delays", "Reduced speed both ways due to poor track condition.");
+            lines[0].addServiceReduction("Eglinton West", "Museum", "Delays", "Reduced speed both ways due to poor track condition.");
+            lines[0].addServiceReduction("Bloor-Yonge", "Rosedale", "Delays", "Reduced speed northbound due to poor track condition.");
+            lines[0].addServiceReduction("Summerhill", "Eglinton", "Delays", "Reduced speed southbound due to poor track condition.");
+            lines[0].addServiceReduction("York Mills", "Sheppard-Yonge", "Delays", "Reduced speed northbound due to poor track condition.");
+            
+            lines[1].addServiceReduction("Jane", "Old Mill", "Delays", "Reduced speed westbound due to poor track condition.");
+            lines[1].addServiceReduction("Keele", "Lansdowne", "Delays", "Reduced speed eastbound due to poor track condition.");
+            lines[1].addServiceReduction("St George", "Bathurst", "Delays", "Reduced speed both ways due to poor track condition.");
+            lines[1].addServiceReduction("Broadview", "Castle Frank", "Delays", "Reduced speed westbound due to poor track condition.");
+            lines[1].addServiceReduction("Donlands", "Greenwood", "Delays", "Reduced speed eastbound due to poor track condition.");
+            lines[1].addServiceReduction("Coxwell", "Main Street", "Delays", "Reduced speed eastbound due to poor track condition.");
+            lines[1].addServiceReduction("Victoria Park", "Warden", "Delays", "Reduced speed both ways due to poor track condition.");
+
+            //lines[0].addServiceReduction("St Andrew", "St Patrick", "Bypass", "Bypassing Osgoode because a disgruntled lawyer is holding the station hostage.");
+            
+            lines[2].addServiceReduction("Kennedy", "McCowan", "No service", "Permanently closed.");
+
+            alertsjson.alerts.forEach(alert => {
+                if (alert.lineIdx < 0 || alert.lineIdx >= lines.length || alert.lineIdx === null) {
+                    console.error(`Invalid line index ${alert.lineIdx} for alert:`, alert);
+                } else {
+                    lines[alert.lineIdx].addServiceReduction(alert.startStation, alert.endStation, alert.effectDesc, alert.description);
+                }
+            });
+
+            const lastUpdatedDate = new Date(alertsjson.lastUpdated);
+            const options = {
+                timeZone: 'UTC',
+                month: 'short',
+                day: 'numeric',
+                hour: '2-digit',
+                minute: '2-digit',
+                hour12: true,
+            };
+            
+            document.getElementById("subheading").innerHTML = `Last updated: ${lastUpdatedDate.toLocaleString('en-CA', options)} <button class="small-button refresh-button" onClick="window.location.reload()"><i class="fas fa-rotate-right"></i></button><br>If map does not load, check <a href="https://www.ttc.ca/service-alerts">TTC Alerts</a>`;
+
+            refreshMap();
+        }
+
+        initMap();
+    </script>
+</body>
+</html>

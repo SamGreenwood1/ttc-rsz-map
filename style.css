@@ -4,54 +4,57 @@
   inherits: true;
   initial-value: 300px;
 }
+
+/* Global box-sizing reset */
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+
 :root {
+  /* TTC Brand Colors */
+  --ttc-red: #da251d;
+  --ttc-red-dark: #b71c1c;
+  --ttc-yellow: #F8C300;
+  --ttc-green: #00923F;
+  --ttc-purple: #A21A68;
+
+  /* UI Colors */
+  --sidebar-bg: #fff;
+  --sidebar-border: #ddd;
+  --sidebar-shadow: 2px 0 5px rgba(0,0,0,0.05);
+  --footer-bg: #333;
+  --footer-color: #fff;
+  --footer-link: #efefef;
+  --footer-link-hover: #fff;
+  --zone-hover: #f0f0f0;
+  --zone-border: #eee;
+  --zone-strong: #2c3e50;
+  --zone-span: #7f8c8d;
+  --body-bg: #f4f4f4;
+  --body-color: #333;
+
   --sidebar-width: 360px;
   --sidebar-collapsed: 52px;
   --sidebar-padding: 1rem;
-  --ttc-red: light-dark(#da251d, #ff4a4a);
-  --ttc-red-dark: #b71c1c;
-  --body-bg: light-dark(#f4f4f4, #181818);
-  --body-color: light-dark(#333, #eee);
-  --aside-bg: light-dark(#fff, #232323);
-  --aside-border: light-dark(#ddd, #444);
-  --aside-shadow: 2px 0 5px rgba(0,0,0,0.05);
-  --footer-bg: #333;
-  --footer-color: white;
-  --footer-link: #efefef;
-  --footer-link-hover: #fff;
-  --zone-hover: light-dark(#f0f0f0, #222);
-  --zone-border: light-dark(#eee, #444);
-  --zone-strong: #2c3e50;
-  --zone-span: #7f8c8d;
 }
 
-html, body {
+body {
+  background: var(--body-bg);
+  color: var(--body-color);
   height: 100%;
   min-height: 100vh;
   width: 100vw;
   margin: 0;
   padding: 0;
   font-family: system-ui, sans-serif;
-  background: var(--body-bg);
-  color: var(--body-color);
   display: flex;
   flex-direction: column;
-  overflow: hidden;
-}
-
-body {
-  flex: 1 1 auto;
-  display: flex;
-  flex-direction: column;
-  min-height: 100vh;
-  height: 100vh;
-  width: 100vw;
   overflow: hidden;
 }
 
 header {
-  background-color: var(--header-bg, #da251d); /* Fallback TTC red */
-  color: var(--header-color, #fff);
+  background-color: var(--ttc-red);
+  color: var(--footer-color);
   padding: 0.6em 2vw;
   text-align: center;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
@@ -76,11 +79,11 @@ main {
 aside {
   width: var(--sidebar-width);
   min-width: var(--sidebar-collapsed);
-  background: var(--aside-bg, #fff);
+  background: var(--sidebar-bg);
   padding: var(--sidebar-padding);
-  padding-top: 1.2em; /* Reduce top padding for better alignment */
-  border-right: 1px solid var(--aside-border);
-  box-shadow: 0 4px 24px rgba(0,0,0,0.10), var(--aside-shadow);
+  padding-top: 1.2em;
+  border-right: 1px solid var(--sidebar-border);
+  box-shadow: 0 4px 24px var(--sidebar-shadow);
   border-radius: 0 18px 18px 0;
   transition: width 0.3s, min-width 0.3s, padding 0.3s, background 0.3s;
   position: relative;
@@ -88,7 +91,6 @@ aside {
   overflow-x: hidden;
   height: 100%;
   flex-shrink: 0;
-  box-sizing: border-box;
 }
 
 /* Custom scrollbar for sidebar */
@@ -110,7 +112,7 @@ aside::-webkit-scrollbar-track {
   width: 32px;
   height: 32px;
   background: var(--ttc-red);
-  color: #fff;
+  color: var(--footer-color);
   border: none;
   border-radius: 50%;
   cursor: pointer;
@@ -118,7 +120,7 @@ aside::-webkit-scrollbar-track {
   display: flex;
   align-items: center;
   justify-content: center;
-  z-index: 1002; /* Ensure always above sidebar/map */
+  z-index: 1002;
   font-size: 1.2rem;
   transition: background 0.2s, box-shadow 0.2s;
 }
@@ -152,7 +154,7 @@ aside::-webkit-scrollbar-track {
 #sidebarReopenBtn:hover,
 #sidebarReopenBtn:focus-visible {
   background: var(--ttc-red-dark);
-  outline: 2px solid #fff;
+  outline: 2px solid var(--footer-color);
   box-shadow: 0 4px 12px rgba(0,0,0,0.18);
 }
 
@@ -189,11 +191,11 @@ aside h3 {
 }
 
 .filter-group {
-  background: rgba(0,0,0,0.03);
+  background: var(--zone-hover);
   border-radius: 8px;
   padding: 0.3em 0.7em 0.2em 0.7em; /* Reduce top padding (red) */
   margin-bottom: 0.7em; /* Reduce bottom margin (green) */
-  box-shadow: 0 1px 4px rgba(0,0,0,0.03);
+  box-shadow: 0 1px 4px var(--sidebar-shadow);
   max-width: 100%;
   box-sizing: border-box;
   margin-top: 0.5em; /* Reduce space below toggle button */
@@ -227,9 +229,10 @@ aside h3 {
   list-style: none;
   padding: 0;
   margin-bottom: 0.7em; /* Reduce space below zones list (green) */
-  background: rgba(0,0,0,0.02);
+  background: var(--zone-hover);
   border-radius: 8px;
-  box-shadow: 0 1px 4px rgba(0,0,0,0.03);
+  box-shadow: 0 1px 4px var(--sidebar-shadow);
+  border-bottom: 1px solid var(--zone-border);
 }
 
 #active-zones-list li {
@@ -259,11 +262,11 @@ aside h3 {
 
 /* Legend improvements */
 .legend-group {
-  background: rgba(0,0,0,0.03);
+  background: var(--zone-hover);
   border-radius: 8px;
   padding: 0.7em 0.7em 0.2em 0.7em;
   margin-bottom: 1.2em;
-  box-shadow: 0 1px 4px rgba(0,0,0,0.03);
+  box-shadow: 0 1px 4px var(--sidebar-shadow);
   max-width: 100%;
   box-sizing: border-box;
 }
@@ -286,7 +289,7 @@ aside h3 {
   flex: 1 1 0;
   padding: 0.5rem 1rem;
   border: 1.5px solid var(--ttc-red);
-  background: #fff;
+  background: var(--sidebar-bg);
   color: var(--ttc-red);
   border-radius: 6px;
   font-weight: 600;
@@ -303,7 +306,7 @@ aside h3 {
 }
 .line-filter-btn.active {
   background: var(--ttc-red);
-  color: #fff;
+  color: var(--footer-color);
   border-color: var(--ttc-red-dark);
 }
 
@@ -346,6 +349,17 @@ footer a:hover,
 footer a:focus-visible {
   text-decoration: underline;
   color: var(--footer-link-hover);
+}
+
+/* TTC line colors for legend */
+.legend-group span[style*="background:#F8C300"] {
+  background: var(--ttc-yellow) !important;
+}
+.legend-group span[style*="background:#00923F"] {
+  background: var(--ttc-green) !important;
+}
+.legend-group span[style*="background:#A21A68"] {
+  background: var(--ttc-purple) !important;
 }
 
 @media (max-width: 768px) {

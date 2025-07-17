@@ -59,6 +59,9 @@ header {
   text-align: center;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   font-size: clamp(1rem, 2vw, 1.5rem);
+  display: flex;
+  align-items: center;
+  gap: 1rem;
 }
 
 header h1 {
@@ -105,10 +108,9 @@ aside::-webkit-scrollbar-track {
   background: transparent;
 }
 
-.sidebar-toggle, #sidebarReopenBtn {
-  position: absolute;
-  top: 12px;
-  right: -18px;
+.sidebar-toggle {
+  position: static;
+  margin-right: 1rem;
   width: 32px;
   height: 32px;
   background: var(--ttc-red);
@@ -368,6 +370,15 @@ footer a:focus-visible {
 }
 
 @media (max-width: 600px) {
+  header {
+    gap: 0.5rem;
+  }
+  .sidebar-toggle {
+    margin-right: 0.5rem;
+    width: 40px;
+    height: 40px;
+    font-size: 1.5rem;
+  }
   header, footer {
     padding-left: 1vw;
     padding-right: 1vw;

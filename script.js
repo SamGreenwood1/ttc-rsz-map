@@ -13,21 +13,15 @@ document.addEventListener("DOMContentLoaded", function () {
   reopenBtn.title = "Show sidebar";
   reopenBtn.id = "sidebarReopenBtn";
   reopenBtn.style.display = "none";
-  // Append to #map-container so it floats over the map
-  const mapContainer = document.getElementById("map-container");
-  if (mapContainer) {
-    mapContainer.appendChild(reopenBtn);
-  } else {
-    document.body.appendChild(reopenBtn); // fallback
-  }
+  // Append to body so it floats over the map
+  document.body.appendChild(reopenBtn);
 
   function updateSidebarState() {
     aside.classList.toggle("aside-collapsed", collapsed);
     toggleBtn.innerText = collapsed ? "»" : "«";
     localStorage.setItem("sidebarCollapsed", collapsed);
-    // Show reopen button if collapsed and toggle is not visible
-    const toggleRect = toggleBtn.getBoundingClientRect();
-    if (collapsed && (toggleRect.left < 0 || toggleRect.right < 0 || toggleRect.width === 0 || toggleBtn.offsetParent === null)) {
+    // Show reopen button if collapsed
+    if (collapsed) {
       reopenBtn.style.display = "block";
     } else {
       reopenBtn.style.display = "none";
@@ -43,9 +37,6 @@ document.addEventListener("DOMContentLoaded", function () {
     collapsed = false;
     updateSidebarState();
   });
-
-  // On resize, check if the toggle is visible and update reopen button
-  window.addEventListener("resize", updateSidebarState);
 
   // Initial state
   updateSidebarState();

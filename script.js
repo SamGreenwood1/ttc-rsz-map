@@ -5,6 +5,7 @@ const geoJsonLayers = {}; // To store references to GeoJSON layers for filtering
 document.addEventListener("DOMContentLoaded", function () {
   const aside = document.querySelector("aside");
   const toggleBtn = document.getElementById("sidebarToggle");
+  const toggleBtnRight = document.getElementById("sidebarToggleRight");
   let collapsed = localStorage.getItem("sidebarCollapsed") === "true";
 
   // Create a floating reopen button
@@ -32,6 +33,13 @@ document.addEventListener("DOMContentLoaded", function () {
     collapsed = !collapsed;
     updateSidebarState();
   });
+
+  if (toggleBtnRight) {
+    toggleBtnRight.addEventListener("click", function () {
+      collapsed = !collapsed;
+      updateSidebarState();
+    });
+  }
 
   reopenBtn.addEventListener("click", function () {
     collapsed = false;

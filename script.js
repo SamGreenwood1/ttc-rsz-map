@@ -110,7 +110,7 @@ function drawLineGeoJson(geojson, lineKey) {
     "Line 2": "rgba(0,146,63,0.4)",
     "Line 4": "rgba(162,26,104,0.4)"
   };
-  L.geoJSON(geojson, {
+  const layer = L.geoJSON(geojson, {
     filter: f => f.properties.type === "tracks" || f.properties.type === "rsz",
     style: f => {
       if (f.properties.type === "rsz") {
@@ -151,6 +151,7 @@ function drawLineGeoJson(geojson, lineKey) {
       }
     }
   }).addTo(map);
+  geoJsonLayers[lineKey.toLowerCase().replace(' ', '')] = layer;
 }
 
 // Add a zone to the sidebar list
@@ -169,32 +170,40 @@ function addZoneToList(feature, layer) {
 // Initialize the map when the DOM is ready
 document.addEventListener("DOMContentLoaded", initMap);
 
-// Line filter button logic
+// Line filter button logic (multi-select)
 function setupLineFilterButtons() {
   const btns = document.querySelectorAll('.line-filter-btn');
-  let activeLine = 'line1'; // Default active
+  // Track which lines are visible
+  const visibleLines = {
+    line1: true,
+    line2: true,
+    line4: true
+  };
 
-  function setActive(line) {
-    btns.forEach(btn => {
-      if (btn.dataset.line === line) {
-        btn.classList.add('active');
-      } else {
-        btn.classList.remove('active');
+  function updateMapVisibility() {
+    // Hide/show layers based on visibleLines
+    Object.keys(visibleLines).forEach(lineKey => {
+      const layer = geoJsonLayers[lineKey];
+      if (layer) {
+        if (visibleLines[lineKey]) {
+          if (!map.hasLayer(layer)) map.addLayer(layer);
+        } else {
+          if (map.hasLayer(layer)) map.removeLayer(layer);
+        }
       }
     });
-    activeLine = line;
-    // TODO: Implement actual filtering of map layers by line
-    console.log('Active line:', line);
   }
 
   btns.forEach(btn => {
+    const line = btn.dataset.line;
+    // Set initial state
+    btn.classList.add('active');
     btn.addEventListener('click', () => {
-      setActive(btn.dataset.line);
+      visibleLines[line] = !visibleLines[line];
+      btn.classList.toggle('active', visibleLines[line]);
+      updateMapVisibility();
     });
   });
-
-  // Set initial active
-  setActive(activeLine);
 }
 
 document.addEventListener('DOMContentLoaded', function() {

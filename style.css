@@ -38,8 +38,8 @@ body, html {
 }
 
 header {
-  background-color: var(--header-bg);
-  color: var(--header-color);
+  background-color: var(--header-bg, #da251d); /* Fallback TTC red */
+  color: var(--header-color, #fff);
   padding: 0.4rem 1rem;
   text-align: center;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
@@ -61,7 +61,7 @@ main {
 aside {
   width: var(--sidebar-width);
   min-width: var(--sidebar-collapsed);
-  background: rgba(255,255,255,0.92); /* Slightly translucent */
+  background: var(--aside-bg, #fff); /* Use aside-bg variable, fallback to white */
   padding: var(--sidebar-padding);
   border-right: 1px solid var(--aside-border);
   box-shadow: 0 4px 24px rgba(0,0,0,0.10), var(--aside-shadow);
@@ -93,6 +93,7 @@ aside::-webkit-scrollbar-track {
   padding: 0 !important;
   overflow: visible !important;
   border-radius: 0 12px 12px 0;
+  /* Only hide aside content, not main or map */
 }
 
 .aside-collapsed > :not(.sidebar-toggle) { display: none !important; }
@@ -273,11 +274,14 @@ aside h3 {
 #map-container {
   flex: 1;
   position: relative;
+  min-width: 0;
+  height: 100%;
 }
 
 #map {
   height: 100%;
   width: 100%;
+  min-height: 400px;
 }
 
 footer {

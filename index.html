@@ -115,7 +115,37 @@
             '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
         }).addTo(map);
 
-        loadSpeedZones();
+        // Load regular lines first
+        Promise.all([
+          fetch("lines/line1.json").then(r => r.json()),
+          fetch("lines/line2.json").then(r => r.json()),
+          fetch("lines/line4.json").then(r => r.json())
+        ]).then(([line1, line2, line4]) => {
+          // Draw regular lines
+          drawLineGeoJson(line1, "Line 1");
+          drawLineGeoJson(line2, "Line 2");
+          drawLineGeoJson(line4, "Line 4");
+          // Then load speed zones
+          loadSpeedZones();
+        });
+      }
+
+      // Draw regular TTC lines from GeoJSON
+      function drawLineGeoJson(geojson, lineKey) {
+        // Lighter/transparent version for regular service
+        const lineColorsRegular = {
+          "Line 1": "rgba(248,195,0,0.4)",
+          "Line 2": "rgba(0,146,63,0.4)",
+          "Line 4": "rgba(162,26,104,0.4)"
+        };
+        L.geoJSON(geojson, {
+          filter: f => f.properties.type === "tracks",
+          style: {
+            color: lineColorsRegular[lineKey] || "#888",
+            weight: 5,
+            opacity: 0.7
+          }
+        }).addTo(map);
       }
 
       // Style for speed zones

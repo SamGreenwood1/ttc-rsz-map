@@ -7,14 +7,6 @@ document.addEventListener("DOMContentLoaded", function () {
   const toggleBtn = document.getElementById("sidebarToggle");
   let collapsed = localStorage.getItem("sidebarCollapsed") === "true";
 
-  // Create a floating reopen button
-  let reopenBtn = document.createElement("button");
-  reopenBtn.innerText = "☰";
-  reopenBtn.title = "Show sidebar";
-  reopenBtn.id = "sidebarReopenBtn";
-  reopenBtn.style.display = "none";
-  // Append to body so it floats over the map
-  document.body.appendChild(reopenBtn);
 
   function updateSidebarState() {
     aside.classList.toggle("aside-collapsed", collapsed);

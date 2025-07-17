@@ -75,31 +75,18 @@ aside {
 }
 
 .aside-collapsed {
-  width: var(--sidebar-width-collapsed) !important;
-  min-width: var(--sidebar-width-collapsed) !important;
-  padding: var(--sidebar-padding-collapsed) !important;
+  width: 0 !important;
+  min-width: 0 !important;
+  padding: 0 !important;
+  overflow: visible !important;
 }
-
-@container (max-width: 500px) {
-  aside {
-    width: 100% !important;
-    min-width: 0 !important;
-    max-height: 40vh;
-    border-right: none;
-    border-bottom: 1px solid var(--aside-border);
-    padding: var(--sidebar-padding) !important;
-  }
-  .aside-collapsed {
-    width: var(--sidebar-width-collapsed-mobile) !important;
-    min-width: var(--sidebar-width-collapsed-mobile) !important;
-    padding: var(--sidebar-padding-collapsed-mobile) !important;
-  }
+.aside-collapsed > .sidebar-toggle {
+  position: absolute;
+  left: 0;
+  top: 10px;
+  z-index: 20;
+  margin-left: 0;
 }
-
-.aside-collapsed :is(h2, h3, .filter-group, #active-zones-list, p, label) {
-  display: none !important;
-}
-
 .aside-collapsed > :not(.sidebar-toggle) {
   display: none !important;
 }

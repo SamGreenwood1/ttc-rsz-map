@@ -5,8 +5,8 @@
   initial-value: 300px;
 }
 :root {
-  --sidebar-width: 300px;
-  --sidebar-collapsed: 40px;
+  --sidebar-width: 360px;
+  --sidebar-collapsed: 52px;
   --sidebar-padding: 1rem;
   --ttc-red: light-dark(#da251d, #ff4a4a);
   --ttc-red-dark: #b71c1c;
@@ -131,6 +131,9 @@ aside::-webkit-scrollbar-track {
   z-index: 2000 !important;
   box-shadow: 0 4px 16px rgba(0,0,0,0.18);
   background: var(--ttc-red);
+  display: flex !important;
+  align-items: center;
+  justify-content: center;
 }
 
 .aside-collapsed {
@@ -176,11 +179,11 @@ aside h2 {
 
 aside h3 {
   font-size: clamp(1rem, 1.5vw, 1.2rem);
-  margin-top: 0.7em; /* Reduce top margin between sections (green) */
-  margin-bottom: 0.4em;
+  margin-top: 0.7em; /* Reduce top margin (green) */
+  margin-bottom: 0.3em; /* Reduce bottom margin */
   color: var(--ttc-red);
   background: rgba(218,37,29,0.05);
-  padding: 0.2em 0.5em; /* Reduce vertical padding (red) */
+  padding: 0.2em 0.5em; /* Reduce vertical padding */
   border-radius: 6px;
   word-break: break-word;
 }
@@ -193,7 +196,7 @@ aside h3 {
   box-shadow: 0 1px 4px rgba(0,0,0,0.03);
   max-width: 100%;
   box-sizing: border-box;
-  margin-top: 0.4em; /* Reduce top margin (green) */
+  margin-top: 0.5em; /* Reduce space below toggle button */
 }
 
 .filter-group label {
@@ -223,7 +226,7 @@ aside h3 {
 #active-zones-list {
   list-style: none;
   padding: 0;
-  margin-bottom: 1.2rem;
+  margin-bottom: 0.7em; /* Reduce space below zones list (green) */
   background: rgba(0,0,0,0.02);
   border-radius: 8px;
   box-shadow: 0 1px 4px rgba(0,0,0,0.03);

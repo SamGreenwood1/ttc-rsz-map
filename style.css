@@ -110,8 +110,9 @@ aside::-webkit-scrollbar-track {
 }
 
 .sidebar-toggle {
-  position: static;
-  margin-right: 1rem;
+  position: absolute;
+  top: 12px;
+  right: -18px;
   width: 32px;
   height: 32px;
   background: var(--ttc-red);

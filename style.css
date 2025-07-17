@@ -75,8 +75,8 @@ aside {
 }
 
 .aside-collapsed {
-  width: 0 !important;
-  min-width: 0 !important;
+  width: 40px !important;
+  min-width: 40px !important;
   padding: 0 !important;
   overflow: visible !important;
 }
@@ -209,9 +209,9 @@ footer a:focus-visible {
     padding: var(--sidebar-padding) !important;
   }
   .aside-collapsed {
-    width: var(--sidebar-width-collapsed-mobile) !important;
-    min-width: var(--sidebar-width-collapsed-mobile) !important;
-    padding: var(--sidebar-padding-collapsed-mobile) !important;
+    width: 40px !important;
+    min-width: 40px !important;
+    padding: 0 !important;
   }
   header h1 {
     font-size: 1.1rem;

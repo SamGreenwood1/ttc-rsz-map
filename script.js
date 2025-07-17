@@ -40,20 +40,11 @@ function initMap() {
   // Clear the active zones list before drawing
   document.getElementById("active-zones-list").innerHTML = "";
 
-  // Load regular lines and render RSZs from line JSONs only
+  // Load regular lines and render RSZs from API endpoints only
   Promise.all([
-    fetch("lines/line1.json").then(r => {
-      if (!r.ok) throw new Error("Failed to load Line 1 data");
-      return r.json();
-    }),
-    fetch("lines/line2.json").then(r => {
-      if (!r.ok) throw new Error("Failed to load Line 2 data");
-      return r.json();
-    }),
-    fetch("lines/line4.json").then(r => {
-      if (!r.ok) throw new Error("Failed to load Line 4 data");
-      return r.json();
-    })
+    fetch("/api/lines/line1").then(r => r.json()),
+    fetch("/api/lines/line2").then(r => r.json()),
+    fetch("/api/lines/line4").then(r => r.json())
   ]).then(([line1, line2, line4]) => {
     drawLineGeoJson(line1, "Line 1");
     drawLineGeoJson(line2, "Line 2");
@@ -63,7 +54,7 @@ function initMap() {
       document.getElementById("active-zones-list").innerHTML = "<li>No active reduced speed zones found.</li>";
     }
   }).catch(err => {
-    showError("There was a problem loading subway line data. Please check the TTC's list for the latest information.");
+    showError("There was a problem loading subway line data from the TTC API. Please check the TTC's list for the latest information.");
   });
 }
 

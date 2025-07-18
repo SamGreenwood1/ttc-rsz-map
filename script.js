@@ -49,22 +49,37 @@ function initMap() {
   // Clear the active zones list before drawing
   document.getElementById("active-zones-list").innerHTML = "";
 
-  // Load regular lines and render RSZs from static files only
-  Promise.all([
-    fetch("lines/line1.json").then(r => r.json()),
-    fetch("lines/line2.json").then(r => r.json()),
-    fetch("lines/line4.json").then(r => r.json())
-  ]).then(([line1, line2, line4]) => {
-    drawLineGeoJson(line1, "Line 1");
-    drawLineGeoJson(line2, "Line 2");
-    drawLineGeoJson(line4, "Line 4");
-    // If no RSZs found, show a message
-    if (!document.getElementById("active-zones-list").hasChildNodes()) {
-      document.getElementById("active-zones-list").innerHTML = "<li>No active reduced speed zones found.</li>";
-    }
-  }).catch(err => {
-    showError("There was a problem loading subway line data. Please check the TTC's list for the latest information.");
-  });
+  // Load TTC subway lines from Transit.land API (GTFS)
+  fetch("https://transit.land/api/v1/routes.geojson?operated_by=o-dpz8-ttc&vehicle_type=1")
+    .then(r => r.json())
+    .then(data => {
+      // Map Transit.land route short names to TTC line keys
+      const lineKeyMap = {
+        "1": "Line 1",
+        "2": "Line 2",
+        "4": "Line 4"
+      };
+      // Group features by line
+      const featuresByLine = { "Line 1": [], "Line 2": [], "Line 4": [] };
+      (data.features || []).forEach(f => {
+        const shortName = f.properties.route_short_name;
+        const lineKey = lineKeyMap[shortName];
+        if (lineKey) featuresByLine[lineKey].push(f);
+      });
+      // Draw each line if features exist
+      Object.entries(featuresByLine).forEach(([lineKey, features]) => {
+        if (features.length > 0) {
+          drawLineGeoJson({ type: "FeatureCollection", features }, lineKey);
+        }
+      });
+      // If no RSZs found, show a message
+      if (!document.getElementById("active-zones-list").hasChildNodes()) {
+        document.getElementById("active-zones-list").innerHTML = "<li>No active reduced speed zones found.</li>";
+      }
+    })
+    .catch(err => {
+      showError("There was a problem loading subway line data from Transit.land. Please check the TTC's list for the latest information.");
+    });
 }
 
 // Draw regular TTC lines from GeoJSON

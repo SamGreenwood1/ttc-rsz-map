@@ -3,26 +3,8 @@ const geoJsonLayers = {}; // To store references to GeoJSON layers for filtering
 let stationLayer = null;
 let stationsVisible = false;
 
-// Sidebar toggle logic
-document.addEventListener("DOMContentLoaded", function () {
-  const aside = document.querySelector("aside");
-  const toggleBtn = document.getElementById("sidebarToggle");
-  let collapsed = localStorage.getItem("sidebarCollapsed") === "true";
-
-  function updateSidebarState() {
-    aside.classList.toggle("aside-collapsed", collapsed);
-    toggleBtn.innerText = "☰";
-    localStorage.setItem("sidebarCollapsed", collapsed);
-  }
-
-  toggleBtn.addEventListener("click", function () {
-    collapsed = !collapsed;
-    updateSidebarState();
-  });
-
-  // Initial state
-  updateSidebarState();
-});
+// Remove old sidebar toggle logic (aside, .aside-collapsed, localStorage)
+// (No code for aside collapsing or localStorage sidebar state should remain)
 
 function showError(message) {
   const mapDiv = document.getElementById("map");

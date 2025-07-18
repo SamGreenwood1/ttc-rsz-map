@@ -82,18 +82,6 @@ main {
   min-height: 0;
 }
 
-aside {
-  width: 260px;
-  min-width: 200px;
-  background: var(--sidebar-bg, #fff);
-  border-right: 1px solid #eee;
-  height: 100vh;
-  padding: 1.5em 1em 1em 1em;
-  box-shadow: 2px 0 8px rgba(0,0,0,0.04);
-  z-index: 1001;
-  overflow-y: auto;
-}
-
 /* Custom scrollbar for sidebar */
 aside::-webkit-scrollbar {
   width: 10px;
@@ -142,35 +130,6 @@ aside::-webkit-scrollbar-track {
 
 #sidebarToggleRight {
   margin-left: auto;
-}
-
-.aside-collapsed {
-  width: 0 !important;
-  min-width: 0 !important;
-  padding: 0 !important;
-  margin: 0 !important;
-  border: none !important;
-  box-shadow: none !important;
-  border-radius: 0 !important;
-  overflow: hidden !important;
-  opacity: 0 !important;
-  pointer-events: none !important;
-}
-
-.aside-collapsed > * {
-  display: none !important;
-  opacity: 0 !important;
-}
-
-.aside-collapsed > :not(.sidebar-toggle) {
-  opacity: 0;
-  pointer-events: none;
-  transition: opacity 0.2s;
-}
-
-aside > :not(.sidebar-toggle) {
-  opacity: 1;
-  transition: opacity 0.2s;
 }
 
 .sidebar-toggle:hover,

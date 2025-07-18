@@ -45,12 +45,6 @@
           </div>
         </div>
 
-        <h3>GTFS Service Status</h3>
-        <div id="gtfs-status-indicator" style="margin-bottom:1em; font-weight:bold; color:#888;">
-          Status: <span id="gtfs-status-circle" style="display:inline-block;width:0.9em;height:0.9em;border-radius:50%;background:#888;vertical-align:middle;margin-left:0.3em;"></span>
-          <span id="gtfs-status-text">Checking...</span>
-        </div>
-
         <h3>Active Reduced Speed Zones</h3>
         <ul id="active-zones-list">
           <!-- Zones will be populated by JavaScript -->
@@ -60,6 +54,10 @@
 
       <div id="map-container">
         <div id="map"></div>
+      </div>
+
+      <div id="gtfs-status-indicator" style="position:fixed;left:32px;bottom:32px;z-index:2100;background:#fff;border-radius:2em;box-shadow:0 2px 8px rgba(0,0,0,0.13);padding:0.5em 1.1em 0.5em 0.9em;display:flex;align-items:center;font-weight:bold;font-size:1.08em;gap:0.7em;">
+        Status: <span id="gtfs-status-circle" style="display:inline-block;width:1.1em;height:1.1em;border-radius:50%;background:#888;vertical-align:middle;"></span>
       </div>
 
       <aside id="legend-sidebar">

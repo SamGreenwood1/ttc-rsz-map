@@ -70,25 +70,20 @@ function initMap() {
   });
 
   // --- GTFS-realtime live subway vehicle positions (Transit.land proxy) ---
-  const gtfsStatus = document.getElementById('gtfs-status-indicator');
   const gtfsStatusCircle = document.getElementById('gtfs-status-circle');
-  const gtfsStatusText = document.getElementById('gtfs-status-text');
-  if (gtfsStatusCircle && gtfsStatusText) {
-    gtfsStatusText.textContent = 'Checking...';
+  if (gtfsStatusCircle) {
     gtfsStatusCircle.style.background = '#888';
   }
   fetch('https://transit.land/api/v2/rest/gtfs-rt/vehicle-positions?operator_onestop_id=o-dpz8-ttc')
     .then(r => r.json())
     .then(data => {
       if (!data || !data.entity) {
-        if (gtfsStatusCircle && gtfsStatusText) {
-          gtfsStatusText.textContent = 'Failed';
+        if (gtfsStatusCircle) {
           gtfsStatusCircle.style.background = '#b00';
         }
         return;
       }
-      if (gtfsStatusCircle && gtfsStatusText) {
-        gtfsStatusText.textContent = 'Connected';
+      if (gtfsStatusCircle) {
         gtfsStatusCircle.style.background = '#00923F';
       }
       data.entity.forEach(entity => {
@@ -110,8 +105,7 @@ function initMap() {
       });
     })
     .catch(err => {
-      if (gtfsStatusCircle && gtfsStatusText) {
-        gtfsStatusText.textContent = 'Connection Error';
+      if (gtfsStatusCircle) {
         gtfsStatusCircle.style.background = '#b00';
       }
       showError("There was a problem loading live subway train data (GTFS-realtime). Service status may be unavailable.");

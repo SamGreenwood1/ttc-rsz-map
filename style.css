@@ -41,7 +41,6 @@
 body {
   background: var(--body-bg);
   color: var(--body-color);
-  height: 100vh;
   min-height: 100vh;
   width: 100vw;
   margin: 0;
@@ -49,7 +48,7 @@ body {
   font-family: system-ui, sans-serif;
   display: flex;
   flex-direction: column;
-  overflow: hidden;
+  /* Remove overflow: hidden; */
 }
 
 header {
@@ -77,6 +76,10 @@ header h1 {
 
 main {
   position: relative;
+  flex: 1 1 auto;
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
 }
 
 aside {
@@ -364,14 +367,17 @@ aside h3 {
 #map-container {
   position: relative;
   width: 100%;
-  height: 100vh;
+  flex: 1 1 auto;
   min-width: 0;
+  min-height: 0;
+  height: 100%;
   z-index: 1;
 }
 
 #map {
   width: 100%;
   height: 100%;
+  min-height: 400px;
 }
 
 /* Status circle for GTFS */
@@ -441,6 +447,10 @@ footer a:focus-visible {
   transition: left 0.2s;
 }
 
+#info-sidebar:not(.sidebar-hidden) ~ #gtfs-status-indicator {
+  left: 308px; /* 260px sidebar + 32px gap + 16px fudge */
+}
+
 #info-sidebar {
   position: absolute;
   top: 32px;
@@ -490,13 +500,15 @@ footer a:focus-visible {
 }
 
 @media (max-width: 900px) {
+  #info-sidebar:not(.sidebar-hidden) ~ #gtfs-status-indicator {
+    left: 212px; /* 180px sidebar + 32px gap */
+  }
   #info-sidebar, #legend-sidebar {
     width: 180px;
     padding: 0.7em 0.5em 0.7em 0.5em;
     font-size: 0.97em;
   }
 }
-
 @media (max-width: 600px) {
   header {
     min-height: 48px;
@@ -519,6 +531,10 @@ footer a:focus-visible {
   aside h2, aside h3 {
     font-size: 1rem;
     padding-left: 0.2em;
+  }
+  #info-sidebar:not(.sidebar-hidden) ~ #gtfs-status-indicator {
+    left: 1vw;
+    bottom: 1vw;
   }
   #info-sidebar, #legend-sidebar {
     width: 98vw;

@@ -112,6 +112,28 @@ function initMap() {
       }
       showError("There was a problem loading live subway train data (GTFS-realtime). Service status may be unavailable.");
     });
+
+  // --- TTC Subway Stations from GTFS (Transit.land) ---
+  fetch('https://transit.land/api/v1/stops.geojson?served_by=o-dpz8-ttc&served_by_vehicle_types=1')
+    .then(r => r.json())
+    .then(data => {
+      if (!data.features) return;
+      data.features.forEach(f => {
+        if (!f.geometry || !f.geometry.coordinates) return;
+        const coords = f.geometry.coordinates;
+        // GeoJSON is [lng, lat]
+        const lat = coords[1], lng = coords[0];
+        L.circleMarker([lat, lng], {
+          radius: 6,
+          color: '#0055cc',
+          fillColor: '#fff',
+          fillOpacity: 1,
+          weight: 2
+        })
+        .bindPopup(`<strong>${f.properties.name}</strong><br>Station ID: ${f.properties.onestop_id}`)
+        .addTo(map);
+      });
+    });
 }
 
 // Draw regular TTC lines from GeoJSON

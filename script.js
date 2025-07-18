@@ -272,4 +272,48 @@ function setupLineFilterButtons() {
 
 document.addEventListener('DOMContentLoaded', function() {
   setupLineFilterButtons();
+
+  // Legend fold/unfold logic
+  const legendSidebar = document.getElementById('legend-sidebar');
+  const legendToggleBtn = document.getElementById('legend-toggle-btn');
+  let legendWasFolded = false;
+  if (legendSidebar && legendToggleBtn) {
+    legendToggleBtn.addEventListener('click', function() {
+      legendSidebar.classList.toggle('folded');
+      legendWasFolded = legendSidebar.classList.contains('folded');
+      if (legendWasFolded) {
+        legendToggleBtn.textContent = 'Show';
+        // Show floating button to reopen
+        let showBtn = document.getElementById('legend-show-btn');
+        if (!showBtn) {
+          showBtn = document.createElement('button');
+          showBtn.id = 'legend-show-btn';
+          showBtn.textContent = 'Show Legend';
+          showBtn.style.position = 'fixed';
+          showBtn.style.right = '2em';
+          showBtn.style.top = '2em';
+          showBtn.style.zIndex = '1201';
+          showBtn.style.padding = '0.5em 1.2em';
+          showBtn.style.borderRadius = '8px';
+          showBtn.style.background = '#fff';
+          showBtn.style.boxShadow = '0 2px 8px rgba(0,0,0,0.13)';
+          showBtn.style.border = '1px solid #ccc';
+          showBtn.style.fontWeight = 'bold';
+          showBtn.style.cursor = 'pointer';
+          document.body.appendChild(showBtn);
+        } else {
+          showBtn.style.display = '';
+        }
+        showBtn.onclick = function() {
+          legendSidebar.classList.remove('folded');
+          legendToggleBtn.textContent = 'Hide';
+          showBtn.style.display = 'none';
+        };
+      } else {
+        legendToggleBtn.textContent = 'Hide';
+        const showBtn = document.getElementById('legend-show-btn');
+        if (showBtn) showBtn.style.display = 'none';
+      }
+    });
+  }
 }); 

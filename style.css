@@ -76,8 +76,6 @@ header h1 {
 }
 
 main {
-  display: flex;
-  flex-direction: row;
   position: relative;
 }
 
@@ -337,7 +335,7 @@ aside h3 {
 /* Legend sidebar on right */
 #legend-sidebar {
   position: fixed;
-  top: 32px;
+  top: 64px;
   right: 32px;
   width: 260px;
   background: var(--sidebar-bg, #fff);

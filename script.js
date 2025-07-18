@@ -268,42 +268,39 @@ document.addEventListener('DOMContentLoaded', function() {
   setupLineFilterButtons();
 });
 
-// Legend sidebar folding logic
+// Info sidebar folding logic
+function setupInfoSidebarToggle() {
+  const infoSidebar = document.getElementById('info-sidebar');
+  const sidebarToggle = document.getElementById('sidebarToggle');
+  const infoUnhideBtn = document.getElementById('info-unhide-btn');
+  if (!infoSidebar || !sidebarToggle || !infoUnhideBtn) return;
+  sidebarToggle.addEventListener('click', function() {
+    infoSidebar.classList.add('sidebar-hidden');
+    infoUnhideBtn.style.display = '';
+  });
+  infoUnhideBtn.addEventListener('click', function() {
+    infoSidebar.classList.remove('sidebar-hidden');
+    infoUnhideBtn.style.display = 'none';
+  });
+}
+
+document.addEventListener('DOMContentLoaded', function() {
+  setupInfoSidebarToggle();
+});
+
+// Legend sidebar folding logic (updated to use header bar button)
 function setupLegendSidebarToggle() {
   const legendSidebar = document.getElementById('legend-sidebar');
   const legendToggleBtn = document.getElementById('legend-toggle-btn');
-  let showBtn = null;
-  if (!legendSidebar || !legendToggleBtn) return;
+  const legendUnhideBtn = document.getElementById('legend-unhide-btn');
+  if (!legendSidebar || !legendToggleBtn || !legendUnhideBtn) return;
   legendToggleBtn.addEventListener('click', function() {
     legendSidebar.classList.add('legend-hidden');
-    // Add show button if not present
-    if (!showBtn) {
-      showBtn = document.createElement('button');
-      showBtn.id = 'legend-show-btn';
-      showBtn.title = 'Show legend';
-      showBtn.innerHTML = '&#9776;';
-      showBtn.style.position = 'fixed';
-      showBtn.style.top = '32px';
-      showBtn.style.right = '32px';
-      showBtn.style.zIndex = '2100';
-      showBtn.style.background = '#fff';
-      showBtn.style.border = '1px solid #ccc';
-      showBtn.style.borderRadius = '50%';
-      showBtn.style.width = '2.2em';
-      showBtn.style.height = '2.2em';
-      showBtn.style.fontSize = '1.3em';
-      showBtn.style.boxShadow = '0 2px 8px rgba(0,0,0,0.13)';
-      showBtn.style.cursor = 'pointer';
-      showBtn.style.display = 'flex';
-      showBtn.style.alignItems = 'center';
-      showBtn.style.justifyContent = 'center';
-      document.body.appendChild(showBtn);
-      showBtn.addEventListener('click', function() {
-        legendSidebar.classList.remove('legend-hidden');
-        showBtn.remove();
-        showBtn = null;
-      });
-    }
+    legendUnhideBtn.style.display = '';
+  });
+  legendUnhideBtn.addEventListener('click', function() {
+    legendSidebar.classList.remove('legend-hidden');
+    legendUnhideBtn.style.display = 'none';
   });
 }
 

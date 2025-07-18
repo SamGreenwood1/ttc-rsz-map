@@ -24,12 +24,14 @@
   <body>
     <header>
       <button class="sidebar-toggle" id="sidebarToggle" title="Toggle sidebar">☰</button>
+      <button id="info-unhide-btn" title="Show info sidebar" style="display:none;position:absolute;left:0.7em;top:0.7em;font-size:1.5em;background:none;border:none;cursor:pointer;z-index:3000;">☰</button>
       <h1>TTC Reduced Speed Zone Tracker</h1>
       <!-- Future nav links can go here -->
+      <button id="legend-unhide-btn" title="Show legend" style="display:none;position:absolute;right:0.7em;top:0.7em;font-size:1.5em;background:none;border:none;cursor:pointer;z-index:3000;">&#9776;</button>
     </header>
 
     <main>
-      <aside>
+      <aside id="info-sidebar">
         <h2>Information & Filters</h2>
 
         <div class="filter-group">

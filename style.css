@@ -424,6 +424,27 @@ footer a:focus-visible {
   background: var(--ttc-purple) !important;
 }
 
+#gtfs-status-indicator {
+  position: fixed;
+  left: 32px;
+  bottom: 32px;
+  z-index: 2100;
+  background: #fff;
+  border-radius: 2em;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.13);
+  padding: 0.5em 1.1em 0.5em 0.9em;
+  display: flex;
+  align-items: center;
+  font-weight: bold;
+  font-size: 1.08em;
+  gap: 0.7em;
+  transition: left 0.2s;
+}
+
+body.info-sidebar-visible #gtfs-status-indicator {
+  left: 308px; /* 260px sidebar + 32px gap + 16px fudge */
+}
+
 @media (max-width: 768px) {
   aside { width: 100vw !important; min-width: 0 !important; border-radius: 0 0 18px 18px; }
   main { flex-direction: column; }

@@ -268,6 +268,14 @@ document.addEventListener('DOMContentLoaded', function() {
   setupLineFilterButtons();
 });
 
+function setInfoSidebarBodyClass(visible) {
+  if (visible) {
+    document.body.classList.add('info-sidebar-visible');
+  } else {
+    document.body.classList.remove('info-sidebar-visible');
+  }
+}
+
 // Info sidebar folding logic
 function setupInfoSidebarToggle() {
   const infoSidebar = document.getElementById('info-sidebar');
@@ -277,11 +285,15 @@ function setupInfoSidebarToggle() {
   sidebarToggle.addEventListener('click', function() {
     infoSidebar.classList.add('sidebar-hidden');
     infoUnhideBtn.style.display = '';
+    setInfoSidebarBodyClass(false);
   });
   infoUnhideBtn.addEventListener('click', function() {
     infoSidebar.classList.remove('sidebar-hidden');
     infoUnhideBtn.style.display = 'none';
+    setInfoSidebarBodyClass(true);
   });
+  // Set initial state
+  setInfoSidebarBodyClass(!infoSidebar.classList.contains('sidebar-hidden'));
 }
 
 document.addEventListener('DOMContentLoaded', function() {

@@ -155,13 +155,18 @@ aside::-webkit-scrollbar-track {
   width: 0 !important;
   min-width: 0 !important;
   padding: 0 !important;
-  padding-top: 0 !important;
-  border-radius: 0 12px 12px 0;
+  margin: 0 !important;
+  border: none !important;
+  box-shadow: none !important;
+  border-radius: 0 !important;
   overflow: hidden !important;
+  opacity: 0 !important;
+  pointer-events: none !important;
 }
 
 .aside-collapsed > * {
   display: none !important;
+  opacity: 0 !important;
 }
 
 .aside-collapsed > :not(.sidebar-toggle) {

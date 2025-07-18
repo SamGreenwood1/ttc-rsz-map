@@ -71,23 +71,25 @@ function initMap() {
 
   // --- GTFS-realtime live subway vehicle positions (Transit.land proxy) ---
   const gtfsStatus = document.getElementById('gtfs-status-indicator');
-  if (gtfsStatus) {
-    gtfsStatus.textContent = 'Checking...';
-    gtfsStatus.style.color = '#888';
+  const gtfsStatusCircle = document.getElementById('gtfs-status-circle');
+  const gtfsStatusText = document.getElementById('gtfs-status-text');
+  if (gtfsStatusCircle && gtfsStatusText) {
+    gtfsStatusText.textContent = 'Checking...';
+    gtfsStatusCircle.style.background = '#888';
   }
   fetch('https://transit.land/api/v2/rest/gtfs-rt/vehicle-positions?operator_onestop_id=o-dpz8-ttc')
     .then(r => r.json())
     .then(data => {
       if (!data || !data.entity) {
-        if (gtfsStatus) {
-          gtfsStatus.textContent = 'Failed';
-          gtfsStatus.style.color = '#b00'; // red
+        if (gtfsStatusCircle && gtfsStatusText) {
+          gtfsStatusText.textContent = 'Failed';
+          gtfsStatusCircle.style.background = '#b00';
         }
         return;
       }
-      if (gtfsStatus) {
-        gtfsStatus.textContent = 'Connected';
-        gtfsStatus.style.color = '#00923F'; // green
+      if (gtfsStatusCircle && gtfsStatusText) {
+        gtfsStatusText.textContent = 'Connected';
+        gtfsStatusCircle.style.background = '#00923F';
       }
       data.entity.forEach(entity => {
         if (!entity.vehicle || !entity.vehicle.position) return;
@@ -108,9 +110,9 @@ function initMap() {
       });
     })
     .catch(err => {
-      if (gtfsStatus) {
-        gtfsStatus.textContent = 'Connection Error';
-        gtfsStatus.style.color = '#b00'; // red
+      if (gtfsStatusCircle && gtfsStatusText) {
+        gtfsStatusText.textContent = 'Connection Error';
+        gtfsStatusCircle.style.background = '#b00';
       }
       showError("There was a problem loading live subway train data (GTFS-realtime). Service status may be unavailable.");
     });

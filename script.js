@@ -40,10 +40,11 @@ function initMap() {
   map.options.minZoom = 11;
   map.options.maxZoom = 19;
 
-  L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
-    maxZoom: 19,
-    attribution:
-      '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+  // Use CartoDB Positron as the base map for a cleaner look
+  L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {
+    attribution: '&copy; <a href="https://carto.com/attributions">CARTO</a>',
+    subdomains: 'abcd',
+    maxZoom: 19
   }).addTo(map);
 
   // Clear the active zones list before drawing
@@ -79,6 +80,34 @@ function initMap() {
     })
     .catch(err => {
       showError("There was a problem loading subway line data from Transit.land. Please check the TTC's list for the latest information.");
+    });
+
+  // --- GTFS-realtime live subway vehicle positions (Transit.land proxy) ---
+  // Note: TTC's official GTFS-realtime feed is at https://www.ttc.ca/gtfs-rt/VehiclePositions
+  // We'll use transit.land's proxy for easier CORS and demo purposes
+  fetch('https://transit.land/api/v2/rest/gtfs-rt/vehicle-positions?operator_onestop_id=o-dpz8-ttc')
+    .then(r => r.json())
+    .then(data => {
+      if (!data.entity) return;
+      data.entity.forEach(entity => {
+        if (!entity.vehicle || !entity.vehicle.position) return;
+        // Only show subway vehicles (route_type 1)
+        // (Transit.land may not always provide route_type, so fallback to route_id check)
+        const routeId = entity.vehicle.trip && entity.vehicle.trip.route_id;
+        if (routeId && !['74515','74516','74518'].includes(routeId)) return; // Line 1,2,4 GTFS IDs
+        const { latitude, longitude } = entity.vehicle.position;
+        if (latitude && longitude) {
+          L.circleMarker([latitude, longitude], {
+            radius: 7,
+            color: '#da251d',
+            fillColor: '#fff',
+            fillOpacity: 1,
+            weight: 2
+          })
+          .bindPopup(`<strong>Live TTC Subway Train</strong><br>Route: ${routeId || 'Unknown'}`)
+          .addTo(map);
+        }
+      });
     });
 }
 

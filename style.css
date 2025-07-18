@@ -69,7 +69,7 @@ header h1 {
   flex: 1 1 auto;
   text-align: center;
   margin: 0;
-  font-size: clamp(1rem, 3vw, 1.5rem);
+  font-size: clamp(0.9rem, 2.5vw, 1.2rem);
   font-weight: bold;
   color: var(--footer-color);
   word-break: break-word;
@@ -152,12 +152,16 @@ aside::-webkit-scrollbar-track {
 }
 
 .aside-collapsed {
-  width: var(--sidebar-collapsed) !important;
-  min-width: var(--sidebar-collapsed) !important;
+  width: 0 !important;
+  min-width: 0 !important;
   padding: 0 !important;
   padding-top: 0 !important;
   border-radius: 0 12px 12px 0;
-  /* Optionally fade out content for smoothness */
+  overflow: hidden !important;
+}
+
+.aside-collapsed > * {
+  display: none !important;
 }
 
 .aside-collapsed > :not(.sidebar-toggle) {

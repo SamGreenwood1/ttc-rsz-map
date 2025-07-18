@@ -1,5 +1,7 @@
 let map; // Make map globally accessible for functions
 const geoJsonLayers = {}; // To store references to GeoJSON layers for filtering
+let stationLayer = null;
+let stationsVisible = false;
 
 // Sidebar toggle logic
 document.addEventListener("DOMContentLoaded", function () {
@@ -118,22 +120,42 @@ function initMap() {
     .then(r => r.json())
     .then(data => {
       if (!data.features) return;
+      stationLayer = L.layerGroup();
       data.features.forEach(f => {
         if (!f.geometry || !f.geometry.coordinates) return;
         const coords = f.geometry.coordinates;
         // GeoJSON is [lng, lat]
         const lat = coords[1], lng = coords[0];
-        L.circleMarker([lat, lng], {
+        const marker = L.circleMarker([lat, lng], {
           radius: 6,
           color: '#0055cc',
           fillColor: '#fff',
           fillOpacity: 1,
           weight: 2
         })
-        .bindPopup(`<strong>${f.properties.name}</strong><br>Station ID: ${f.properties.onestop_id}`)
-        .addTo(map);
+        .bindPopup(`<strong>${f.properties.name}</strong><br>Station ID: ${f.properties.onestop_id}`);
+        stationLayer.addLayer(marker);
       });
+      // Do not add to map by default
     });
+
+  // --- Station toggle button logic ---
+  document.addEventListener('DOMContentLoaded', function() {
+    const btn = document.getElementById('station-toggle-btn');
+    if (!btn) return;
+    btn.addEventListener('click', function() {
+      if (!stationLayer) return;
+      stationsVisible = !stationsVisible;
+      if (stationsVisible) {
+        stationLayer.addTo(map);
+        btn.textContent = 'Hide Subway Stations';
+      } else {
+        map.removeLayer(stationLayer);
+        btn.textContent = 'Show Subway Stations';
+      }
+    });
+    btn.textContent = 'Show Subway Stations';
+  });
 }
 
 // Draw regular TTC lines from GeoJSON

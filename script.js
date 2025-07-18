@@ -64,20 +64,16 @@ function initMap() {
       document.getElementById("active-zones-list").innerHTML = "<li>No active reduced speed zones found.</li>";
     }
   }).catch(err => {
-    showError("There was a problem loading subway data. Please check the TTC's list for the latest information.");
+    showError("There was a problem loading the subway map data. Please check your local data or try reloading the page.");
   });
 
   // --- GTFS-realtime live subway vehicle positions (Transit.land proxy) ---
-  // Note: TTC's official GTFS-realtime feed is at https://www.ttc.ca/gtfs-rt/VehiclePositions
-  // We'll use transit.land's proxy for easier CORS and demo purposes
   fetch('https://transit.land/api/v2/rest/gtfs-rt/vehicle-positions?operator_onestop_id=o-dpz8-ttc')
     .then(r => r.json())
     .then(data => {
       if (!data.entity) return;
       data.entity.forEach(entity => {
         if (!entity.vehicle || !entity.vehicle.position) return;
-        // Only show subway vehicles (route_type 1)
-        // (Transit.land may not always provide route_type, so fallback to route_id check)
         const routeId = entity.vehicle.trip && entity.vehicle.trip.route_id;
         if (routeId && !['74515','74516','74518'].includes(routeId)) return; // Line 1,2,4 GTFS IDs
         const { latitude, longitude } = entity.vehicle.position;
@@ -93,6 +89,9 @@ function initMap() {
           .addTo(map);
         }
       });
+    })
+    .catch(err => {
+      showError("There was a problem loading live subway train data (GTFS-realtime). Service status may be unavailable.");
     });
 }
 

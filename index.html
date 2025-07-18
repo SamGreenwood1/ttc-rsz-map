@@ -31,72 +31,68 @@
     </header>
 
     <main>
-      <aside id="info-sidebar">
-        <h2>Information & Filters</h2>
-
-        <div class="filter-group">
-          <h3>Filter by Line</h3>
-          <div id="line-filter-group" class="line-filter-group">
-            <button type="button" class="line-filter-btn" data-line="line1">Line 1</button>
-            <button type="button" class="line-filter-btn" data-line="line2">Line 2</button>
-            <button type="button" class="line-filter-btn" data-line="line4">Line 4</button>
-          </div>
-          <div class="filter-group" style="margin-top:1em;">
-            <h3>Stations</h3>
-            <button type="button" class="line-filter-btn" id="station-toggle-btn">Show Subway Stations</button>
-          </div>
-        </div>
-
-        <h3>Active Reduced Speed Zones</h3>
-        <ul id="active-zones-list">
-          <!-- Zones will be populated by JavaScript -->
-          <li>Loading zones...</li>
-        </ul>
-      </aside>
-
-      <div id="map-container">
+      <div id="map-container" style="position:relative;">
         <div id="map"></div>
-      </div>
-
-      <div id="gtfs-status-indicator" style="position:fixed;left:32px;bottom:32px;z-index:2100;background:#fff;border-radius:2em;box-shadow:0 2px 8px rgba(0,0,0,0.13);padding:0.5em 1.1em 0.5em 0.9em;display:flex;align-items:center;font-weight:bold;font-size:1.08em;gap:0.7em;">
-        Status: <span id="gtfs-status-circle" style="display:inline-block;width:1.1em;height:1.1em;border-radius:50%;background:#888;vertical-align:middle;"></span>
-      </div>
-
-      <aside id="legend-sidebar">
-        <div style="display:flex;align-items:center;justify-content:space-between;">
-          <h2 style="margin:0;">Legend</h2>
-          <button id="legend-toggle-btn" title="Hide legend" style="background:none;border:none;font-size:1.5em;line-height:1;cursor:pointer;padding:0 0.2em 0 0;">&times;</button>
-        </div>
-        <div id="legend-content">
-          <div class="legend-group">
-            <div style="display: flex; align-items: center; margin-bottom: 0.3rem;">
-              <span style="display:inline-block;width:24px;height:6px;background:#F8C300;opacity:0.4;margin-right:8px;"></span>
-              <span>Line 1 (Regular)</span>
+        <aside id="info-sidebar">
+          <h2>Information & Filters</h2>
+          <div class="filter-group">
+            <h3>Filter by Line</h3>
+            <div id="line-filter-group" class="line-filter-group">
+              <button type="button" class="line-filter-btn" data-line="line1">Line 1</button>
+              <button type="button" class="line-filter-btn" data-line="line2">Line 2</button>
+              <button type="button" class="line-filter-btn" data-line="line4">Line 4</button>
             </div>
-            <div style="display: flex; align-items: center; margin-bottom: 0.3rem;">
-              <span style="display:inline-block;width:24px;height:6px;background:#F8C300;margin-right:8px;"></span>
-              <span>Line 1 (Reduced Speed Zone)</span>
-            </div>
-            <div style="display: flex; align-items: center; margin-bottom: 0.3rem;">
-              <span style="display:inline-block;width:24px;height:6px;background:#00923F;opacity:0.4;margin-right:8px;"></span>
-              <span>Line 2 (Regular)</span>
-            </div>
-            <div style="display: flex; align-items: center; margin-bottom: 0.3rem;">
-              <span style="display:inline-block;width:24px;height:6px;background:#00923F;margin-right:8px;"></span>
-              <span>Line 2 (Reduced Speed Zone)</span>
-            </div>
-            <div style="display: flex; align-items: center; margin-bottom: 0.3rem;">
-              <span style="display:inline-block;width:24px;height:6px;background:#A21A68;opacity:0.4;margin-right:8px;"></span>
-              <span>Line 4 (Regular)</span>
-            </div>
-            <div style="display: flex; align-items: center; margin-bottom: 0.3rem;">
-              <span style="display:inline-block;width:24px;height:6px;background:#A21A68;margin-right:8px;"></span>
-              <span>Line 4 (Reduced Speed Zone)</span>
+            <div class="filter-group" style="margin-top:1em;">
+              <h3>Stations</h3>
+              <button type="button" class="line-filter-btn" id="station-toggle-btn">Show Subway Stations</button>
             </div>
           </div>
+          <h3>Active Reduced Speed Zones</h3>
+          <ul id="active-zones-list">
+            <!-- Zones will be populated by JavaScript -->
+            <li>Loading zones...</li>
+          </ul>
+        </aside>
+
+        <aside id="legend-sidebar">
+          <div style="display:flex;align-items:center;justify-content:space-between;">
+            <h2 style="margin:0;">Legend</h2>
+            <button id="legend-toggle-btn" title="Hide legend" style="background:none;border:none;font-size:1.5em;line-height:1;cursor:pointer;padding:0 0.2em 0 0;">&times;</button>
+          </div>
+          <div id="legend-content">
+            <div class="legend-group">
+              <div style="display: flex; align-items: center; margin-bottom: 0.3rem;">
+                <span style="display:inline-block;width:24px;height:6px;background:#F8C300;opacity:0.4;margin-right:8px;"></span>
+                <span>Line 1 (Regular)</span>
+              </div>
+              <div style="display: flex; align-items: center; margin-bottom: 0.3rem;">
+                <span style="display:inline-block;width:24px;height:6px;background:#F8C300;margin-right:8px;"></span>
+                <span>Line 1 (Reduced Speed Zone)</span>
+              </div>
+              <div style="display: flex; align-items: center; margin-bottom: 0.3rem;">
+                <span style="display:inline-block;width:24px;height:6px;background:#00923F;opacity:0.4;margin-right:8px;"></span>
+                <span>Line 2 (Regular)</span>
+              </div>
+              <div style="display: flex; align-items: center; margin-bottom: 0.3rem;">
+                <span style="display:inline-block;width:24px;height:6px;background:#00923F;margin-right:8px;"></span>
+                <span>Line 2 (Reduced Speed Zone)</span>
+              </div>
+              <div style="display: flex; align-items: center; margin-bottom: 0.3rem;">
+                <span style="display:inline-block;width:24px;height:6px;background:#A21A68;opacity:0.4;margin-right:8px;"></span>
+                <span>Line 4 (Regular)</span>
+              </div>
+              <div style="display: flex; align-items: center; margin-bottom: 0.3rem;">
+                <span style="display:inline-block;width:24px;height:6px;background:#A21A68;margin-right:8px;"></span>
+                <span>Line 4 (Reduced Speed Zone)</span>
+              </div>
+            </div>
+          </div>
+        </aside>
+
+        <div id="gtfs-status-indicator" style="position:absolute;left:32px;bottom:32px;z-index:2100;background:#fff;border-radius:2em;box-shadow:0 2px 8px rgba(0,0,0,0.13);padding:0.5em 1.1em 0.5em 0.9em;display:flex;align-items:center;font-weight:bold;font-size:1.08em;gap:0.7em;">
+          Status: <span id="gtfs-status-circle" style="display:inline-block;width:1.1em;height:1.1em;border-radius:50%;background:#888;vertical-align:middle;"></span>
         </div>
-      </aside>
-    </main>
+      </div>
 
     <footer>
       <p>

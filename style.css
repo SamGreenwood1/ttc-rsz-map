@@ -362,10 +362,10 @@ aside h3 {
 }
 
 #map-container {
-  flex: 1 1 0;
-  min-width: 0;
-  height: 100vh;
   position: relative;
+  width: 100%;
+  height: 100vh;
+  min-width: 0;
   z-index: 1;
 }
 
@@ -425,7 +425,7 @@ footer a:focus-visible {
 }
 
 #gtfs-status-indicator {
-  position: fixed;
+  position: absolute;
   left: 32px;
   bottom: 32px;
   z-index: 2100;
@@ -441,13 +441,60 @@ footer a:focus-visible {
   transition: left 0.2s;
 }
 
-body.info-sidebar-visible #gtfs-status-indicator {
-  left: 308px; /* 260px sidebar + 32px gap + 16px fudge */
+#info-sidebar {
+  position: absolute;
+  top: 32px;
+  left: 32px;
+  width: 260px;
+  background: var(--sidebar-bg, #fff);
+  border-right: 1px solid #eee;
+  border-radius: 10px;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.18);
+  z-index: 20;
+  overflow-y: auto;
+  padding: 1.2em 1em 1em 1em;
+  height: auto;
+  max-height: 80vh;
+  transition: opacity 0.2s, visibility 0.2s, transform 0.2s;
+  box-sizing: border-box;
 }
 
-@media (max-width: 768px) {
-  aside { width: 100vw !important; min-width: 0 !important; border-radius: 0 0 18px 18px; }
-  main { flex-direction: column; }
+#legend-sidebar {
+  position: absolute;
+  top: 32px;
+  right: 32px;
+  width: 260px;
+  background: var(--sidebar-bg, #fff);
+  border-left: 1px solid #eee;
+  border-radius: 10px;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.18);
+  z-index: 20;
+  overflow-y: auto;
+  padding: 1.2em 1em 1em 1em;
+  height: auto;
+  max-height: 80vh;
+  transition: opacity 0.2s, visibility 0.2s, transform 0.2s;
+  box-sizing: border-box;
+}
+
+#info-sidebar.sidebar-hidden, #legend-sidebar.legend-hidden {
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transform: translateY(20px) scale(0.98);
+}
+
+#info-sidebar, #legend-sidebar {
+  max-width: 90vw;
+  box-sizing: border-box;
+}
+
+@media (max-width: 900px) {
+  #info-sidebar, #legend-sidebar {
+    width: 180px;
+    padding: 0.7em 0.5em 0.7em 0.5em;
+    font-size: 0.97em;
+  }
 }
 
 @media (max-width: 600px) {
@@ -472,5 +519,15 @@ body.info-sidebar-visible #gtfs-status-indicator {
   aside h2, aside h3 {
     font-size: 1rem;
     padding-left: 0.2em;
+  }
+  #info-sidebar, #legend-sidebar {
+    width: 98vw;
+    left: 1vw !important;
+    right: 1vw !important;
+    top: 56px;
+    max-height: 60vh;
+    padding: 0.5em 0.3em 0.5em 0.3em;
+    font-size: 0.95em;
+    border-radius: 8px;
   }
 }

@@ -272,48 +272,47 @@ function setupLineFilterButtons() {
 
 document.addEventListener('DOMContentLoaded', function() {
   setupLineFilterButtons();
+});
 
-  // Legend fold/unfold logic
+// Legend sidebar folding logic
+function setupLegendSidebarToggle() {
   const legendSidebar = document.getElementById('legend-sidebar');
   const legendToggleBtn = document.getElementById('legend-toggle-btn');
-  let legendWasFolded = false;
-  if (legendSidebar && legendToggleBtn) {
-    legendToggleBtn.addEventListener('click', function() {
-      legendSidebar.classList.toggle('folded');
-      legendWasFolded = legendSidebar.classList.contains('folded');
-      if (legendWasFolded) {
-        legendToggleBtn.textContent = 'Show';
-        // Show floating button to reopen
-        let showBtn = document.getElementById('legend-show-btn');
-        if (!showBtn) {
-          showBtn = document.createElement('button');
-          showBtn.id = 'legend-show-btn';
-          showBtn.textContent = 'Show Legend';
-          showBtn.style.position = 'fixed';
-          showBtn.style.right = '2em';
-          showBtn.style.top = '2em';
-          showBtn.style.zIndex = '1201';
-          showBtn.style.padding = '0.5em 1.2em';
-          showBtn.style.borderRadius = '8px';
-          showBtn.style.background = '#fff';
-          showBtn.style.boxShadow = '0 2px 8px rgba(0,0,0,0.13)';
-          showBtn.style.border = '1px solid #ccc';
-          showBtn.style.fontWeight = 'bold';
-          showBtn.style.cursor = 'pointer';
-          document.body.appendChild(showBtn);
-        } else {
-          showBtn.style.display = '';
-        }
-        showBtn.onclick = function() {
-          legendSidebar.classList.remove('folded');
-          legendToggleBtn.textContent = 'Hide';
-          showBtn.style.display = 'none';
-        };
-      } else {
-        legendToggleBtn.textContent = 'Hide';
-        const showBtn = document.getElementById('legend-show-btn');
-        if (showBtn) showBtn.style.display = 'none';
-      }
-    });
-  }
+  let showBtn = null;
+  if (!legendSidebar || !legendToggleBtn) return;
+  legendToggleBtn.addEventListener('click', function() {
+    legendSidebar.classList.add('legend-hidden');
+    // Add show button if not present
+    if (!showBtn) {
+      showBtn = document.createElement('button');
+      showBtn.id = 'legend-show-btn';
+      showBtn.title = 'Show legend';
+      showBtn.innerHTML = '&#9776;';
+      showBtn.style.position = 'fixed';
+      showBtn.style.top = '32px';
+      showBtn.style.right = '32px';
+      showBtn.style.zIndex = '2100';
+      showBtn.style.background = '#fff';
+      showBtn.style.border = '1px solid #ccc';
+      showBtn.style.borderRadius = '50%';
+      showBtn.style.width = '2.2em';
+      showBtn.style.height = '2.2em';
+      showBtn.style.fontSize = '1.3em';
+      showBtn.style.boxShadow = '0 2px 8px rgba(0,0,0,0.13)';
+      showBtn.style.cursor = 'pointer';
+      showBtn.style.display = 'flex';
+      showBtn.style.alignItems = 'center';
+      showBtn.style.justifyContent = 'center';
+      document.body.appendChild(showBtn);
+      showBtn.addEventListener('click', function() {
+        legendSidebar.classList.remove('legend-hidden');
+        showBtn.remove();
+        showBtn = null;
+      });
+    }
+  });
+}
+
+document.addEventListener('DOMContentLoaded', function() {
+  setupLegendSidebarToggle();
 }); 

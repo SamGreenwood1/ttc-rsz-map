@@ -63,32 +63,36 @@
       </div>
 
       <aside id="legend-sidebar">
-        <button id="legend-toggle-btn" style="float:right; margin-left:1em; margin-bottom:0.5em;">Hide</button>
-        <h2>Legend</h2>
-        <div class="legend-group">
-          <div style="display: flex; align-items: center; margin-bottom: 0.3rem;">
-            <span style="display:inline-block;width:24px;height:6px;background:#F8C300;opacity:0.4;margin-right:8px;"></span>
-            <span>Line 1 (Regular)</span>
-          </div>
-          <div style="display: flex; align-items: center; margin-bottom: 0.3rem;">
-            <span style="display:inline-block;width:24px;height:6px;background:#F8C300;margin-right:8px;"></span>
-            <span>Line 1 (Reduced Speed Zone)</span>
-          </div>
-          <div style="display: flex; align-items: center; margin-bottom: 0.3rem;">
-            <span style="display:inline-block;width:24px;height:6px;background:#00923F;opacity:0.4;margin-right:8px;"></span>
-            <span>Line 2 (Regular)</span>
-          </div>
-          <div style="display: flex; align-items: center; margin-bottom: 0.3rem;">
-            <span style="display:inline-block;width:24px;height:6px;background:#00923F;margin-right:8px;"></span>
-            <span>Line 2 (Reduced Speed Zone)</span>
-          </div>
-          <div style="display: flex; align-items: center; margin-bottom: 0.3rem;">
-            <span style="display:inline-block;width:24px;height:6px;background:#A21A68;opacity:0.4;margin-right:8px;"></span>
-            <span>Line 4 (Regular)</span>
-          </div>
-          <div style="display: flex; align-items: center; margin-bottom: 0.3rem;">
-            <span style="display:inline-block;width:24px;height:6px;background:#A21A68;margin-right:8px;"></span>
-            <span>Line 4 (Reduced Speed Zone)</span>
+        <div style="display:flex;align-items:center;justify-content:space-between;">
+          <h2 style="margin:0;">Legend</h2>
+          <button id="legend-toggle-btn" title="Hide legend" style="background:none;border:none;font-size:1.5em;line-height:1;cursor:pointer;padding:0 0.2em 0 0;">&times;</button>
+        </div>
+        <div id="legend-content">
+          <div class="legend-group">
+            <div style="display: flex; align-items: center; margin-bottom: 0.3rem;">
+              <span style="display:inline-block;width:24px;height:6px;background:#F8C300;opacity:0.4;margin-right:8px;"></span>
+              <span>Line 1 (Regular)</span>
+            </div>
+            <div style="display: flex; align-items: center; margin-bottom: 0.3rem;">
+              <span style="display:inline-block;width:24px;height:6px;background:#F8C300;margin-right:8px;"></span>
+              <span>Line 1 (Reduced Speed Zone)</span>
+            </div>
+            <div style="display: flex; align-items: center; margin-bottom: 0.3rem;">
+              <span style="display:inline-block;width:24px;height:6px;background:#00923F;opacity:0.4;margin-right:8px;"></span>
+              <span>Line 2 (Regular)</span>
+            </div>
+            <div style="display: flex; align-items: center; margin-bottom: 0.3rem;">
+              <span style="display:inline-block;width:24px;height:6px;background:#00923F;margin-right:8px;"></span>
+              <span>Line 2 (Reduced Speed Zone)</span>
+            </div>
+            <div style="display: flex; align-items: center; margin-bottom: 0.3rem;">
+              <span style="display:inline-block;width:24px;height:6px;background:#A21A68;opacity:0.4;margin-right:8px;"></span>
+              <span>Line 4 (Regular)</span>
+            </div>
+            <div style="display: flex; align-items: center; margin-bottom: 0.3rem;">
+              <span style="display:inline-block;width:24px;height:6px;background:#A21A68;margin-right:8px;"></span>
+              <span>Line 4 (Reduced Speed Zone)</span>
+            </div>
           </div>
         </div>
       </aside>

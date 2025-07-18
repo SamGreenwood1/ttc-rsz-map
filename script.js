@@ -68,10 +68,25 @@ function initMap() {
   });
 
   // --- GTFS-realtime live subway vehicle positions (Transit.land proxy) ---
+  const gtfsStatus = document.getElementById('gtfs-status-indicator');
+  if (gtfsStatus) {
+    gtfsStatus.textContent = 'Checking...';
+    gtfsStatus.style.color = '#888';
+  }
   fetch('https://transit.land/api/v2/rest/gtfs-rt/vehicle-positions?operator_onestop_id=o-dpz8-ttc')
     .then(r => r.json())
     .then(data => {
-      if (!data.entity) return;
+      if (!data || !data.entity) {
+        if (gtfsStatus) {
+          gtfsStatus.textContent = 'Failed';
+          gtfsStatus.style.color = '#b00'; // red
+        }
+        return;
+      }
+      if (gtfsStatus) {
+        gtfsStatus.textContent = 'Connected';
+        gtfsStatus.style.color = '#00923F'; // green
+      }
       data.entity.forEach(entity => {
         if (!entity.vehicle || !entity.vehicle.position) return;
         const routeId = entity.vehicle.trip && entity.vehicle.trip.route_id;
@@ -91,6 +106,10 @@ function initMap() {
       });
     })
     .catch(err => {
+      if (gtfsStatus) {
+        gtfsStatus.textContent = 'Connection Error';
+        gtfsStatus.style.color = '#b00'; // red
+      }
       showError("There was a problem loading live subway train data (GTFS-realtime). Service status may be unavailable.");
     });
 }

@@ -248,6 +248,39 @@ function setupLineFilterButtons() {
 
 document.addEventListener('DOMContentLoaded', function() {
   setupLineFilterButtons();
+  // Info sidebar
+  const infoSidebar = document.getElementById('info-sidebar');
+  const sidebarToggle = document.getElementById('sidebarToggle');
+  const infoUnhideBtn = document.getElementById('info-unhide-btn');
+  if (infoSidebar && sidebarToggle && infoUnhideBtn) {
+    infoSidebar.classList.remove('sidebar-hidden');
+    infoUnhideBtn.style.display = 'none';
+    sidebarToggle.addEventListener('click', function () {
+      infoSidebar.classList.add('sidebar-hidden');
+      infoUnhideBtn.style.display = '';
+    });
+    infoUnhideBtn.addEventListener('click', function () {
+      infoSidebar.classList.remove('sidebar-hidden');
+      infoUnhideBtn.style.display = 'none';
+    });
+  }
+
+  // Legend sidebar
+  const legendSidebar = document.getElementById('legend-sidebar');
+  const legendToggleBtn = document.getElementById('legend-toggle-btn');
+  const legendUnhideBtn = document.getElementById('legend-unhide-btn');
+  if (legendSidebar && legendToggleBtn && legendUnhideBtn) {
+    legendSidebar.classList.remove('legend-hidden');
+    legendUnhideBtn.style.display = 'none';
+    legendToggleBtn.addEventListener('click', function () {
+      legendSidebar.classList.add('legend-hidden');
+      legendUnhideBtn.style.display = '';
+    });
+    legendUnhideBtn.addEventListener('click', function () {
+      legendSidebar.classList.remove('legend-hidden');
+      legendUnhideBtn.style.display = 'none';
+    });
+  }
 });
 
 function setInfoSidebarBodyClass(visible) {

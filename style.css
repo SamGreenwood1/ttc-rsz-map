@@ -390,10 +390,10 @@ footer a:focus-visible {
 }
 
 #gtfs-status-indicator {
-  position: absolute;
+  position: fixed !important;
+  z-index: 9999 !important;
   left: 32px;
   bottom: 32px;
-  z-index: 5100 !important;
   background: #fff;
   border-radius: 2em;
   box-shadow: 0 2px 8px rgba(0,0,0,0.13);
@@ -411,7 +411,8 @@ footer a:focus-visible {
 }
 
 #info-sidebar {
-  position: absolute;
+  position: fixed !important;
+  z-index: 9999 !important;
   top: 32px;
   left: 32px;
   width: 260px;
@@ -429,7 +430,8 @@ footer a:focus-visible {
 }
 
 #legend-sidebar {
-  position: absolute;
+  position: fixed !important;
+  z-index: 9999 !important;
   top: 32px;
   right: 32px;
   width: 260px;

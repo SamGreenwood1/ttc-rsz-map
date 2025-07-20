@@ -401,26 +401,120 @@ footer a:focus-visible {
 }
 
 @media (max-width: 600px) {
-  header {
-    min-height: 48px;
-    padding: 0.3em 1vw;
+  body {
+    overflow: auto;
+  }
+  main {
+    flex-direction: column;
+    height: auto;
+    min-height: 100vh;
+  }
+  aside {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 85vw !important;
+    max-width: 350px;
+    min-width: 0 !important;
+    height: 100vh;
+    z-index: 1000;
+    background: var(--sidebar-bg);
+    box-shadow: 2px 0 16px rgba(0,0,0,0.18);
+    border-radius: 0 18px 18px 0;
+    transform: translateX(-100%);
+    transition: transform 0.3s cubic-bezier(.4,1.4,.6,1);
+    padding-top: 3.5em;
+    padding-bottom: 2em;
+    overflow-y: auto;
+  }
+  aside.mobile-visible {
+    transform: translateX(0);
+  }
+  #map-container {
+    width: 100vw;
+    height: 80vh;
+    min-height: 300px;
+    flex: 1 1 auto;
+    position: relative;
+    z-index: 1;
+  }
+  #map {
+    width: 100vw;
+    height: 80vh;
+    min-height: 300px;
   }
   .sidebar-toggle {
-    width: 2.5em;
-    height: 2.5em;
-    font-size: 1.5rem;
-    left: 1vw;
+    position: fixed;
+    top: 1em;
+    left: 1em;
+    z-index: 1100;
+    width: 3em;
+    height: 3em;
+    font-size: 2rem;
+    background: var(--ttc-red);
+    color: #fff;
+    border-radius: 50%;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+    border: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
   }
-  header h1 {
-    font-size: clamp(1rem, 6vw, 1.5rem);
+  .sidebar-toggle.mobile-close {
+    left: auto;
+    right: 1em;
+    background: var(--ttc-red-dark);
   }
-  header, footer {
-    padding-left: 1vw;
-    padding-right: 1vw;
-    font-size: 1rem;
+  .line-filter-btn, #active-zones-list li {
+    min-height: 48px;
+    font-size: 1.1rem;
+    margin-bottom: 0.5em;
+    padding: 0.7em 1em;
+    border-radius: 8px;
+    touch-action: manipulation;
+    user-select: none;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.04);
+    transition: background 0.2s, color 0.2s, border 0.2s;
+  }
+  #active-zones-list li {
+    margin-bottom: 0.7em;
+    font-size: 1.05rem;
+    background: #fff;
+    border: 1px solid var(--zone-border);
+    box-shadow: 0 1px 4px rgba(0,0,0,0.04);
+    padding: 0.7em 1em;
+    border-radius: 8px;
+    display: flex;
+    flex-direction: column;
+    gap: 0.2em;
+  }
+  .line-filter-btn:active, #active-zones-list li:active {
+    background: var(--zone-hover);
+    color: var(--ttc-red-dark);
   }
   aside h2, aside h3 {
-    font-size: 1rem;
+    font-size: 1.1rem;
     padding-left: 0.2em;
+    margin-top: 1.2em;
+  }
+  .legend-group > div {
+    font-size: 0.98rem;
+    margin-bottom: 0.5em;
+  }
+  #sidebar-backdrop {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(0,0,0,0.25);
+    z-index: 900;
+    transition: opacity 0.2s;
+    opacity: 0;
+  }
+  #sidebar-backdrop.active {
+    display: block;
+    opacity: 1;
   }
 }

@@ -5,17 +5,80 @@ const geoJsonLayers = {}; // To store references to GeoJSON layers for filtering
 document.addEventListener("DOMContentLoaded", function () {
   const aside = document.querySelector("aside");
   const toggleBtn = document.getElementById("sidebarToggle");
+  const closeBtn = document.getElementById("sidebarClose");
+  const backdrop = document.getElementById("sidebar-backdrop");
   let collapsed = localStorage.getItem("sidebarCollapsed") === "true";
 
+  function isMobile() {
+    return window.matchMedia("(max-width: 600px)").matches;
+  }
+
   function updateSidebarState() {
-    aside.classList.toggle("aside-collapsed", collapsed);
+    aside.classList.toggle("aside-collapsed", collapsed && !isMobile());
+    if (isMobile()) {
+      aside.classList.remove("aside-collapsed");
+      aside.classList.remove("mobile-visible");
+      closeBtn.style.display = "none";
+      backdrop.classList.remove("active");
+    } else {
+      aside.classList.remove("mobile-visible");
+      closeBtn.style.display = "none";
+      backdrop.classList.remove("active");
+    }
     toggleBtn.innerText = "☰";
     localStorage.setItem("sidebarCollapsed", collapsed);
   }
 
+  function openSidebarMobile() {
+    if (isMobile()) {
+      aside.classList.add("mobile-visible");
+      closeBtn.style.display = "block";
+      backdrop.classList.add("active");
+      document.body.style.overflow = "hidden";
+    }
+  }
+
+  function closeSidebarMobile() {
+    if (isMobile()) {
+      aside.classList.remove("mobile-visible");
+      closeBtn.style.display = "none";
+      backdrop.classList.remove("active");
+      document.body.style.overflow = "auto";
+    }
+  }
+
   toggleBtn.addEventListener("click", function () {
-    collapsed = !collapsed;
-    updateSidebarState();
+    if (isMobile()) {
+      openSidebarMobile();
+    } else {
+      collapsed = !collapsed;
+      updateSidebarState();
+    }
+  });
+
+  closeBtn.addEventListener("click", function () {
+    closeSidebarMobile();
+  });
+
+  backdrop.addEventListener("click", function () {
+    closeSidebarMobile();
+  });
+
+  // Hide sidebar on mobile by default
+  if (isMobile()) {
+    aside.classList.remove("mobile-visible");
+    closeBtn.style.display = "none";
+    backdrop.classList.remove("active");
+  }
+
+  // Close sidebar if window resized to desktop
+  window.addEventListener("resize", function () {
+    if (!isMobile()) {
+      aside.classList.remove("mobile-visible");
+      closeBtn.style.display = "none";
+      backdrop.classList.remove("active");
+      document.body.style.overflow = "auto";
+    }
   });
 
   // Initial state

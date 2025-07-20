@@ -1,10 +1,89 @@
 let map; // Make map globally accessible for functions
 const geoJsonLayers = {}; // To store references to GeoJSON layers for filtering
-let stationLayer = null;
-let stationsVisible = false;
 
-// Remove old sidebar toggle logic (aside, .aside-collapsed, localStorage)
-// (No code for aside collapsing or localStorage sidebar state should remain)
+// Sidebar toggle logic
+document.addEventListener("DOMContentLoaded", function () {
+  const aside = document.querySelector("aside");
+  const toggleBtn = document.getElementById("sidebarToggle");
+  const closeBtn = document.getElementById("sidebarClose");
+  const backdrop = document.getElementById("sidebar-backdrop");
+  let collapsed = localStorage.getItem("sidebarCollapsed") === "true";
+
+  function isMobile() {
+    return window.matchMedia("(max-width: 600px)").matches;
+  }
+
+  function updateSidebarState() {
+    aside.classList.toggle("aside-collapsed", collapsed && !isMobile());
+    if (isMobile()) {
+      aside.classList.remove("aside-collapsed");
+      aside.classList.remove("mobile-visible");
+      closeBtn.style.display = "none";
+      backdrop.classList.remove("active");
+    } else {
+      aside.classList.remove("mobile-visible");
+      closeBtn.style.display = "none";
+      backdrop.classList.remove("active");
+    }
+    toggleBtn.innerText = "☰";
+    localStorage.setItem("sidebarCollapsed", collapsed);
+  }
+
+  function openSidebarMobile() {
+    if (isMobile()) {
+      aside.classList.add("mobile-visible");
+      closeBtn.style.display = "block";
+      backdrop.classList.add("active");
+      document.body.style.overflow = "hidden";
+    }
+  }
+
+  function closeSidebarMobile() {
+    if (isMobile()) {
+      aside.classList.remove("mobile-visible");
+      closeBtn.style.display = "none";
+      backdrop.classList.remove("active");
+      document.body.style.overflow = "auto";
+    }
+  }
+
+  toggleBtn.addEventListener("click", function () {
+    if (isMobile()) {
+      openSidebarMobile();
+    } else {
+      collapsed = !collapsed;
+      updateSidebarState();
+    }
+  });
+
+  closeBtn.addEventListener("click", function () {
+    closeSidebarMobile();
+  });
+
+  backdrop.addEventListener("click", function () {
+    closeSidebarMobile();
+  });
+
+  // Hide sidebar on mobile by default
+  if (isMobile()) {
+    aside.classList.remove("mobile-visible");
+    closeBtn.style.display = "none";
+    backdrop.classList.remove("active");
+  }
+
+  // Close sidebar if window resized to desktop
+  window.addEventListener("resize", function () {
+    if (!isMobile()) {
+      aside.classList.remove("mobile-visible");
+      closeBtn.style.display = "none";
+      backdrop.classList.remove("active");
+      document.body.style.overflow = "auto";
+    }
+  });
+
+  // Initial state
+  updateSidebarState();
+});
 
 function showError(message) {
   const mapDiv = document.getElementById("map");
@@ -24,11 +103,10 @@ function initMap() {
   map.options.minZoom = 11;
   map.options.maxZoom = 19;
 
-  // Use CartoDB Positron as the base map for a cleaner look
-  L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {
-    attribution: '&copy; <a href="https://carto.com/attributions">CARTO</a>',
-    subdomains: 'abcd',
-    maxZoom: 19
+  L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
+    maxZoom: 19,
+    attribution:
+      '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
   }).addTo(map);
 
   // Clear the active zones list before drawing
@@ -48,91 +126,7 @@ function initMap() {
       document.getElementById("active-zones-list").innerHTML = "<li>No active reduced speed zones found.</li>";
     }
   }).catch(err => {
-    showError("There was a problem loading the subway map data. Please check your local data or try reloading the page.");
-  });
-
-  // --- GTFS-realtime live subway vehicle positions (Transit.land proxy) ---
-  const gtfsStatusCircle = document.getElementById('gtfs-status-circle');
-  if (gtfsStatusCircle) {
-    gtfsStatusCircle.style.background = '#888';
-  }
-  fetch('https://transit.land/api/v2/rest/gtfs-rt/vehicle-positions?operator_onestop_id=o-dpz8-ttc')
-    .then(r => r.json())
-    .then(data => {
-      if (!data || !data.entity) {
-        if (gtfsStatusCircle) {
-          gtfsStatusCircle.style.background = '#b00';
-        }
-        return;
-      }
-      if (gtfsStatusCircle) {
-        gtfsStatusCircle.style.background = '#00923F';
-      }
-      data.entity.forEach(entity => {
-        if (!entity.vehicle || !entity.vehicle.position) return;
-        const routeId = entity.vehicle.trip && entity.vehicle.trip.route_id;
-        if (routeId && !['74515','74516','74518'].includes(routeId)) return; // Line 1,2,4 GTFS IDs
-        const { latitude, longitude } = entity.vehicle.position;
-        if (latitude && longitude) {
-          L.circleMarker([latitude, longitude], {
-            radius: 7,
-            color: '#da251d',
-            fillColor: '#fff',
-            fillOpacity: 1,
-            weight: 2
-          })
-          .bindPopup(`<strong>Live TTC Subway Train</strong><br>Route: ${routeId || 'Unknown'}`)
-          .addTo(map);
-        }
-      });
-    })
-    .catch(err => {
-      if (gtfsStatusCircle) {
-        gtfsStatusCircle.style.background = '#b00';
-      }
-      showError("There was a problem loading live subway train data (GTFS-realtime). Service status may be unavailable.");
-    });
-
-  // --- TTC Subway Stations from GTFS (Transit.land) ---
-  fetch('https://transit.land/api/v1/stops.geojson?served_by=o-dpz8-ttc&served_by_vehicle_types=1')
-    .then(r => r.json())
-    .then(data => {
-      if (!data.features) return;
-      stationLayer = L.layerGroup();
-      data.features.forEach(f => {
-        if (!f.geometry || !f.geometry.coordinates) return;
-        const coords = f.geometry.coordinates;
-        // GeoJSON is [lng, lat]
-        const lat = coords[1], lng = coords[0];
-        const marker = L.circleMarker([lat, lng], {
-          radius: 6,
-          color: '#0055cc',
-          fillColor: '#fff',
-          fillOpacity: 1,
-          weight: 2
-        })
-        .bindPopup(`<strong>${f.properties.name}</strong><br>Station ID: ${f.properties.onestop_id}`);
-        stationLayer.addLayer(marker);
-      });
-      // Do not add to map by default
-    });
-
-  // --- Station toggle button logic ---
-  document.addEventListener('DOMContentLoaded', function() {
-    const btn = document.getElementById('station-toggle-btn');
-    if (!btn) return;
-    btn.addEventListener('click', function() {
-      if (!stationLayer) return;
-      stationsVisible = !stationsVisible;
-      if (stationsVisible) {
-        stationLayer.addTo(map);
-        btn.textContent = 'Hide Subway Stations';
-      } else {
-        map.removeLayer(stationLayer);
-        btn.textContent = 'Show Subway Stations';
-      }
-    });
-    btn.textContent = 'Show Subway Stations';
+    showError("There was a problem loading subway line data. Please check the TTC's list for the latest information.");
   });
 }
 
@@ -248,89 +242,4 @@ function setupLineFilterButtons() {
 
 document.addEventListener('DOMContentLoaded', function() {
   setupLineFilterButtons();
-  // Info sidebar
-  const infoSidebar = document.getElementById('info-sidebar');
-  const sidebarToggle = document.getElementById('sidebarToggle');
-  const infoUnhideBtn = document.getElementById('info-unhide-btn');
-  if (infoSidebar && sidebarToggle && infoUnhideBtn) {
-    infoSidebar.classList.remove('sidebar-hidden');
-    infoUnhideBtn.style.display = 'none';
-    sidebarToggle.addEventListener('click', function () {
-      infoSidebar.classList.add('sidebar-hidden');
-      infoUnhideBtn.style.display = '';
-    });
-    infoUnhideBtn.addEventListener('click', function () {
-      infoSidebar.classList.remove('sidebar-hidden');
-      infoUnhideBtn.style.display = 'none';
-    });
-  }
-
-  // Legend sidebar
-  const legendSidebar = document.getElementById('legend-sidebar');
-  const legendToggleBtn = document.getElementById('legend-toggle-btn');
-  const legendUnhideBtn = document.getElementById('legend-unhide-btn');
-  if (legendSidebar && legendToggleBtn && legendUnhideBtn) {
-    legendSidebar.classList.remove('legend-hidden');
-    legendUnhideBtn.style.display = 'none';
-    legendToggleBtn.addEventListener('click', function () {
-      legendSidebar.classList.add('legend-hidden');
-      legendUnhideBtn.style.display = '';
-    });
-    legendUnhideBtn.addEventListener('click', function () {
-      legendSidebar.classList.remove('legend-hidden');
-      legendUnhideBtn.style.display = 'none';
-    });
-  }
-});
-
-function setInfoSidebarBodyClass(visible) {
-  if (visible) {
-    document.body.classList.add('info-sidebar-visible');
-  } else {
-    document.body.classList.remove('info-sidebar-visible');
-  }
-}
-
-// Info sidebar folding logic
-function setupInfoSidebarToggle() {
-  const infoSidebar = document.getElementById('info-sidebar');
-  const sidebarToggle = document.getElementById('sidebarToggle');
-  const infoUnhideBtn = document.getElementById('info-unhide-btn');
-  if (!infoSidebar || !sidebarToggle || !infoUnhideBtn) return;
-  sidebarToggle.addEventListener('click', function() {
-    infoSidebar.classList.add('sidebar-hidden');
-    infoUnhideBtn.style.display = '';
-    setInfoSidebarBodyClass(false);
-  });
-  infoUnhideBtn.addEventListener('click', function() {
-    infoSidebar.classList.remove('sidebar-hidden');
-    infoUnhideBtn.style.display = 'none';
-    setInfoSidebarBodyClass(true);
-  });
-  // Set initial state
-  setInfoSidebarBodyClass(!infoSidebar.classList.contains('sidebar-hidden'));
-}
-
-document.addEventListener('DOMContentLoaded', function() {
-  setupInfoSidebarToggle();
-});
-
-// Legend sidebar folding logic (updated to use header bar button)
-function setupLegendSidebarToggle() {
-  const legendSidebar = document.getElementById('legend-sidebar');
-  const legendToggleBtn = document.getElementById('legend-toggle-btn');
-  const legendUnhideBtn = document.getElementById('legend-unhide-btn');
-  if (!legendSidebar || !legendToggleBtn || !legendUnhideBtn) return;
-  legendToggleBtn.addEventListener('click', function() {
-    legendSidebar.classList.add('legend-hidden');
-    legendUnhideBtn.style.display = '';
-  });
-  legendUnhideBtn.addEventListener('click', function() {
-    legendSidebar.classList.remove('legend-hidden');
-    legendUnhideBtn.style.display = 'none';
-  });
-}
-
-document.addEventListener('DOMContentLoaded', function() {
-  setupLegendSidebarToggle();
 }); 

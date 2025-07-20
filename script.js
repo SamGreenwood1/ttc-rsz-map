@@ -112,22 +112,28 @@ function initMap() {
   // Clear the active zones list before drawing
   document.getElementById("active-zones-list").innerHTML = "";
 
-  // Load regular lines and render RSZs from static files only
-  Promise.all([
-    fetch("lines/line1.json").then(r => r.json()),
-    fetch("lines/line2.json").then(r => r.json()),
-    fetch("lines/line4.json").then(r => r.json())
-  ]).then(([line1, line2, line4]) => {
-    drawLineGeoJson(line1, "Line 1");
-    drawLineGeoJson(line2, "Line 2");
-    drawLineGeoJson(line4, "Line 4");
-    // If no RSZs found, show a message
-    if (!document.getElementById("active-zones-list").hasChildNodes()) {
-      document.getElementById("active-zones-list").innerHTML = "<li>No active reduced speed zones found.</li>";
-    }
-  }).catch(err => {
-    showError("There was a problem loading subway line data. Please check the TTC's list for the latest information.");
-  });
+  // GTFS-RT API endpoint (placeholder)
+  const GTFS_RT_API_URL = "https://api.example.com/gtfs-rt";
+
+  // Load regular lines and render RSZs from the GTFS-RT API
+  fetch(GTFS_RT_API_URL)
+    .then(response => response.json())
+    .then(data => {
+      // Assuming the API returns a GeoJSON FeatureCollection
+      // with line information in the properties
+      data.features.forEach(feature => {
+        const lineKey = feature.properties.line;
+        drawLineGeoJson(feature, lineKey);
+      });
+
+      // If no RSZs found, show a message
+      if (!document.getElementById("active-zones-list").hasChildNodes()) {
+        document.getElementById("active-zones-list").innerHTML = "<li>No active reduced speed zones found.</li>";
+      }
+    })
+    .catch(err => {
+      showError("There was a problem loading real-time data. Please check the TTC's list for the latest information.");
+    });
 }
 
 // Draw regular TTC lines from GeoJSON

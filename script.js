@@ -1,9 +1,9 @@
 let map; // Make map globally accessible for functions
 const geoJsonLayers = {}; // To store references to GeoJSON layers for filtering
 
-// Initialize the map
-function initMap() {
-  map = L.map("map").setView([43.665, -79.385], 12); // Centered on Toronto
+document.addEventListener('DOMContentLoaded', function() {
+  // Initialize the map with zoomControl: false
+  map = L.map("map", { zoomControl: false }).setView([43.665, -79.385], 12); // Centered on Toronto
 
   // Lock map to Toronto city bounds (tight bounding box)
   var torontoCityBounds = L.latLngBounds(
@@ -20,8 +20,21 @@ function initMap() {
       '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
   }).addTo(map);
 
+  // Custom zoom controls in sidebar
+  const zoomInBtn = document.getElementById('zoom-in');
+  const zoomOutBtn = document.getElementById('zoom-out');
+  if (zoomInBtn && zoomOutBtn) {
+    zoomInBtn.addEventListener('click', function() {
+      map.zoomIn();
+    });
+    zoomOutBtn.addEventListener('click', function() {
+      map.zoomOut();
+    });
+  }
+
   // Clear the active zones list before drawing
-  document.getElementById("active-zones-list").innerHTML = "";
+  const activeZonesList = document.getElementById("active-zones-list");
+  if (activeZonesList) activeZonesList.innerHTML = "";
 
   // Load regular lines and render RSZs from static files only
   Promise.all([
@@ -33,13 +46,113 @@ function initMap() {
     drawLineGeoJson(line2, "Line 2");
     drawLineGeoJson(line4, "Line 4");
     // If no RSZs found, show a message
-    if (!document.getElementById("active-zones-list").hasChildNodes()) {
-      document.getElementById("active-zones-list").innerHTML = "<li>No active reduced speed zones found.</li>";
+    if (activeZonesList && !activeZonesList.hasChildNodes()) {
+      activeZonesList.innerHTML = "<li>No active reduced speed zones found.</li>";
     }
   }).catch(err => {
     showError("There was a problem loading subway line data. Please check the TTC's list for the latest information.");
   });
-}
+
+  // Floating/foldable panel logic
+  function setupFloatingPanels() {
+    function foldPanel(panelId, toggleId, direction, openTitle, closedTitle) {
+      const panel = document.getElementById(panelId);
+      const toggle = document.getElementById(toggleId);
+      const content = panel.querySelector('.panel-content');
+      function setTooltip() {
+        if (panel.classList.contains('folded')) {
+          toggle.title = openTitle;
+        } else {
+          toggle.title = closedTitle;
+        }
+      }
+      toggle.addEventListener('click', function() {
+        if (panel.classList.contains('folded')) {
+          panel.classList.remove('folded');
+          content.style.display = '';
+          toggle.innerHTML = direction === 'left' ? '&laquo;' : '&raquo;';
+        } else {
+          panel.classList.add('folded');
+          content.style.display = 'none';
+          toggle.innerHTML = direction === 'left' ? '&raquo;' : '&laquo;';
+        }
+        setTooltip();
+      });
+      setTooltip();
+    }
+    foldPanel('sidebar', 'sidebar-toggle', 'left', 'Open sidebar', 'Fold sidebar');
+    foldPanel('legend', 'legend-toggle', 'right', 'Open legend', 'Fold legend');
+  }
+  setupFloatingPanels();
+
+  // Feature detection for CSS if() support
+  (function() {
+    try {
+      const test = document.createElement('div');
+      test.style.width = "if(media(max-width: 600px): 100vw; else: 300px);";
+      if (test.style.width.includes('if(')) {
+        document.body.classList.add('no-css-if');
+      }
+    } catch (e) {
+      document.body.classList.add('no-css-if');
+    }
+  })();
+
+  // Line filter button logic (multi-select)
+  function setupLineFilterButtons() {
+    const btns = document.querySelectorAll('.line-filter-btn');
+    // Track which lines are visible
+    const visibleLines = {
+      line1: true,
+      line2: true,
+      line4: true
+    };
+
+    function updateMapVisibility() {
+      // Hide/show layers based on visibleLines
+      Object.keys(visibleLines).forEach(lineKey => {
+        const layer = geoJsonLayers[lineKey];
+        if (layer) {
+          if (visibleLines[lineKey]) {
+            if (!map.hasLayer(layer)) map.addLayer(layer);
+          } else {
+            if (map.hasLayer(layer)) map.removeLayer(layer);
+          }
+        }
+      });
+    }
+
+    btns.forEach(btn => {
+      const line = btn.dataset.line;
+      // Set initial state
+      btn.classList.add('active');
+      btn.addEventListener('click', () => {
+        visibleLines[line] = !visibleLines[line];
+        btn.classList.toggle('active', visibleLines[line]);
+        updateMapVisibility();
+      });
+    });
+  }
+  setupLineFilterButtons();
+
+  // Show station names toggle
+  document.getElementById('show-stations').addEventListener('change', function(e) {
+    if (e.target.checked) {
+      // Code to show station names on the map
+    } else {
+      // Code to hide station names
+    }
+  });
+
+  // Enable dark mode toggle
+  document.getElementById('enable-dark').addEventListener('change', function(e) {
+    if (e.target.checked) {
+      document.body.classList.add('dark-mode');
+    } else {
+      document.body.classList.remove('dark-mode');
+    }
+  });
+});
 
 // Draw regular TTC lines from GeoJSON
 function drawLineGeoJson(geojson, lineKey) {
@@ -102,6 +215,7 @@ function drawLineGeoJson(geojson, lineKey) {
 // Add a zone to the sidebar list
 function addZoneToList(feature, layer) {
   const list = document.getElementById("active-zones-list");
+  if (!list) return;
   const listItem = document.createElement("li");
   listItem.innerHTML = `<strong>${feature.properties.line}</strong>
                           <span>${feature.properties.start_station} &harr; ${feature.properties.end_station}</span>`;
@@ -112,104 +226,7 @@ function addZoneToList(feature, layer) {
   list.appendChild(listItem);
 }
 
-// Initialize the map when the DOM is ready
-document.addEventListener("DOMContentLoaded", initMap);
-
-// Line filter button logic (multi-select)
-function setupLineFilterButtons() {
-  const btns = document.querySelectorAll('.line-filter-btn');
-  // Track which lines are visible
-  const visibleLines = {
-    line1: true,
-    line2: true,
-    line4: true
-  };
-
-  function updateMapVisibility() {
-    // Hide/show layers based on visibleLines
-    Object.keys(visibleLines).forEach(lineKey => {
-      const layer = geoJsonLayers[lineKey];
-      if (layer) {
-        if (visibleLines[lineKey]) {
-          if (!map.hasLayer(layer)) map.addLayer(layer);
-        } else {
-          if (map.hasLayer(layer)) map.removeLayer(layer);
-        }
-      }
-    });
-  }
-
-  btns.forEach(btn => {
-    const line = btn.dataset.line;
-    // Set initial state
-    btn.classList.add('active');
-    btn.addEventListener('click', () => {
-      visibleLines[line] = !visibleLines[line];
-      btn.classList.toggle('active', visibleLines[line]);
-      updateMapVisibility();
-    });
-  });
-}
-
-// Feature detection for CSS if() support
-(function() {
-  try {
-    const test = document.createElement('div');
-    test.style.width = "if(media(max-width: 600px): 100vw; else: 300px);";
-    if (test.style.width.includes('if(')) {
-      document.body.classList.add('no-css-if');
-    }
-  } catch (e) {
-    document.body.classList.add('no-css-if');
-  }
-})();
-
-// Floating/foldable panel logic
-function setupFloatingPanels() {
-  function foldPanel(panelId, toggleId, direction, openTitle, closedTitle) {
-    const panel = document.getElementById(panelId);
-    const toggle = document.getElementById(toggleId);
-    const content = panel.querySelector('.panel-content');
-    function setTooltip() {
-      if (panel.classList.contains('folded')) {
-        toggle.title = openTitle;
-      } else {
-        toggle.title = closedTitle;
-      }
-    }
-    toggle.addEventListener('click', function() {
-      if (panel.classList.contains('folded')) {
-        panel.classList.remove('folded');
-        content.style.display = '';
-        toggle.innerHTML = direction === 'left' ? '&laquo;' : '&raquo;';
-      } else {
-        panel.classList.add('folded');
-        content.style.display = 'none';
-        toggle.innerHTML = direction === 'left' ? '&raquo;' : '&laquo;';
-      }
-      setTooltip();
-    });
-    setTooltip();
-  }
-  foldPanel('sidebar', 'sidebar-toggle', 'left', 'Open sidebar', 'Fold sidebar');
-  foldPanel('legend', 'legend-toggle', 'right', 'Open legend', 'Fold legend');
-}
-document.addEventListener('DOMContentLoaded', setupFloatingPanels);
-
-// Show station names toggle
-document.getElementById('show-stations').addEventListener('change', function(e) {
-  if (e.target.checked) {
-    // Code to show station names on the map
-  } else {
-    // Code to hide station names
-  }
-});
-
-// Enable dark mode toggle
-document.getElementById('enable-dark').addEventListener('change', function(e) {
-  if (e.target.checked) {
-    document.body.classList.add('dark-mode');
-  } else {
-    document.body.classList.remove('dark-mode');
-  }
-}); 
+function showError(message) {
+  const mapDiv = document.getElementById("map");
+  mapDiv.innerHTML = `<div style='padding:2rem;text-align:center;color:#b00;font-weight:bold;font-size:1.2rem;'>${message}<br><br><a href='https://www.ttc.ca/service-alerts' target='_blank' style='color:#da251d;text-decoration:underline;'>Check the official TTC Service Alerts</a></div>`;
+} 

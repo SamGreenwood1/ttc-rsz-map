@@ -291,3 +291,51 @@ footer p {
     accent-color: #da251d;
     margin-right: 8px;
 }
+
+body.dark-mode, html.dark-mode {
+    background: #181818;
+    color: #f4f4f4;
+}
+
+body.dark-mode header {
+    background: #b71c1c;
+    color: #fff;
+}
+
+body.dark-mode .floating-panel, body.dark-mode #sidebar.floating-panel, body.dark-mode #legend.floating-panel {
+    background: #232323;
+    color: #f4f4f4;
+    border-color: #b71c1c;
+}
+
+body.dark-mode .floating-panel h2, body.dark-mode .floating-panel h3 {
+    background: #b71c1c;
+    color: #fff;
+    border-bottom: 1px solid #da251d;
+}
+
+body.dark-mode .button, body.dark-mode .small-button {
+    background: #b71c1c;
+    color: #fff;
+    border: none;
+}
+body.dark-mode .button:hover, body.dark-mode .small-button:hover {
+    background: #da251d;
+}
+
+body.dark-mode .section-title, body.dark-mode .settings-section h4 {
+    color: #da251d;
+}
+
+body.dark-mode #map {
+    background: #232323;
+}
+
+body.dark-mode footer {
+    background: #181818;
+    color: #f4f4f4;
+}
+
+body.dark-mode .legend-swatch {
+    border: 1px solid #444;
+}

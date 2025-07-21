@@ -11,9 +11,10 @@
   --sidebar-padding: 1rem;
   --sidebar-padding-collapsed: 0.5rem 0.3rem;
   --sidebar-padding-collapsed-mobile: 0.3rem 0.1rem;
-  --ttc-red: light-dark(#da251d, #ff4a4a);
-  --ttc-red-dark: #b71c1c;
-  --header-bg: var(--ttc-red);
+  /* FILL IN: Set your primary color below */
+  --primary-color: #da251d; /* Example: red, replace with your system's color */
+  --primary-color-dark: #b71c1c; /* Example: dark red, replace as needed */
+  --header-bg: var(--primary-color);
   --header-color: white;
   --body-bg: light-dark(#f4f4f4, #181818);
   --body-color: light-dark(#333, #eee);
@@ -97,7 +98,7 @@ aside {
   right: -18px;
   width: 32px;
   height: 32px;
-  background: var(--ttc-red);
+  background: var(--primary-color);
   color: #fff;
   border: none;
   border-radius: 50%;
@@ -111,7 +112,7 @@ aside {
 }
 .sidebar-toggle:hover,
 .sidebar-toggle:focus-visible {
-  background: var(--ttc-red-dark);
+  background: var(--primary-color-dark);
 }
 
 aside h2 {
@@ -202,7 +203,7 @@ footer a:focus-visible {
   transform: translateY(-50%);
   width: 40px;
   height: 40px;
-  background: var(--ttc-red);
+  background: var(--primary-color);
   color: #fff;
   border: none;
   border-radius: 50%;
@@ -218,7 +219,7 @@ footer a:focus-visible {
 }
 #sidebarReopenBtn:hover,
 #sidebarReopenBtn:focus-visible {
-  background: var(--ttc-red-dark);
+  background: var(--primary-color-dark);
   outline: 2px solid #fff;
   box-shadow: 0 4px 12px rgba(0,0,0,0.18);
 }

@@ -53,24 +53,27 @@ document.addEventListener("DOMContentLoaded", function () {
 
 function showError(message) {
   const mapDiv = document.getElementById("map");
-  mapDiv.innerHTML = `<div style='padding:2rem;text-align:center;color:#b00;font-weight:bold;font-size:1.2rem;'>${message}<br><br><a href='https://www.ttc.ca/service-alerts' target='_blank' style='color:#da251d;text-decoration:underline;'>Check the official TTC Service Alerts</a></div>`;
+  mapDiv.innerHTML = `<div style='padding:2rem;text-align:center;color:#b00;font-weight:bold;font-size:1.2rem;'>${message}<br><br><a href='OFFICIAL_ALERTS_URL_HERE' target='_blank' style='color:var(--primary-color);text-decoration:underline;'>Check the official alerts</a></div>`; // FILL IN: OFFICIAL_ALERTS_URL_HERE
 }
 
 // Initialize the map
 function initMap() {
-  map = L.map("map").setView([43.665, -79.385], 12); // Centered on Toronto
+  // FILL IN: Set your map center and zoom below
+  // Example: Toronto: [43.665, -79.385], 12
+  map = L.map("map").setView([43.665, -79.385], 12); // <-- Replace with your city
 
-  // Lock map to Toronto city bounds (tight bounding box)
-  var torontoCityBounds = L.latLngBounds(
-    [43.581, -79.639], // Southwest (approximate city limit)
-    [43.855, -79.115]  // Northeast (approximate city limit)
+  // FILL IN: Set your city bounds below
+  // Example: Toronto: [43.581, -79.639], [43.855, -79.115]
+  var cityBounds = L.latLngBounds(
+    [43.581, -79.639], // Southwest (replace with your city SW bounds)
+    [43.855, -79.115]  // Northeast (replace with your city NE bounds)
   );
-  map.setMaxBounds(torontoCityBounds);
-  map.options.minZoom = 11;
-  map.options.maxZoom = 19;
+  map.setMaxBounds(cityBounds);
+  map.options.minZoom = 11; // FILL IN: min zoom
+  map.options.maxZoom = 19; // FILL IN: max zoom
 
   L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
-    maxZoom: 19,
+    maxZoom: 19, // FILL IN: max zoom
     attribution:
       '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
   }).addTo(map);
@@ -79,49 +82,38 @@ function initMap() {
   document.getElementById("active-zones-list").innerHTML = "";
 
   // Load regular lines and render RSZs from static files only
+  // FILL IN: Replace file names and line names/colors as needed
   Promise.all([
-    fetch("lines/line1.json").then(r => r.json()),
-    fetch("lines/line2.json").then(r => r.json()),
-    fetch("lines/line4.json").then(r => r.json())
-  ]).then(([line1, line2, line4]) => {
-    drawLineGeoJson(line1, "Line 1");
-    drawLineGeoJson(line2, "Line 2");
-    drawLineGeoJson(line4, "Line 4");
+    fetch("lines/line1.json").then(r => r.json()), // e.g., line1.json
+    fetch("lines/line2.json").then(r => r.json()), // e.g., line2.json
+    fetch("lines/line4.json").then(r => r.json())  // e.g., line3.json
+  ]).then(([line1, line2, line3]) => {
+    drawLineGeoJson(line1, "Line 1", "#F8C300", "rgba(248,195,0,0.4)"); // FILL IN: name/color
+    drawLineGeoJson(line2, "Line 2", "#00923F", "rgba(0,146,63,0.4)"); // FILL IN: name/color
+    drawLineGeoJson(line3, "Line 4", "#A21A68", "rgba(162,26,104,0.4)"); // FILL IN: name/color
     // If no RSZs found, show a message
     if (!document.getElementById("active-zones-list").hasChildNodes()) {
       document.getElementById("active-zones-list").innerHTML = "<li>No active reduced speed zones found.</li>";
     }
   }).catch(err => {
-    showError("There was a problem loading subway line data. Please check the TTC's list for the latest information.");
+    showError("There was a problem loading line data. Please check the official list for the latest information.");
   });
 }
 
-// Draw regular TTC lines from GeoJSON
-function drawLineGeoJson(geojson, lineKey) {
-  // Official TTC line colors
-  const lineColors = {
-    "Line 1": "#F8C300",
-    "Line 2": "#00923F",
-    "Line 4": "#A21A68"
-  };
-  // Lighter/transparent version for regular service
-  const lineColorsRegular = {
-    "Line 1": "rgba(248,195,0,0.4)",
-    "Line 2": "rgba(0,146,63,0.4)",
-    "Line 4": "rgba(162,26,104,0.4)"
-  };
+// Draw regular lines from GeoJSON
+function drawLineGeoJson(geojson, lineKey, lineColor, lineColorRegular) {
   L.geoJSON(geojson, {
     filter: f => f.properties.type === "tracks" || f.properties.type === "rsz",
     style: f => {
       if (f.properties.type === "rsz") {
         return {
-          color: lineColors[lineKey] || "#888",
+          color: lineColor || "#888",
           weight: 7,
           opacity: 0.9
         };
       } else {
         return {
-          color: lineColorsRegular[lineKey] || "#888",
+          color: lineColorRegular || "#888",
           weight: 5,
           opacity: 0.7
         };
@@ -188,7 +180,7 @@ document
       // A simpler approach for this prototype might be to re-fetch/re-render
       // based on filter criteria if your dataset is small.
       alert(
-        "Filter functionality is a placeholder in this prototype."
+        "Filter functionality is a placeholder in this template."
       );
     });
   }); 

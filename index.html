@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>TTC Reduced Speed Zone Tracker</title>
+    <title>{{SYSTEM_NAME}} Reduced Speed Zone Tracker</title> <!-- FILL IN: SYSTEM_NAME -->
     <link rel="stylesheet" href="style.css" />
     <link
       rel="stylesheet"
@@ -19,7 +19,7 @@
   </head>
   <body>
     <header>
-      <h1>TTC Reduced Speed Zone Tracker</h1>
+      <h1>{{SYSTEM_NAME}} Reduced Speed Zone Tracker</h1> <!-- FILL IN: SYSTEM_NAME -->
       <!-- Future nav links can go here -->
     </header>
 
@@ -30,9 +30,10 @@
 
         <div class="filter-group">
           <h3>Filter by Line (Placeholder)</h3>
-          <label><input type="checkbox" name="line1" checked /> Line 1</label>
-          <label><input type="checkbox" name="line2" checked /> Line 2</label>
-          <label><input type="checkbox" name="line4" checked /> Line 4</label>
+          <!-- FILL IN: Add or remove lines as needed -->
+          <label><input type="checkbox" name="line1" checked /> {{LINE1_NAME}}</label>
+          <label><input type="checkbox" name="line2" checked /> {{LINE2_NAME}}</label>
+          <label><input type="checkbox" name="line4" checked /> {{LINE3_NAME}}</label>
         </div>
 
         <h3>Active Reduced Speed Zones</h3>
@@ -43,29 +44,30 @@
 
         <h3>Legend</h3>
         <div style="margin-bottom: 1rem;">
+          <!-- FILL IN: Add or remove lines/colors as needed -->
           <div style="display: flex; align-items: center; margin-bottom: 0.3rem;">
-            <span style="display:inline-block;width:24px;height:6px;background:#F8C300;opacity:0.4;margin-right:8px;"></span>
-            <span>Line 1 (Regular)</span>
+            <span style="display:inline-block;width:24px;height:6px;background:{{LINE1_COLOR}};opacity:0.4;margin-right:8px;"></span>
+            <span>{{LINE1_NAME}} (Regular)</span>
           </div>
           <div style="display: flex; align-items: center; margin-bottom: 0.3rem;">
-            <span style="display:inline-block;width:24px;height:6px;background:#F8C300;margin-right:8px;"></span>
-            <span>Line 1 (Reduced Speed Zone)</span>
+            <span style="display:inline-block;width:24px;height:6px;background:{{LINE1_COLOR}};margin-right:8px;"></span>
+            <span>{{LINE1_NAME}} (Reduced Speed Zone)</span>
           </div>
           <div style="display: flex; align-items: center; margin-bottom: 0.3rem;">
-            <span style="display:inline-block;width:24px;height:6px;background:#00923F;opacity:0.4;margin-right:8px;"></span>
-            <span>Line 2 (Regular)</span>
+            <span style="display:inline-block;width:24px;height:6px;background:{{LINE2_COLOR}};opacity:0.4;margin-right:8px;"></span>
+            <span>{{LINE2_NAME}} (Regular)</span>
           </div>
           <div style="display: flex; align-items: center; margin-bottom: 0.3rem;">
-            <span style="display:inline-block;width:24px;height:6px;background:#00923F;margin-right:8px;"></span>
-            <span>Line 2 (Reduced Speed Zone)</span>
+            <span style="display:inline-block;width:24px;height:6px;background:{{LINE2_COLOR}};margin-right:8px;"></span>
+            <span>{{LINE2_NAME}} (Reduced Speed Zone)</span>
           </div>
           <div style="display: flex; align-items: center; margin-bottom: 0.3rem;">
-            <span style="display:inline-block;width:24px;height:6px;background:#A21A68;opacity:0.4;margin-right:8px;"></span>
-            <span>Line 4 (Regular)</span>
+            <span style="display:inline-block;width:24px;height:6px;background:{{LINE3_COLOR}};opacity:0.4;margin-right:8px;"></span>
+            <span>{{LINE3_NAME}} (Regular)</span>
           </div>
           <div style="display: flex; align-items: center; margin-bottom: 0.3rem;">
-            <span style="display:inline-block;width:24px;height:6px;background:#A21A68;margin-right:8px;"></span>
-            <span>Line 4 (Reduced Speed Zone)</span>
+            <span style="display:inline-block;width:24px;height:6px;background:{{LINE3_COLOR}};margin-right:8px;"></span>
+            <span>{{LINE3_NAME}} (Reduced Speed Zone)</span>
           </div>
         </div>
       </aside>
@@ -81,12 +83,12 @@
       </p>
       <p>
         This is an unofficial tool. Always refer to official
-        <a href="https://www.ttc.ca" target="_blank" rel="noopener noreferrer"
-          >TTC sources</a
+        <a href="{{OFFICIAL_WEBSITE}}" target="_blank" rel="noopener noreferrer"
+          >{{SYSTEM_NAME}} sources</a
         >
         for the latest updates.
       </p>
-      <p>&copy; 2025 Sam Greenwood</p>
+      <p>&copy; 2025 {{AUTHOR_NAME}}</p> <!-- FILL IN: AUTHOR_NAME -->
     </footer>
 
     <script src="script.js"></script>

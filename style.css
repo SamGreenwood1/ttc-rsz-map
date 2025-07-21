@@ -21,7 +21,7 @@ header {
     letter-spacing: 0.02em;
     position: relative;
     z-index: 10;
-    min-height: 56px;
+    min-height: 40px;
     box-sizing: border-box;
 }
 

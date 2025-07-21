@@ -1,7 +1,54 @@
 let map; // Make map globally accessible for functions
 const geoJsonLayers = {}; // To store references to GeoJSON layers for filtering
 
+function renderSidebar() {
+  const sidebar = document.getElementById('sidebar');
+  sidebar.innerHTML = `
+    <button id="sidebar-toggle" class="small-button"></button>
+    <div class="panel-content">
+      <h2>Information & Filters</h2>
+      <div class="section-title">Filter by Line</div>
+      <div class="button-container">
+        <button class="button line-filter-btn" data-line="line1">Line 1</button>
+        <button class="button line-filter-btn" data-line="line2">Line 2</button>
+        <button class="button line-filter-btn" data-line="line4">Line 4</button>
+      </div>
+      <div class="section-title">Active Reduced Speed Zones</div>
+      <ul id="active-zones-list"><li>No active reduced speed zones found.</li></ul>
+      <div class="settings-section">
+        <h4>Settings</h4>
+        <label><input type="checkbox" id="show-stations"> Show station names</label>
+        <label><input type="checkbox" id="enable-dark"> Enable dark mode</label>
+      </div>
+      <div class="zoom-controls">
+        <button id="zoom-in" class="button">+</button>
+        <button id="zoom-out" class="button">−</button>
+      </div>
+    </div>
+  `;
+}
+
+function renderLegend() {
+  const legend = document.getElementById('legend');
+  legend.innerHTML = `
+    <button id="legend-toggle" class="small-button"></button>
+    <div class="panel-content">
+      <h3 id="legend-header">Legend</h3>
+      <ul id="legend-list">
+        <li><span class="legend-swatch swatch-line1"></span>Line 1 (Regular)</li>
+        <li><span class="legend-swatch swatch-line1-rsz"></span>Line 1 (Reduced Speed Zone)</li>
+        <li><span class="legend-swatch swatch-line2"></span>Line 2 (Regular)</li>
+        <li><span class="legend-swatch swatch-line2-rsz"></span>Line 2 (Reduced Speed Zone)</li>
+        <li><span class="legend-swatch swatch-line4"></span>Line 4 (Regular)</li>
+        <li><span class="legend-swatch swatch-line4-rsz"></span>Line 4 (Reduced Speed Zone)</li>
+      </ul>
+    </div>
+  `;
+}
+
 document.addEventListener('DOMContentLoaded', function() {
+  renderSidebar();
+  renderLegend();
   // Initialize the map with zoomControl: false
   map = L.map("map", { zoomControl: false }).setView([43.665, -79.385], 12); // Centered on Toronto
 

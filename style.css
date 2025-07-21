@@ -47,7 +47,7 @@ main {
     z-index: 1001;
     background: #fff;
     color: #222;
-    border-radius: 16px;
+    border-radius: 20px;
     box-shadow: 0 2px 12px rgba(0,0,0,0.10);
     border: 2px solid #da251d;
     min-width: 220px;
@@ -100,26 +100,24 @@ main {
 }
 
 .floating-panel .panel-content {
-    padding: 18px 18px 12px 18px;
+    padding: 20px;
 }
 
 .floating-panel h2, .floating-panel h3 {
+    font-size: 20px;
     background: #da251d;
     color: #fff;
     margin: 0;
-    padding: 12px 18px;
-    font-size: 20px;
+    padding: 16px 20px;
     font-weight: 600;
     border-bottom: 1px solid #b71c1c;
     border-radius: 0;
 }
 
 .section-title {
-    color: #da251d;
-    font-weight: 700;
+    font-size: 18px;
     margin-top: 18px;
     margin-bottom: 8px;
-    font-size: 18px;
 }
 
 .button, .small-button {

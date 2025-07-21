@@ -23,63 +23,28 @@
   </head>
   <body>
     <header>
-      <button class="sidebar-toggle" id="sidebarToggle" title="Toggle sidebar" aria-label="Open menu"> 5d2</button>
+      <button class="sidebar-toggle" id="sidebarToggle" title="Toggle sidebar" aria-label="Open menu">☰</button>
       <h1>TTC Reduced Speed Zone Tracker</h1>
       <!-- Future nav links can go here -->
     </header>
     <div id="sidebar-backdrop"></div>
 
-    <main>
-      <aside aria-label="Sidebar menu">
-        <button class="sidebar-toggle mobile-close" id="sidebarClose" title="Close sidebar" aria-label="Close menu" style="display:none;">&times;</button>
-        <h2>Information & Filters</h2>
-
-        <div class="filter-group">
-          <h3>Filter by Line</h3>
-          <div id="line-filter-group" class="line-filter-group">
-            <button type="button" class="line-filter-btn" data-line="line1">Line 1</button>
-            <button type="button" class="line-filter-btn" data-line="line2">Line 2</button>
-            <button type="button" class="line-filter-btn" data-line="line4">Line 4</button>
-          </div>
+    <main style="display: flex; flex-direction: row; height: 100%;">
+      <div id="sidebar">
+        <h2>Sidebar</h2>
+        <p>Sidebar content goes here.</p>
+      </div>
+      <div id="map" style="flex: 1; min-width: 0;"></div>
+      <div id="legend">
+        <h3 id="legend-header">Legend</h3>
+        <div>
+          <svg width="24" height="6"><rect width="24" height="6" fill="#F8C300" opacity="0.4"/></svg> Line 1 (Regular)<br>
+          <svg width="24" height="6"><rect width="24" height="6" fill="#F8C300"/></svg> Line 1 (Reduced Speed Zone)<br>
+          <svg width="24" height="6"><rect width="24" height="6" fill="#00923F" opacity="0.4"/></svg> Line 2 (Regular)<br>
+          <svg width="24" height="6"><rect width="24" height="6" fill="#00923F"/></svg> Line 2 (Reduced Speed Zone)<br>
+          <svg width="24" height="6"><rect width="24" height="6" fill="#A21A68" opacity="0.4"/></svg> Line 4 (Regular)<br>
+          <svg width="24" height="6"><rect width="24" height="6" fill="#A21A68"/></svg> Line 4 (Reduced Speed Zone)<br>
         </div>
-
-        <h3>Active Reduced Speed Zones</h3>
-        <ul id="active-zones-list">
-          <!-- Zones will be populated by JavaScript -->
-          <li>Loading zones...</li>
-        </ul>
-
-        <h3>Legend</h3>
-        <div class="legend-group">
-          <div style="display: flex; align-items: center; margin-bottom: 0.3rem;">
-            <span style="display:inline-block;width:24px;height:6px;background:#F8C300;opacity:0.4;margin-right:8px;"></span>
-            <span>Line 1 (Regular)</span>
-          </div>
-          <div style="display: flex; align-items: center; margin-bottom: 0.3rem;">
-            <span style="display:inline-block;width:24px;height:6px;background:#F8C300;margin-right:8px;"></span>
-            <span>Line 1 (Reduced Speed Zone)</span>
-          </div>
-          <div style="display: flex; align-items: center; margin-bottom: 0.3rem;">
-            <span style="display:inline-block;width:24px;height:6px;background:#00923F;opacity:0.4;margin-right:8px;"></span>
-            <span>Line 2 (Regular)</span>
-          </div>
-          <div style="display: flex; align-items: center; margin-bottom: 0.3rem;">
-            <span style="display:inline-block;width:24px;height:6px;background:#00923F;margin-right:8px;"></span>
-            <span>Line 2 (Reduced Speed Zone)</span>
-          </div>
-          <div style="display: flex; align-items: center; margin-bottom: 0.3rem;">
-            <span style="display:inline-block;width:24px;height:6px;background:#A21A68;opacity:0.4;margin-right:8px;"></span>
-            <span>Line 4 (Regular)</span>
-          </div>
-          <div style="display: flex; align-items: center; margin-bottom: 0.3rem;">
-            <span style="display:inline-block;width:24px;height:6px;background:#A21A68;margin-right:8px;"></span>
-            <span>Line 4 (Reduced Speed Zone)</span>
-          </div>
-        </div>
-      </aside>
-
-      <div id="map-container">
-        <div id="map"></div>
       </div>
     </main>
 

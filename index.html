@@ -29,23 +29,29 @@
     </header>
     <div id="sidebar-backdrop"></div>
 
-    <main style="display: flex; flex-direction: row; height: 100%;">
-      <div id="sidebar">
-        <h2>Sidebar</h2>
-        <p>Sidebar content goes here.</p>
-      </div>
-      <div id="map" style="flex: 1; min-width: 0;"></div>
-      <div id="legend">
-        <h3 id="legend-header">Legend</h3>
-        <div>
-          <svg width="24" height="6"><rect width="24" height="6" fill="#F8C300" opacity="0.4"/></svg> Line 1 (Regular)<br>
-          <svg width="24" height="6"><rect width="24" height="6" fill="#F8C300"/></svg> Line 1 (Reduced Speed Zone)<br>
-          <svg width="24" height="6"><rect width="24" height="6" fill="#00923F" opacity="0.4"/></svg> Line 2 (Regular)<br>
-          <svg width="24" height="6"><rect width="24" height="6" fill="#00923F"/></svg> Line 2 (Reduced Speed Zone)<br>
-          <svg width="24" height="6"><rect width="24" height="6" fill="#A21A68" opacity="0.4"/></svg> Line 4 (Regular)<br>
-          <svg width="24" height="6"><rect width="24" height="6" fill="#A21A68"/></svg> Line 4 (Reduced Speed Zone)<br>
+    <main style="height: 100%;">
+      <div id="sidebar" class="floating-panel">
+        <button id="sidebar-toggle" class="small-button" title="Fold sidebar">&laquo;</button>
+        <div class="panel-content">
+          <h2>Sidebar</h2>
+          <p>Sidebar content goes here.</p>
         </div>
       </div>
+      <div id="legend" class="floating-panel">
+        <button id="legend-toggle" class="small-button" title="Fold legend">&raquo;</button>
+        <div class="panel-content">
+          <h3 id="legend-header">Legend</h3>
+          <div>
+            <svg width="24" height="6"><rect width="24" height="6" fill="#F8C300" opacity="0.4"/></svg> Line 1 (Regular)<br>
+            <svg width="24" height="6"><rect width="24" height="6" fill="#F8C300"/></svg> Line 1 (Reduced Speed Zone)<br>
+            <svg width="24" height="6"><rect width="24" height="6" fill="#00923F" opacity="0.4"/></svg> Line 2 (Regular)<br>
+            <svg width="24" height="6"><rect width="24" height="6" fill="#00923F"/></svg> Line 2 (Reduced Speed Zone)<br>
+            <svg width="24" height="6"><rect width="24" height="6" fill="#A21A68" opacity="0.4"/></svg> Line 4 (Regular)<br>
+            <svg width="24" height="6"><rect width="24" height="6" fill="#A21A68"/></svg> Line 4 (Reduced Speed Zone)<br>
+          </div>
+        </div>
+      </div>
+      <div id="map" style="height: 100%; width: 100%; position: absolute; top: 0; left: 0; z-index: 0;"></div>
     </main>
 
     <footer>
@@ -68,6 +74,29 @@
           document.body.classList.add('no-css-if');
         }
       })();
+
+      // Floating/foldable panel logic
+      function setupFloatingPanels() {
+        function foldPanel(panelId, toggleId, direction) {
+          const panel = document.getElementById(panelId);
+          const toggle = document.getElementById(toggleId);
+          const content = panel.querySelector('.panel-content');
+          toggle.addEventListener('click', function() {
+            if (panel.classList.contains('folded')) {
+              panel.classList.remove('folded');
+              content.style.display = '';
+              toggle.innerHTML = direction === 'left' ? '&laquo;' : '&raquo;';
+            } else {
+              panel.classList.add('folded');
+              content.style.display = 'none';
+              toggle.innerHTML = direction === 'left' ? '&raquo;' : '&laquo;';
+            }
+          });
+        }
+        foldPanel('sidebar', 'sidebar-toggle', 'left');
+        foldPanel('legend', 'legend-toggle', 'right');
+      }
+      document.addEventListener('DOMContentLoaded', setupFloatingPanels);
     </script>
   </body>
 </html>

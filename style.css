@@ -221,6 +221,68 @@ div.button-container {
     color: rgb(150, 150, 150);
 }
 
+.floating-panel {
+    position: fixed;
+    z-index: 1001;
+    background: #111;
+    color: #fff;
+    border-radius: 12px;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.18);
+    padding: 0;
+    min-width: 120px;
+    max-width: 320px;
+    min-height: 40px;
+    transition: box-shadow 0.2s, opacity 0.2s;
+    opacity: 0.98;
+    display: flex;
+    flex-direction: column;
+}
+
+#sidebar.floating-panel {
+    left: 32px;
+    top: 80px;
+    width: 240px;
+    height: auto;
+    padding: 0;
+}
+
+#legend.floating-panel {
+    right: 32px;
+    top: 80px;
+    width: 180px;
+    height: auto;
+    padding: 0;
+}
+
+.floating-panel .small-button {
+    margin: 8px;
+    align-self: flex-end;
+    z-index: 2;
+}
+
+.floating-panel .panel-content {
+    padding: 10px 16px 16px 16px;
+    transition: opacity 0.2s;
+}
+
+.floating-panel.folded {
+    width: 48px !important;
+    min-width: 48px !important;
+    max-width: 48px !important;
+    height: 48px !important;
+    min-height: 48px !important;
+    padding: 0;
+    overflow: visible;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.12);
+}
+.floating-panel.folded .panel-content {
+    display: none !important;
+}
+.floating-panel.folded .small-button {
+    margin: 8px;
+    align-self: center;
+}
+
 @media (max-width: 900px) {
     #sidebar, #legend {
         width: 120px;
@@ -246,4 +308,20 @@ div.button-container {
         height: 50vh;
         margin: 8px 0;
     }
+    #sidebar.floating-panel {
+        left: 8px;
+        top: 8px;
+    }
+    #legend.floating-panel {
+        right: 8px;
+        top: 8px;
+    }
+}
+
+/* Optional: make panels draggable (basic) */
+.floating-panel {
+    cursor: move;
+}
+.floating-panel .small-button {
+    cursor: pointer;
 }

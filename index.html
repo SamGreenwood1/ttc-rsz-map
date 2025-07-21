@@ -17,9 +17,13 @@
       crossorigin=""
     ></script>
   </head>
-  <body>
-    <header>
-      <h1>TTC Reduced Speed Zone Tracker</h1>
+  <body class="bg-gray-100 text-gray-900 dark:bg-gray-900 dark:text-gray-100 min-h-screen flex flex-col">
+    <header class="bg-red-700 text-white py-2 text-center flex items-center justify-between px-4">
+      <h1 class="text-2xl font-bold flex-1 text-center">TTC Reduced Speed Zone Tracker</h1>
+      <label class="flex items-center gap-2 ml-4">
+        <input type="checkbox" id="enable-dark" class="accent-red-700">
+        <span class="text-sm">Dark mode</span>
+      </label>
     </header>
 
     <div id="sidebar" class="floating-panel folded"></div>

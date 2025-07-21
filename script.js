@@ -5,24 +5,23 @@ function renderSidebar() {
   const sidebar = document.getElementById('sidebar');
   sidebar.innerHTML = `
     <button id="sidebar-toggle" class="small-button"></button>
-    <div class="panel-content">
-      <h2>Information & Filters</h2>
-      <div class="section-title">Filter by Line</div>
-      <div class="button-container">
-        <button class="button line-filter-btn" data-line="line1">Line 1</button>
-        <button class="button line-filter-btn" data-line="line2">Line 2</button>
-        <button class="button line-filter-btn" data-line="line4">Line 4</button>
+    <div class="panel-content p-5">
+      <h2 class="bg-red-700 text-white text-lg font-bold rounded-t-2xl px-5 py-3 m-0">Information & Filters</h2>
+      <div class="section-title text-red-700 font-bold mt-4 mb-2 text-base">Filter by Line</div>
+      <div class="button-container flex gap-2 mb-4">
+        <button class="button bg-red-700 text-white rounded px-4 py-2 line-filter-btn" data-line="line1">Line 1</button>
+        <button class="button bg-red-700 text-white rounded px-4 py-2 line-filter-btn" data-line="line2">Line 2</button>
+        <button class="button bg-red-700 text-white rounded px-4 py-2 line-filter-btn" data-line="line4">Line 4</button>
       </div>
-      <div class="section-title">Active Reduced Speed Zones</div>
-      <ul id="active-zones-list"><li>No active reduced speed zones found.</li></ul>
-      <div class="settings-section">
-        <h4>Settings</h4>
-        <label><input type="checkbox" id="show-stations"> Show station names</label>
-        <label><input type="checkbox" id="enable-dark"> Enable dark mode</label>
+      <div class="section-title text-red-700 font-bold mt-4 mb-2 text-base">Active Reduced Speed Zones</div>
+      <ul id="active-zones-list" class="mb-4"><li>No active reduced speed zones found.</li></ul>
+      <div class="settings-section border-t pt-3 mt-3">
+        <h4 class="text-red-700 font-bold mb-2">Settings</h4>
+        <label class="block mb-2"><input type="checkbox" id="show-stations" class="mr-2 accent-red-700"> Show station names</label>
       </div>
-      <div class="zoom-controls">
-        <button id="zoom-in" class="button">+</button>
-        <button id="zoom-out" class="button">−</button>
+      <div class="zoom-controls flex gap-2 mt-4">
+        <button id="zoom-in" class="button bg-red-700 text-white rounded w-10 h-10 text-xl">+</button>
+        <button id="zoom-out" class="button bg-red-700 text-white rounded w-10 h-10 text-xl">−</button>
       </div>
     </div>
   `;
@@ -44,6 +43,56 @@ function renderLegend() {
       </ul>
     </div>
   `;
+}
+
+// Automatic and manual dark mode
+function applySystemDarkMode() {
+  const enableDark = document.getElementById('enable-dark');
+  if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+    document.documentElement.classList.add('dark');
+    if (enableDark) enableDark.checked = true;
+  } else {
+    document.documentElement.classList.remove('dark');
+    if (enableDark) enableDark.checked = false;
+  }
+}
+
+function initDarkMode() {
+  const enableDark = document.getElementById('enable-dark');
+  const saved = localStorage.getItem('darkMode');
+  if (saved === 'on') {
+    document.documentElement.classList.add('dark');
+    if (enableDark) enableDark.checked = true;
+  } else if (saved === 'off') {
+    document.documentElement.classList.remove('dark');
+    if (enableDark) enableDark.checked = false;
+  } else {
+    applySystemDarkMode();
+  }
+  // Listen for system changes
+  window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', e => {
+    if (!localStorage.getItem('darkMode')) {
+      if (e.matches) {
+        document.documentElement.classList.add('dark');
+        if (enableDark) enableDark.checked = true;
+      } else {
+        document.documentElement.classList.remove('dark');
+        if (enableDark) enableDark.checked = false;
+      }
+    }
+  });
+  // Manual override
+  if (enableDark) {
+    enableDark.addEventListener('change', function(e) {
+      if (e.target.checked) {
+        document.documentElement.classList.add('dark');
+        localStorage.setItem('darkMode', 'on');
+      } else {
+        document.documentElement.classList.remove('dark');
+        localStorage.setItem('darkMode', 'off');
+      }
+    });
+  }
 }
 
 document.addEventListener('DOMContentLoaded', function() {
@@ -131,6 +180,7 @@ document.addEventListener('DOMContentLoaded', function() {
     foldPanel('legend', 'legend-toggle', 'right', 'Open legend', 'Fold legend');
   }
   setupFloatingPanels();
+  initDarkMode();
 
   // Feature detection for CSS if() support
   (function() {
@@ -188,15 +238,6 @@ document.addEventListener('DOMContentLoaded', function() {
       // Code to show station names on the map
     } else {
       // Code to hide station names
-    }
-  });
-
-  // Enable dark mode toggle
-  document.getElementById('enable-dark').addEventListener('change', function(e) {
-    if (e.target.checked) {
-      document.body.classList.add('dark-mode');
-    } else {
-      document.body.classList.remove('dark-mode');
     }
   });
 });

@@ -58,28 +58,28 @@ main {
     flex-direction: column;
 }
 
-#sidebar.floating-panel {
-    left: 0;
-    top: 100px;
-    width: 300px;
-    height: auto;
-    border-top-left-radius: 0;
-    border-bottom-left-radius: 0;
-    border-top-right-radius: 16px;
-    border-bottom-right-radius: 16px;
-    box-shadow: 2px 0 12px rgba(0,0,0,0.10);
+#sidebar.floating-panel, #legend.floating-panel {
+    width: 320px;
+    min-width: 220px;
+    max-width: 340px;
+    border-radius: 20px;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.10);
+    border: 2px solid #da251d;
+    background: #fff;
+    color: #222;
+    padding: 0;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    position: fixed;
+    z-index: 1001;
+    top: 140px;
 }
-
+#sidebar.floating-panel {
+    left: 32px;
+}
 #legend.floating-panel {
-    right: 0;
-    top: 100px;
-    width: 220px;
-    height: auto;
-    border-top-right-radius: 0;
-    border-bottom-right-radius: 0;
-    border-top-left-radius: 16px;
-    border-bottom-left-radius: 16px;
-    box-shadow: -2px 0 12px rgba(0,0,0,0.10);
+    right: 32px;
 }
 
 .floating-panel .small-button {
@@ -212,19 +212,14 @@ footer p {
 }
 
 @media (max-width: 900px) {
-    #sidebar.floating-panel {
-        left: 0;
-        top: 8px;
+    #sidebar.floating-panel, #legend.floating-panel {
         width: 90vw;
         min-width: 0;
         max-width: 98vw;
-    }
-    #legend.floating-panel {
+        left: 0;
         right: 0;
-        top: 8px;
-        width: 70vw;
-        min-width: 0;
-        max-width: 90vw;
+        margin: 0 auto;
+        top: 90px;
     }
 }
 

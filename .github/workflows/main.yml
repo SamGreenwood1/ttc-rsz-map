@@ -1,0 +1,78 @@
+name: Copy TTC Map Content
+
+on:
+  workflow_dispatch:
+    inputs:
+      source_repo:
+        description: 'Source Repository (Owner/Name)'
+        required: true
+        default: 'SamGreenwood1/ttc-rsz-map'
+      source_branch:
+        description: 'Source Branch'
+        required: true
+        default: 'ui-testing'
+      destination_path:
+        description: 'Path in destination repo to copy content to (e.g., external-data/ttc-map-data/)'
+        required: true
+        # THIS IS THE KEY PART: Make sure this path is where you want the *contents* of the source branch to land.
+        # The trailing slash here ensures the content goes INTO this directory.
+        default: 'external-data/ttc-rsz-map/' # <-- Ensure this is the desired target folder!
+      target_branch:
+        description: 'Branch in destination repo to push changes to'
+        required: true
+        default: 'main'
+
+jobs:
+  copy_content:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Destination Repository
+        uses: actions/checkout@v4
+        with:
+          repository: ${{ github.repository }}
+          ref: ${{ github.event.inputs.target_branch }}
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Checkout Source Repository
+        uses: actions/checkout@v4
+        with:
+          repository: ${{ github.event.inputs.source_repo }}
+          ref: ${{ github.event.inputs.source_branch }}
+          path: 'source-ttc-map-content' # Temporary directory for source repo content
+          token: ${{ secrets.GIT_PAT_FOR_SOURCE_REPO }} # Your PAT, if source repo is private
+
+      - name: Copy Content
+        run: |
+          SOURCE_DIR="source-ttc-map-content/" # Trailing slash here means "contents of this directory"
+          DEST_DIR="${{ github.event.inputs.destination_path }}"
+
+          echo "Attempting to copy ALL content from $SOURCE_DIR to $DEST_DIR"
+
+          # Create the destination directory if it doesn't exist
+          mkdir -p "$DEST_DIR"
+
+          # Copy all content, excluding the .git directory (and other common hidden git files)
+          # The --delete flag (optional) will remove files in DEST_DIR that are NOT in SOURCE_DIR
+          # Use --delete with caution! It will remove files from your destination folder if they
+          # are not present in the source folder.
+          rsync -av --exclude '.git' --exclude '.github' "$SOURCE_DIR" "$DEST_DIR"
+          # If you want to delete files in the destination that are not in the source, use:
+          # rsync -av --delete --exclude '.git' --exclude '.github' "$SOURCE_DIR" "$DEST_DIR"
+
+
+          # Clean up the temporary source checkout directory
+          rm -rf source-ttc-map-content
+
+      - name: Commit and Push Changes
+        run: |
+          git config user.name "GitHub Actions"
+          git config user.email "github-actions@github.com"
+          git add . # Stage all changes (new, modified, deleted)
+          
+          # Only commit if there are actual changes
+          git diff-index --quiet HEAD || git commit -m "Automated: Copied entire branch from ${{ github.event.inputs.source_repo }}/${{ github.event.inputs.source_branch }} to ${{ github.event.inputs.destination_path }}"
+          
+          git push origin ${{ github.event.inputs.target_branch }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

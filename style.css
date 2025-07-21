@@ -105,12 +105,30 @@ aside {
 aside::-webkit-scrollbar {
   width: 10px;
 }
+.aside-collapsed {
+  width: 40px !important;
+  min-width: 40px !important;
+  padding: 0 !important;
+  margin: 0 !important;
+  border: none !important;
+  box-shadow: none !important;
+  border-radius: 0 !important;
+  overflow: hidden !important;
+  opacity: 0 !important;
+  pointer-events: none !important;
+}
+}
 aside::-webkit-scrollbar-thumb {
   background: #e0e0e0;
   border-radius: 8px;
 }
 aside::-webkit-scrollbar-track {
   background: transparent;
+}
+.aside-collapsed > :not(.sidebar-toggle) {
+  display: none !important;
+  opacity: 0 !important;
+}
 }
 
 .sidebar-toggle {

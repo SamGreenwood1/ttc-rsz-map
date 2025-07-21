@@ -59,26 +59,26 @@ document.addEventListener('DOMContentLoaded', function() {
       const panel = document.getElementById(panelId);
       const toggle = document.getElementById(toggleId);
       const content = panel.querySelector('.panel-content');
-      function setTooltip() {
+      function setTooltipAndArrow() {
         if (panel.classList.contains('folded')) {
           toggle.title = openTitle;
+          toggle.innerHTML = direction === 'left' ? '&raquo;' : '&laquo;';
         } else {
           toggle.title = closedTitle;
+          toggle.innerHTML = direction === 'left' ? '&laquo;' : '&raquo;';
         }
       }
       toggle.addEventListener('click', function() {
         if (panel.classList.contains('folded')) {
           panel.classList.remove('folded');
           content.style.display = '';
-          toggle.innerHTML = direction === 'left' ? '&laquo;' : '&raquo;';
         } else {
           panel.classList.add('folded');
           content.style.display = 'none';
-          toggle.innerHTML = direction === 'left' ? '&raquo;' : '&laquo;';
         }
-        setTooltip();
+        setTooltipAndArrow();
       });
-      setTooltip();
+      setTooltipAndArrow();
     }
     foldPanel('sidebar', 'sidebar-toggle', 'left', 'Open sidebar', 'Fold sidebar');
     foldPanel('legend', 'legend-toggle', 'right', 'Open legend', 'Fold legend');

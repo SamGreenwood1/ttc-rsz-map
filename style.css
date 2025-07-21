@@ -6,6 +6,9 @@ body, html {
     background: #f4f4f4;
     color: #222;
     box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
 }
 
 header {
@@ -16,6 +19,15 @@ header {
     font-size: 2em;
     font-weight: 700;
     letter-spacing: 0.02em;
+    position: relative;
+    z-index: 10;
+}
+
+main {
+    flex: 1 1 auto;
+    display: block;
+    position: relative;
+    min-height: 0;
 }
 
 .floating-panel {
@@ -162,13 +174,13 @@ header {
 }
 
 #map {
-    position: absolute;
-    top: 0; left: 0; right: 0; bottom: 0;
-    width: 100vw;
-    height: 100vh;
+    width: 100%;
+    height: 100%;
+    position: relative;
     z-index: 0;
     border-radius: 0;
     margin: 0;
+    flex: 1 1 auto;
 }
 
 footer {

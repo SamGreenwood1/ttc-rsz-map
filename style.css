@@ -76,7 +76,8 @@ main {
     flex-direction: column;
     position: fixed;
     z-index: 1001;
-    top: 100px;
+    top: 50%;
+    transform: translateY(-50%);
 }
 #sidebar.floating-panel {
     left: 32px;
@@ -177,7 +178,8 @@ main {
     padding: 0;
     overflow: visible;
     box-shadow: 0 2px 8px rgba(0,0,0,0.12);
-    top: 160px !important;
+    top: 50% !important;
+    transform: translateY(-50%) !important;
 }
 #sidebar.floating-panel.folded {
     left: 0 !important;

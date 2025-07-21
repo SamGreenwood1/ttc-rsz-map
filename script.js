@@ -151,24 +151,65 @@ function setupLineFilterButtons() {
   });
 }
 
-document.addEventListener('DOMContentLoaded', function() {
-  setupLineFilterButtons();
-
-  // Show station names toggle
-  document.getElementById('show-stations').addEventListener('change', function(e) {
-    if (e.target.checked) {
-      // Code to show station names on the map
-    } else {
-      // Code to hide station names
+// Feature detection for CSS if() support
+(function() {
+  try {
+    const test = document.createElement('div');
+    test.style.width = "if(media(max-width: 600px): 100vw; else: 300px);";
+    if (test.style.width.includes('if(')) {
+      document.body.classList.add('no-css-if');
     }
-  });
+  } catch (e) {
+    document.body.classList.add('no-css-if');
+  }
+})();
 
-  // Enable dark mode toggle
-  document.getElementById('enable-dark').addEventListener('change', function(e) {
-    if (e.target.checked) {
-      document.body.classList.add('dark-mode');
-    } else {
-      document.body.classList.remove('dark-mode');
+// Floating/foldable panel logic
+function setupFloatingPanels() {
+  function foldPanel(panelId, toggleId, direction, openTitle, closedTitle) {
+    const panel = document.getElementById(panelId);
+    const toggle = document.getElementById(toggleId);
+    const content = panel.querySelector('.panel-content');
+    function setTooltip() {
+      if (panel.classList.contains('folded')) {
+        toggle.title = openTitle;
+      } else {
+        toggle.title = closedTitle;
+      }
     }
-  });
+    toggle.addEventListener('click', function() {
+      if (panel.classList.contains('folded')) {
+        panel.classList.remove('folded');
+        content.style.display = '';
+        toggle.innerHTML = direction === 'left' ? '&laquo;' : '&raquo;';
+      } else {
+        panel.classList.add('folded');
+        content.style.display = 'none';
+        toggle.innerHTML = direction === 'left' ? '&raquo;' : '&laquo;';
+      }
+      setTooltip();
+    });
+    setTooltip();
+  }
+  foldPanel('sidebar', 'sidebar-toggle', 'left', 'Open sidebar', 'Fold sidebar');
+  foldPanel('legend', 'legend-toggle', 'right', 'Open legend', 'Fold legend');
+}
+document.addEventListener('DOMContentLoaded', setupFloatingPanels);
+
+// Show station names toggle
+document.getElementById('show-stations').addEventListener('change', function(e) {
+  if (e.target.checked) {
+    // Code to show station names on the map
+  } else {
+    // Code to hide station names
+  }
+});
+
+// Enable dark mode toggle
+document.getElementById('enable-dark').addEventListener('change', function(e) {
+  if (e.target.checked) {
+    document.body.classList.add('dark-mode');
+  } else {
+    document.body.classList.remove('dark-mode');
+  }
 }); 

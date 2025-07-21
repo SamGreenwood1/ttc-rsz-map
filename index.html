@@ -16,17 +16,13 @@
       integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
       crossorigin=""
     ></script>
-    <style>
-      /* Fallback: Add .no-css-if to <body> if CSS if() is not supported. */
-      /* You can use this class in your CSS for fallback styles if needed. */
-    </style>
   </head>
   <body>
     <header>
       <h1>TTC Reduced Speed Zone Tracker</h1>
     </header>
 
-    <div id="sidebar" class="floating-panel">
+    <div id="sidebar" class="floating-panel folded">
       <button id="sidebar-toggle" class="small-button" title="Fold sidebar">&laquo;</button>
       <div class="panel-content">
         <h2>Information & Filters</h2>
@@ -43,9 +39,13 @@
           <label><input type="checkbox" id="show-stations"> Show station names</label>
           <label><input type="checkbox" id="enable-dark"> Enable dark mode</label>
         </div>
+        <div class="zoom-controls">
+          <button id="zoom-in" class="button">+</button>
+          <button id="zoom-out" class="button">−</button>
+        </div>
       </div>
     </div>
-    <div id="legend" class="floating-panel">
+    <div id="legend" class="floating-panel folded">
       <button id="legend-toggle" class="small-button" title="Fold legend">&raquo;</button>
       <div class="panel-content">
         <h3 id="legend-header">Legend</h3>
@@ -71,42 +71,5 @@
     </footer>
 
     <script src="script.js"></script>
-    <script>
-      // Feature detection for CSS if() support
-      (function() {
-        try {
-          const test = document.createElement('div');
-          test.style.width = "if(media(max-width: 600px): 100vw; else: 300px);";
-          if (test.style.width.includes('if(')) {
-            document.body.classList.add('no-css-if');
-          }
-        } catch (e) {
-          document.body.classList.add('no-css-if');
-        }
-      })();
-
-      // Floating/foldable panel logic
-      function setupFloatingPanels() {
-        function foldPanel(panelId, toggleId, direction) {
-          const panel = document.getElementById(panelId);
-          const toggle = document.getElementById(toggleId);
-          const content = panel.querySelector('.panel-content');
-          toggle.addEventListener('click', function() {
-            if (panel.classList.contains('folded')) {
-              panel.classList.remove('folded');
-              content.style.display = '';
-              toggle.innerHTML = direction === 'left' ? '&laquo;' : '&raquo;';
-            } else {
-              panel.classList.add('folded');
-              content.style.display = 'none';
-              toggle.innerHTML = direction === 'left' ? '&raquo;' : '&laquo;';
-            }
-          });
-        }
-        foldPanel('sidebar', 'sidebar-toggle', 'left');
-        foldPanel('legend', 'legend-toggle', 'right');
-      }
-      document.addEventListener('DOMContentLoaded', setupFloatingPanels);
-    </script>
   </body>
 </html>

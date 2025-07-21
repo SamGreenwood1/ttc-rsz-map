@@ -1,3 +1,6 @@
+/* Fallback CSS for no-css-if */
+/* Fallback: Add .no-css-if to <body> if CSS if() is not supported. */
+/* You can use this class in your CSS for fallback styles if needed. */
 body, html {
     margin: 0;
     padding: 0;
@@ -175,6 +178,14 @@ main {
     overflow: visible;
     box-shadow: 0 2px 8px rgba(0,0,0,0.12);
     top: 160px !important;
+}
+#sidebar.floating-panel.folded {
+    left: 0 !important;
+    right: auto !important;
+}
+#legend.floating-panel.folded {
+    right: 0 !important;
+    left: auto !important;
 }
 .floating-panel.folded .panel-content {
     display: none !important;

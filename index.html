@@ -33,22 +33,34 @@
       <div id="sidebar" class="floating-panel">
         <button id="sidebar-toggle" class="small-button" title="Fold sidebar">&laquo;</button>
         <div class="panel-content">
-          <h2>Sidebar</h2>
-          <p>Sidebar content goes here.</p>
+          <h2>Information & Filters</h2>
+          <div class="section-title">Filter by Line</div>
+          <div class="button-container">
+            <button class="button">Line 1</button>
+            <button class="button">Line 2</button>
+            <button class="button">Line 4</button>
+          </div>
+          <div class="section-title">Active Reduced Speed Zones</div>
+          <div>No active reduced speed zones found.</div>
+          <div class="settings-section">
+            <h4>Settings</h4>
+            <label><input type="checkbox" id="show-stations"> Show station names</label>
+            <label><input type="checkbox" id="enable-dark"> Enable dark mode</label>
+          </div>
         </div>
       </div>
       <div id="legend" class="floating-panel">
         <button id="legend-toggle" class="small-button" title="Fold legend">&raquo;</button>
         <div class="panel-content">
           <h3 id="legend-header">Legend</h3>
-          <div>
-            <svg width="24" height="6"><rect width="24" height="6" fill="#F8C300" opacity="0.4"/></svg> Line 1 (Regular)<br>
-            <svg width="24" height="6"><rect width="24" height="6" fill="#F8C300"/></svg> Line 1 (Reduced Speed Zone)<br>
-            <svg width="24" height="6"><rect width="24" height="6" fill="#00923F" opacity="0.4"/></svg> Line 2 (Regular)<br>
-            <svg width="24" height="6"><rect width="24" height="6" fill="#00923F"/></svg> Line 2 (Reduced Speed Zone)<br>
-            <svg width="24" height="6"><rect width="24" height="6" fill="#A21A68" opacity="0.4"/></svg> Line 4 (Regular)<br>
-            <svg width="24" height="6"><rect width="24" height="6" fill="#A21A68"/></svg> Line 4 (Reduced Speed Zone)<br>
-          </div>
+          <ul id="legend-list">
+            <li><span class="legend-swatch swatch-line1"></span>Line 1 (Regular)</li>
+            <li><span class="legend-swatch swatch-line1-rsz"></span>Line 1 (Reduced Speed Zone)</li>
+            <li><span class="legend-swatch swatch-line2"></span>Line 2 (Regular)</li>
+            <li><span class="legend-swatch swatch-line2-rsz"></span>Line 2 (Reduced Speed Zone)</li>
+            <li><span class="legend-swatch swatch-line4"></span>Line 4 (Regular)</li>
+            <li><span class="legend-swatch swatch-line4-rsz"></span>Line 4 (Reduced Speed Zone)</li>
+          </ul>
         </div>
       </div>
       <div id="map" style="height: 100%; width: 100%; position: absolute; top: 0; left: 0; z-index: 0;"></div>

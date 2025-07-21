@@ -242,4 +242,22 @@ function setupLineFilterButtons() {
 
 document.addEventListener('DOMContentLoaded', function() {
   setupLineFilterButtons();
+
+  // Show station names toggle
+  document.getElementById('show-stations').addEventListener('change', function(e) {
+    if (e.target.checked) {
+      // Code to show station names on the map
+    } else {
+      // Code to hide station names
+    }
+  });
+
+  // Enable dark mode toggle
+  document.getElementById('enable-dark').addEventListener('change', function(e) {
+    if (e.target.checked) {
+      document.body.classList.add('dark-mode');
+    } else {
+      document.body.classList.remove('dark-mode');
+    }
+  });
 }); 
